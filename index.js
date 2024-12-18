@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 8080;
 
 // Initial Middlewares
 app.use(cors({
-    origin: 'https://green-grocer-space.vercel.app', // Your frontend URL
+    origin: 'https://green-grocer-shop.vercel.app', // Your frontend URL
     credentials: true, // Allow credentials (cookies)
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Optional: Specify allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Optional: Allow specific headers
