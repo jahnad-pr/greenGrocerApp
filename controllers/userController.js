@@ -119,7 +119,12 @@ module.exports.googleLog = async (req, res) => {
           expiresIn: "1h",
         });
   
-        res.cookie("userToken", token, { httpOnly: true, maxAge: 3600000 });
+        res.cookie("userToken", token, {
+          httpOnly: true, // Secure against client-side JS access
+          maxAge: 9900000, // 9 hours
+          sameSite: "None", // Needed for cross-origin cookies
+          secure: true, // Set to true only in production (for HTTPS)
+        });
       }
 
 
