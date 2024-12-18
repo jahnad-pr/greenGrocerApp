@@ -82,7 +82,12 @@ module.exports.loginUser = async (req, res) => {
     }
 
     const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: "9h" });
-    res.cookie("userToken", token, { httpOnly: true, maxAge: 9900000 });
+    res.cookie("userToken", token, {
+      httpOnly: true, // Secure against client-side JS access
+      maxAge: 9900000, // 9 hours
+      sameSite: "None", // Needed for cross-origin cookies
+      secure: true, // Set to true only in production (for HTTPS)
+    });
 
     res.json({
       message: "Login successful",
