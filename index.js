@@ -24,13 +24,8 @@ app.use(express.json({ limit: '10mb' })); // Set to a higher limit as needed
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files
-app.use(express.static(path.join(__dirname, 'client/dist')));// Catch-all route for SPA
 
 
-// Catch-all route for SPA
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
-});
 
 // Routes
 app.use('/admin', adminRoutes);
