@@ -12,8 +12,12 @@ const PORT = process.env.PORT || 8080;
 
 // Initial Middlewares
 app.use(cors({
-    origin: 'https://green-grocer-space.vercel.app',  // Your frontend URL
-    credentials: true,  // Allow credentials (cookies)
+    origin: 'https://green-grocer-space.vercel.app', // Your frontend URL
+    credentials: true, // Allow credentials (cookies)
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Optional: Specify allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Optional: Allow specific headers
+    exposedHeaders: ['Authorization'], // Optional: Expose custom headers to the client
+    optionsSuccessStatus: 200, // Optional: Change default preflight response status
 }));
 
 app.use('/uploads/products', express.static(path.join(__dirname, './public/uploads/products')));  
