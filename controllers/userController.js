@@ -115,7 +115,7 @@ module.exports.googleLog = async (req, res) => {
 
       if(verifying){
 
-        const token = jwt.sign({ id: existingUser._id }, SECRET_KEY, {
+        const token = jwt.sign({ id: existingUser._id }, 'C33SHATENMU', {
           expiresIn: "1h",
         });
   
