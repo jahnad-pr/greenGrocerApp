@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 8080;
 
 // Initial Middlewares
 app.use(cors({
-    origin: 'https://green-grocer-space.vercel.app',  // Your frontend URL
+    origin: 'http://localhost:8080',  // Your frontend URL
     credentials: true,  // Allow credentials (cookies)
 }));
 
