@@ -25,6 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve static files
 
+console.log('PORT:', process.env.PORT);
+console.log('FRONT_END_URL:', process.env.FRONT_END_URL);
 
 
 // Routes
