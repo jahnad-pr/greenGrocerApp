@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const { sendOTP, verifyOTP } = require("../config/sendOTP");
 
 
-const SECRET_KEY = process.env.SECRET_KEY || "secret";
+const SECRET_KEY = 'C33SHATENMU' || "secret";
 
 // Create a new user
 module.exports.createAUser = async (req, res) => {
@@ -81,7 +81,7 @@ module.exports.loginUser = async (req, res) => {
 
     }
 
-    const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: "9h" });
+    const token = jwt.sign({ id: user._id }, 'C33SHATENMU', { expiresIn: "9h" });
     res.cookie("userToken", token, {
       httpOnly: true, // Secure against client-side JS access
       maxAge: 9900000, // 9 hours
