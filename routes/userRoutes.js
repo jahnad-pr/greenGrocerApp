@@ -55,6 +55,9 @@ router.get('/checkItemIntheBookmark/:id',authMiddleware,checkItemIntheBookmark);
 router.get('/getBookmarkItems',authMiddleware,getBookmarkItems);
 router.delete('/removeBookmarkItme/:id',authMiddleware,removeBookmarkItme);
 
+// http://34.70.108.163:8080/user/signup
+// http://34.28.122.218:8080/user/login
+
 router.get('/getUser',authMiddleware,getUserData);
 router.get('/getCategories',getCategories);
 router.get('/getProductDetails/:id',getProductDetails);
