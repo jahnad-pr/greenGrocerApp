@@ -8,7 +8,7 @@ const path = require('path');
 require('./config/db')();
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3333;
 
 // Initial Middlewares
 app.use(cors({
@@ -22,11 +22,6 @@ app.use(cookieParser());
 // Increase body-parser limit
 app.use(express.json({ limit: '10mb' })); // Set to a higher limit as needed
 app.use(express.urlencoded({ extended: true }));
-
-// Serve static files
-
-console.log('PORT:', 'https://green-grocer-shop.vercel.app');
-console.log('FRONT_END_URL:', process.env.FRONT_END_URL);
 
 
 // Routes
