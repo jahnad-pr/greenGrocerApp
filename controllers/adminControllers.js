@@ -19,14 +19,14 @@ module.exports.getAdmins = async (req, res) => {
             if (admins[0].password===password) {
                 
                 // const token =  generateToken(admins[0]._id,'admin')
-                const token = jwt.sign({ id:admins[0]._id,role:'admin' }, process.env.SECRET_KEY, {
+                const token = jwt.sign({ id:admins[0]._id,role:'admin' }, 'C33LMATENMU', {
                   expiresIn: "1h",
                 });
   
                 res.cookie("authkeys", token, {
                   httpOnly: true, // Secure against client-side JS access
                   maxAge: 9900000, // 9 hours
-                  sameSite: "None", // Needed for cross-origin cookies
+                  sameSite:"None", // Needed for cross-origin cookies
                   secure: true, // Set to true only in production (for HTTPS)
                 });
     
