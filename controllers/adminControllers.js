@@ -1,6 +1,8 @@
 const Admin = require('../models/Auth/adminModel');
 const User = require('../models/Auth/userModel');
 const { generateToken } = require('../utils/genarateTocken');
+const jwt = require('jsonwebtoken');
+
 
 
 
@@ -16,7 +18,10 @@ module.exports.getAdmins = async (req, res) => {
 
             if (admins[0].password===password) {
                 
-                const token =  generateToken(admins[0]._id,'admin')
+                // const token =  generateToken(admins[0]._id,'admin')
+                const token = jwt.sign({ id:admins[0]._id,role:'admin' }, process.env.SECRET_KEY, {
+                  expiresIn: "1h",
+                });
   
                 res.cookie("authkeys", token, {
                   httpOnly: true, // Secure against client-side JS access
