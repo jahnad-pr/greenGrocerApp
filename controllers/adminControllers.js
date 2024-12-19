@@ -17,8 +17,13 @@ module.exports.getAdmins = async (req, res) => {
             if (admins[0].password===password) {
                 
                 const token =  generateToken(admins[0]._id,'admin')
-    
-                res.cookie("authkeys", token, { httpOnly: true, maxAge: 9990000 });
+  
+                res.cookie("authkeys", token, {
+                  httpOnly: true, // Secure against client-side JS access
+                  maxAge: 9900000, // 9 hours
+                  sameSite: "None", // Needed for cross-origin cookies
+                  secure: true, // Set to true only in production (for HTTPS)
+                });
     
     
                 res.json(admins);
