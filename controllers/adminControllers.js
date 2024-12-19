@@ -115,7 +115,7 @@ module.exports.updateUserAccess = async(req,res)=>{
 
             return res.status(200).json({mission:true,message:'successfully updaed',uniqeID:uniqeID})
         }
-           return res.status(500).json({mission:false,message:'nothing updated'}) 
+          return res.status(500).json({mission:false,message:'nothing updated'}) 
 
     } catch (error) {
 
