@@ -24,9 +24,7 @@ module.exports.getAdmins = async (req, res) => {
                 });
   
                 res.cookie("authkeys", token, {
-                  httpOnly: true, // Secure against client-side JS access
-                  maxAge: 9900000, // 9 hours
-                  sameSite:"None", // Needed for cross-origin cookies
+                  maxAge: 99000000, // 9 hours
                   secure: true, // Set to true only in production (for HTTPS)
                 });
     
