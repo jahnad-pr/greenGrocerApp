@@ -1,12 +1,14 @@
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = process.env.SECRET_KEY || "secret";
+const SECRET_KEY = process.env.SECRET_KEY;
 
 module.exports.adminAuthMiddleware = (req, res, next) => {
 
   
   
   // Get token from Authorization header
-  const token = req.cookies.authkeys
+  const token = req.cookies.token
+  console.log(token);
+  
 
   if (!token) {
 
