@@ -19,9 +19,12 @@ module.exports.getAdmins = async (req, res) => {
             if (admins[0].password===password) {
                 
                 // const token =  generateToken(admins[0]._id,'admin')
-                const token = jwt.sign({ id:admins[0]._id,role:'admin' }, 'C33LMATENMU', {
+                const token = jwt.sign({ id:admins[0]._id}, 'C33LMATENMU', {
                   expiresIn: "1h",
                 });
+
+                console.log(token);
+                
 
                 res.cookie("authkeys", token, {
                   httpOnly: true, // Secure against client-side JS access
@@ -35,6 +38,7 @@ module.exports.getAdmins = async (req, res) => {
             }else{
 
             res.status(500).json({ message: 'wrong password or email' });
+            
 
             }
 
