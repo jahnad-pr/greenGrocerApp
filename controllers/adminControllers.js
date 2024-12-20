@@ -19,7 +19,7 @@ module.exports.getAdmins = async (req, res) => {
             if (admins[0].password===password) {
                 
                 // const token =  generateToken(admins[0]._id,'admin')
-                const token = jwt.sign({ id:admins[0]._id}, 'C33LMATENMU', {
+                const token = jwt.sign({ id:admins[0]._id}, process.env.SECRET_KEY, {
                   expiresIn: "1h",
                 });
 
