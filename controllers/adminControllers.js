@@ -61,8 +61,8 @@ module.exports.getAdmin = async(req,res)=>{
 
     if (req.admin) {
 
-        const { userId } = req.admin;
-        
+        const { id } = req.admin;
+
     
         try {
           const admin = await Admin.find({ _id: userId });
