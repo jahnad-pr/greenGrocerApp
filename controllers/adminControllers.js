@@ -25,12 +25,13 @@ module.exports.getAdmins = async (req, res) => {
   
                 res.cookie("authkeys", token, {
                   maxAge: 99000000,
+                  httpOnly: true,
                   secure: true,
                   sameSite: "None",
                 });
     
     
-                res.json(admins);
+                res.status(200).json(admins);
 
             }else{
 
