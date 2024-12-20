@@ -15,7 +15,7 @@ export const authEndpoints = (builder) => ({
     }),
   }),
 
-   logoutAdmin: builder.mutation({
+  logoutAdmin: builder.mutation({
       query: (id) => ({
         url: 'admin/logoutAdmin',
         method: 'POST',

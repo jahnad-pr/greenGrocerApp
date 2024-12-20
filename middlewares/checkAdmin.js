@@ -7,7 +7,7 @@ module.exports.adminAuthMiddleware = (req, res, next) => {
   
   // Get token from Authorization header
   const token = req.cookies.token
-  console.log('tocken:',token);
+  console.log('tocken:',req.cookies);
   
 
   if (!token) {
