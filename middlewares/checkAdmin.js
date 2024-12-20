@@ -18,7 +18,7 @@ module.exports.adminAuthMiddleware = (req, res, next) => {
   try {
     // Verify token
     const decoded = jwt.verify(token, SECRET_KEY);
-    console.log('tocken:',SECRET_KEY);
+    console.log('tocken:',decoded);
 
     // Attach user to request
     req.admin = decoded; // `decoded` contains the user payload from the token
