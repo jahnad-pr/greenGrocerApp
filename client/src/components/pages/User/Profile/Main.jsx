@@ -20,10 +20,10 @@ export default function Main({ userData}) {
          {/* container root */}
         <div className="h-full w-full duration-500 md:px-40 px-10 overflow-scroll fle">
         { userData && 
-        <><span className="flex py-20 pt-28 bg-red-500">
+        <><span className="flex py-20 pt-28">
             
             <div className="w-[50%] h-[45%] justify-center flex-col md:px-60  px-10">
-              <h1  className="md:text-[85px] text-[30px] leading-none font-bold break-words text-wrap">{userData?.username}</h1>
+              <h1  className="md:text-[85px] text-[30px] leading-none font-bold">{userData?.username}</h1>
               <p className="text-[20px] text-orange-400 opacity-75">
                 {/* @{userData?.username}123HK */}
               </p>
