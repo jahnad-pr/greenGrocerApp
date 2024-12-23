@@ -14,6 +14,8 @@ const PORT = process.env.PORT || 3333;
 app.use(cors({
     origin: process.env.FRONT_END_URL, // Your frontend URL
     credentials: true, // Allow credentials (cookies)
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'], // Customize as needed
 }));
 
 app.use('/uploads/products', express.static(path.join(__dirname, './public/uploads/products')));  
@@ -22,6 +24,7 @@ app.use(cookieParser());
 // Increase body-parser limit
 app.use(express.json({ limit: '10mb' })); // Set to a higher limit as needed
 app.use(express.urlencoded({ extended: true }));
+
 
 
 // Routes
