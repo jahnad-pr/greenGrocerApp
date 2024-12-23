@@ -22,7 +22,7 @@ app.use('/uploads/products', express.static(path.join(__dirname, './public/uploa
 app.use(cookieParser());
 
 // Increase body-parser limit
-app.use(express.json({ limit: '10mb' })); // Set to a higher limit as needed
+app.use(express.json({ limit: '100mb' })); // Set to a higher limit as needed
 app.use(express.urlencoded({ extended: true }));
 
 
