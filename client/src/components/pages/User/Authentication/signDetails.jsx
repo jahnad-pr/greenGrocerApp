@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import leftImg from "../../../../assets/images/homi.jpeg";
 import { useGetOTPMutation, useConformOTPMutation, useAddDetailsMutation } from "../../../../services/User/userApi";
 import { useLocation, useNavigate } from "react-router-dom";
 

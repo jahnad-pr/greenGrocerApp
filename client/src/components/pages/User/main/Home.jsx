@@ -3,7 +3,7 @@ import greenGrocerLogo from "../../../../assets/Logos/main.png";
 import siginImg from "../../../../assets/images/leftPlate.png";
 import fru from "../../../../assets/images/fru.png";
 import veg from "../../../../assets/images/veg.png";
-import homi from "../../../../assets/images/homi.jpeg";
+import homi from "../../../../assets/images/homi.png";
 import farm from "../../../../assets/images/farmer.jpeg";
 import List from "../../../parts/Main/List";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -69,15 +69,16 @@ export default function Home({ userData }) {
 
   return (
     <div className="flex-1 max-w-[100%] md:max-w-[94%]">
-      <div className="w-full h-full overflow-x-hidden bg-[linear-gradient(to_bottom,#f5fafd,#ebf0f3,#d2d8da)]">
+      {/* */}
+      <div className="w-full h-full overflow-x-hidden  bg-[linear-gradient(to_bottom,#5f606150,#f5fafd_70%)] md:bg-[linear-gradient(to_bottom,#f5fafd,#ebf0f3,#d2d8da)]">
         {/* welcome message */}
         <div className="w-full h-full flex flex-col md:flex-row">
-          <div className="flex-1 justify-center flex flex-col px-4 md:px-40 gap-5 py-8 md:py-0">
-            <img className="w-[60%] md:w-[40%]" src={greenGrocerLogo} alt="" />
-            <p className="text-[16px] md:text-[20px] text-[#555721] opacity-50 font-['lufga']">
+          <div className="flex-1 justify-center flex flex-col pl-20 gap-5 py-8  md:py-0 order-2 md:order-1 -translate-y-10 md:translate-y-0 ">
+            <img className="w-[40%] md:w-[40%] " src={greenGrocerLogo} alt="" />
+            <p className="text-[16px] md:text-[20px] text-[#555721] pr-40 md:pr-0 opacity-50 font-['lufga']">
               Eat Fresh, Stay Healthy
             </p>
-            <h1 className="text-[40px] md:text-[70px] font-bold leading-none text-[#52AA57] font-['lufga']">
+            <h1 className="text-[40px] xl:text-[60px] pr-20 md:mr-32  md:10  lg:text-[50px] duration-500 font-bold leading-none text-[#52AA57] font-['lufga']">
               Fresh Fruits &<br />
               <span className="text-[#3C6E51]">
                 {text.map((el, i) => (
@@ -95,13 +96,13 @@ export default function Home({ userData }) {
                 ))}
               </span>
             </h1>
-            <p className="pr-4 md:pr-60 opacity-45">
+            <p className=" md:pr-0 opacity-45 pr-10 sm:pr-40 2xl:pr-60 xl:text-[15px] 2xl:text[18px] text-[13px]">
               Enjoy fresh, healthy fruits and vegetables delivered straight to
               your door. Our selection is packed with nutrients to help you live
               healthier while making it easy to eat fresh every day. Start your
               wellness journey with the convenience of farm-to-table produce.
             </p>
-            <div className="h-[2px] w-full mt-12 md:w-[70%] bg-[#e3dbc2] md:mr-60" />
+            <div className="h-[2px] w-full mt-2  sm:mt-12 md:w-[70%] bg-[#e3dbc2] md:mr-60" />
             {!userData && location?.state?.message && (
               <div className="mb-4 px-4 md:px-10 md:mr-60 rounded-3xl mt-8 border-[2px] border-gray-300 py-3">
                 <p className="text-[18px] text-red-500 font-medium">
@@ -110,33 +111,33 @@ export default function Home({ userData }) {
                 </p>
               </div>
             )}
-            <span className="flex gap-5">
+            <span className="flex gap-5 md:flex-col xl:flex-row">
 
-            <button
-              onClick={() =>
-                !userData
-                  ? navigator("/user/signup")
-                  : navigator("/user/Products")
+              <button
+                onClick={() =>
+                  !userData
+                    ? navigator("/user/signup")
+                    : navigator("/user/Products")
+                }
+                className="bg-[#3a8049] self-start px-8 py-3 hidden md:flex gap-5 rounded-full text-white items-center shadow-2xl"
+              >
+                {userData && (
+                  <img src="/bag-2-1.svg" className="ri-shopping-cart-line brightness-[100] h-[32px]"></img>
+                )}
+                {!userData && <img src="/user-add.svg" className="h-[32px] brightness-[100]" />}
+                <p className="font-medium">{userData ? "Shop" : "sign now"}</p>
+              </button>
+              {!userData?.location?.one &&
+                <button onClick={() => navigator("/user/map")} className="bg-[#6b8274]  hidden md:flex self-start px-8 py-3 gap-5 rounded-full text-white items-center shadow-2xl" >
+                  <i className="ri-focus-3-line text-[22px]"></i>
+                  <p className="font-medium hidden xl:block">Add your current location</p>
+                </button>
               }
-              className="bg-[#3a8049] self-start px-8 py-3 flex gap-5 rounded-full text-white items-center shadow-2xl"
-            >
-              {userData && (
-                <img src="/bag-2-1.svg" className="ri-shopping-cart-line brightness-[100] h-[32px]"></img>
-              )} 
-              {!userData && <img src="/user-add.svg" className="h-[32px] brightness-[100]" />}
-              <p className="font-medium">{userData ? "Shop" : "sign now"}</p>
-            </button>
-            {  !userData?.location?.one &&
-              <button onClick={() => navigator("/user/map") } className="bg-[#6b8274] self-start px-8 py-3 flex gap-5 rounded-full text-white items-center shadow-2xl" >
-                <i className="ri-focus-3-line text-[22px]"></i>
-              <p className="font-medium">Add your current location</p>
-            </button>
-            }
             </span>
           </div>
-          <div className="flex-1 rounded-t-full md:rounded-l-full relative min-w-[100%] md:min-w-[50%] h-[300px] md:h-auto mt-8 md:mt-0">
+          <div className="flex-1 order-1 rounded-t-full md:rounded-l-full relative min-w-[100%] md:min-w-[50%] h-[300px] md:h-auto mt-8 md:mt-0">
             <img
-              className="h-full w-full object-cover md:object-[-220px]"
+              className="h-full w-full object-cover drop-shadow-[0px_-15px_30px_#00000089] md:drop-shadow-[110px_10px_30px_#000000]  object-bottom bg-blend-overlay md:object-[-220px] md:translate-y-0 md:rotate-0 rotate-[95deg] sm:translate-x-20 md:translate-x-0 sm:-translate-y-[150%] -translate-y-[100%] md:scale-100 scale-[240%]"
               src={homi}
               alt=""
             />
@@ -148,11 +149,11 @@ export default function Home({ userData }) {
         {/* fruit collection */}
         { fruits?.length>0 && <h1
           onClick={() => console.log(fruits)}
-          className={`$'ml-40':''} font-semibold mt-20 pl-20 text-[35px] font-['lufga']`}
+          className={`$'ml-40':''} font-semibold mt-20 md:pl-20 pl-10 md:text-[35px] text-[30px] font-['lufga']`}
         >
           Fruits
         </h1>}
-        <div className="w-full h-auto flex my-5 mt-8 gap-5  mb-10 relative flex-wrap pl-20">
+        <div className="w-full px-10 h-auto flex my-5 mt-8 gap-5 items-center justify-center mb-10 relative flex-wrap">
           {/* <p className="px-8 inline absolute right-0 top-[-65px] py-2 bg-green-900 text-white tex-[20px] rounded-l-full">
             View all
           </p> */}
@@ -192,12 +193,13 @@ export default function Home({ userData }) {
           })}
         </div>
         {/* Message of fruits with statistics */}
-        <div className="w-full flex flex-col md:flex-row px-4 md:px-40 my-10 md:my-20 py-5 md:py-10">
-          <div className="w-full md:w-[40%] grid place-items-center">
-            <img className="w-full md:w-auto" src={fru} alt="" />
+        <div className="w-full flex flex-col xl:flex-row px-4 2xl:px-20 my-10 md:my-20 py-5 md:py-10">
+          <div className="w-[50%] md:w-[40%]  xl:hidden grid place-items-center">
+            <img className="w-full md:w-auto " src={fru} alt="" />
           </div>
           {/* Importance */}
           <div className="gap-2 flex flex-col px-4 md:px-20 mt-8 md:mt-0">
+            <img className="w-[25%] hidden xl:block" src={fru} alt="" />
             <p className="text-[16px] md:text-[20px] opacity-45">
               Why fruits are healthy for us ?
             </p>
@@ -208,7 +210,7 @@ export default function Home({ userData }) {
                 Nature’s Gift to Your Health
               </span>
             </h1>
-            <p className="text-[16px] md:text-[20px] pr-4 md:pr-64 opacity-45">
+            <p className="text-[16px] md:text-[20px] pr-4 2xl:pr-64 opacity-45">
               Fruits are a powerhouse of essential vitamins, minerals, and
               antioxidants that contribute to a healthier and stronger body.
               They help in boosting your immune system, improving digestion, and
@@ -217,27 +219,27 @@ export default function Home({ userData }) {
             </p>
           </div>
           {/* statisticts */}
-          <div className="grid w-full md:w-20 grid-cols-2 min-w-[300px] text-center mt-8 md:mt-0">
+          <div className="grid w-full xl:w-20 place-items-center grid-cols-2 xl:min-w-[600px] text-center py-20 xl:py-0 mt-8 md:mt-0">
             <span className=" place-items-center py-2">
-              <p className="text-[35px] font-bold text-[#52AA57]">30%</p>
+              <p className="text-[40px] font-bold text-[#52AA57]">30%</p>
               <p className="leading-none opacity-45">
                 reduce the <br /> risk of heart
               </p>
             </span>
             <span className=" place-items-center py-2">
-              <p className="text-[35px] font-bold text-[#52AA57]">25%</p>
+              <p className="text-[40px] font-bold text-[#52AA57]">25%</p>
               <p className="leading-none opacity-45">
                 decrease the <br /> risk of stroke
               </p>
             </span>
             <span className=" place-items-center py-2">
-              <p className="text-[35px] font-bold text-[#52AA57]">70%</p>
+              <p className="text-[40px] font-bold text-[#52AA57]">70%</p>
               <p className="leading-none opacity-45">
                 people report <br /> higher energy
               </p>
             </span>
             <span className=" place-items-center py-2">
-              <p className="text-[35px] font-bold text-[#52AA57]">35%</p>
+              <p className="text-[40px] font-bold text-[#52AA57]">35%</p>
               <p className="leading-none opacity-45">
                 improve gut <br /> health
               </p>
@@ -250,11 +252,11 @@ export default function Home({ userData }) {
           <>
             <h1
               onClick={() => console.log(CollData?.data)}
-              className={`$'ml-40':''} font-semibold mt-20 pl-20 text-[35px] font-['lufga']`}
+              className={`$'ml-40':''} font-semibold mt-20 md:pl-20 pl-10 text-[30px] md:text-[35px] font-['lufga']`}
             >
               Vegetables
             </h1>
-            <div className="w-full h-auto flex my-5 mt-8 gap-5  mb-10 relative flex-wrap pl-20">
+            <div className="w-full h-auto  flex my-5 mt-8 gap-5 items-center justify-center mb-10 relative flex-wrap">
               {/* <p className="px-8 inline absolute right-0 top-[-65px] py-2 bg-green-900 text-white tex-[20px] rounded-l-full">
                 View all
               </p> */}
@@ -302,22 +304,24 @@ export default function Home({ userData }) {
         )}
 
         {/* Message of veg with statistics */}
-        <div className="w-full flex flex-col md:flex-row px-4 md:px-40 my-10 md:my-28 py-5 md:py-10">
-          <div className="w-full md:w-[45%] grid place-items-center order-1 md:order-2 md:ml-16">
-            <img className="w-full md:w-auto" src={veg} alt="" />
+        <div className="w-full flex flex-col xl:flex-row px-4 2xl:px-20 my-10 md:my-28 py-5 md:py-10">
+          <div className="w-full md:w-[45%] xl:hidden grid  order-1 md:order-2 md:ml-16">
+            <img className="w-[50%] md:w-[60%] ml-10 xl:hidden grid" src={veg} alt="" />
           </div>
           {/* Importance */}
-          <div className="gap-2 flex flex-col px-4 md:pl-32 order-2 md:order-3 mt-8 md:mt-0">
-            <p className="text-[16px] md:text-[20px] opacity-45">
+          <div className="gap-2 flex flex-col px-4 order-2 md:order-3 mt-8 md:mt-0">
+          <img className="w-[25%] hidden xl:block ml-16" src={veg} alt="" />
+
+            <p className="text-[16px] md:text-[20px] px-10 md:px-20 opacity-45">
               Why Vegetables are healthy for us ?
             </p>
-            <h1 className="text-[30px] md:text-[30px] font-bold leading-tight">
+            <h1 className="text-[30px] md:text-[30px] px-10 md:px-20 font-bold leading-tight">
               The Power of Vegetables:{" "}
               <span className="text-[30px] md:text-[30px] font-bold text-[#3C6E51]">
                 <br />A Key to Lasting Health
               </span>
             </h1>
-            <p className="text-[16px] md:text-[20px] opacity-45">
+            <p className="text-[16px] md:text-[20px] px-10 md:px-20 2xl:pr-64 opacity-45">
               Vegetables are packed with essential nutrients that support
               overall health, including vitamins, minerals, and fiber. Whether
               eaten raw, cooked, or blended into meals, vegetables are crucial
@@ -325,27 +329,27 @@ export default function Home({ userData }) {
             </p>
           </div>
           {/* statisticts */}
-          <div className="grid w-full md:w-20 grid-cols-2 min-w-[300px] text-center order-3 md:order-1 mt-8 md:mt-0">
+          <div className="grid w-full xl:w-20 place-items-center grid-cols-2 xl:min-w-[600px] text-center py-20 xl:py-0 mt-8 md:mt-0">
             <span className=" place-items-center py-2">
-              <p className="text-[35px] font-bold text-[#3C6E51]">30%</p>
+              <p className="text-[40px] font-bold text-[#3C6E51]">30%</p>
               <p className="leading-none opacity-45">
                 reduce the <br /> risk of heart
               </p>
             </span>
             <span className=" place-items-center py-2">
-              <p className="text-[35px] font-bold text-[#3C6E51]">25%</p>
+              <p className="text-[40px] font-bold text-[#3C6E51]">25%</p>
               <p className="leading-none opacity-45">
                 reduces the <br /> likelihood of stroke
               </p>
             </span>
             <span className=" place-items-center py-2">
-              <p className="text-[35px] font-bold text-[#3C6E51]">80%</p>
+              <p className="text-[40px] font-bold text-[#3C6E51]">80%</p>
               <p className="leading-none opacity-45">
                 spinach <br /> can provide
               </p>
             </span>
             <span className=" place-items-center py-2">
-              <p className="text-[35px] font-bold text-[#3C6E51]">35%</p>
+              <p className="text-[40px] font-bold text-[#3C6E51]">35%</p>
               <p className="leading-none opacity-45">
                 enhance <br /> digestive health
               </p>
@@ -354,12 +358,13 @@ export default function Home({ userData }) {
         </div>
 
           {/* awairness of farmerse */}
-          <div className="w-full h-80 relative">
-            <img className="w-full mix-blend-multiply object-cover bg-red-500" src={farm} alt="" />
-            <div className="w-[35%] absolute left-[40%] top-20">
-              <h1 className="mb-8 leading-none">Empowering Local Farmers for a Sustainable Future</h1>
-              <p className="opacity-65 text-[18px]">We believe in supporting our local farmers by sourcing fresh vegetables and fruits directly from their fields. This initiative not only ensures the quality of produce but also strengthens the community's economy. By connecting consumers with farmers, we promote sustainable practices that benefit both parties. Our commitment to transparency and fairness helps farmers thrive while providing you with the freshest ingredients. Join us in making a positive impact on the agricultural landscape and enjoy the taste of locally grown produce</p>
+          <div className="w-ful xl:mt-0 mt-40 relative flex flex-col">
+            <img className="w-full mix-blend-multiply object-cover bg-red-500 order-2" src={farm} alt="" />
+            <div className="xl:w-[50%] w-full static xl:absolute xl:left-[40%] top-20 xl:-top-[20%] 2xl:-top-[0%] order-1">
+              <h1 className="mb-8 text-[28px] md:text-[50px] px-16 xl:px-0 xl:leading-none leading-tight">Empowering Local Farmers for a Sustainable Future</h1>
+              <p className="opacity-65 text-[18px] px-16 xl:px-0">We believe in supporting our local farmers by sourcing fresh vegetables and fruits directly from their fields. This initiative not only ensures the quality of produce but also strengthens the community's economy. By connecting consumers with farmers, we promote sustainable practices that benefit both parties. Our commitment to transparency and fairness helps farmers thrive while providing you with the freshest ingredients. Join us in making a positive impact on the agricultural landscape and enjoy the taste of locally grown produce</p>
             </div>
+            <div className="md:hidden block min-h-36 w-full bg-gradient-to-r from-[#757753] via-[#a9a778] to-[#8b8e5e] order-3"></div>
           </div>
 
 

@@ -218,14 +218,14 @@ export default function Carts({ data,setProductData,index,showToast }) {
         showPopup={showPopup}
       />
     }
-    <div className="py-8 hover:scale-[1.1] duration-500 max-w-64 min-w-56 relative ">
+    <div className="py-8 hover:scale-[1.1] duration-500 md:max-w-64 md:min-w-56 min-w-44 max-w-44 relative ">
         <img className="w-24 h-24 object-cover mx-auto translate-y-[30%]" src={data?.product?.pics?.one} alt="" />
 
-      <div className="w-full justify-center pb-10 flex items-center flex-col leading-none rounded-[30px] rounded-br-[120px]  bg-[linear-gradient(27deg,#00000010,#00000005)] pt-8 overflow-hidden">
+      <div className="w-full justify-center pb-10 flex items-center flex-col leading-none rounded-[30px] md:rounded-br-[120px] rounded-br-[100px]   bg-[linear-gradient(27deg,#00000010,#00000005)] pt-8 overflow-hidden">
 
       <i onClick={()=>removeItem(data?.product?._id)} className="ri-close-line p-[2px] py-1 bg-[#00000040] rounded-full absolute left-8 top-8 px-[5px]"></i>
-        <p className="text-green-700 text-[24px] font-bold opacity-20 absolute w-0 rotate-90 left-4 top-32">{data?.product?.category?.name.toUpperCase()}</p>
-        <h1 className="text-[23px] font-bold font-['lufga'] leading-none py-2">{data?.product?.name}</h1>
+        <p className="text-green-700 md:text-[24px] text-[18px] font-bold opacity-20 absolute w-0 rotate-90 left-4 top-32">{data?.product?.category?.name.toUpperCase()}</p>
+        <h1 className=" md:text-[24px] text-[18px] font-bold font-['lufga'] leading-none py-2">{data?.product?.name}</h1>
       
         <p className="w-[calc(100%_-_64px)] text-center bg-[#00000010] font-bold py-[6px] my-2 mt-3 rounded-full">
           { defaultQnt &&
@@ -247,7 +247,7 @@ export default function Carts({ data,setProductData,index,showToast }) {
         </p>
         {/* <p  className="w-[calc(100%_-_64px)] text-center py-[6px] bg-[#ffffff50] my-2 rounded-full">Buy now</p> */}
         
-        <button onClick={() => navigation("/user/ordersummery", { state: { items: [{ product:data?.product,quantity:convertToGrams(qnt) }], qnt: qnt } })} className='flex justify-start items-center font-bold rounded-full text-white absolute bottom-3 -right-3 bg-[linear-gradient(#b4c2ba,#789985)] overflow-hidden w-[70px] h-[70px] hover:scale-125 duration-500 group'>
+        <button onClick={() => navigation("/user/ordersummery", { state: { items: [{ product:data?.product,quantity:convertToGrams(qnt) }], qnt: qnt } })} className='flex justify-start items-center font-bold rounded-full text-white absolute bottom-3 -right-3 bg-[linear-gradient(#b4c2ba,#789985)] overflow-hidden w-[70px] h-[70px] hover:scale-125 duration-500 group scale-75 md:scale-100'>
         <img className='group-hover:-translate-x-full min-w-[70px] p-4 brightness-[100]  duration-500' src="/bag-2-1.svg" alt="" />
         {/* <i className="ri-shopping-bag-line font-thin rounded-full min-w-[70px] text-[25px]  group-hover:-translate-x-full duration-500"></i> */}
         <img className='group-hover:-translate-x-full min-w-[70px] p-5 brightness-[100]  duration-500' src="/arrow-right.svg" alt="" />

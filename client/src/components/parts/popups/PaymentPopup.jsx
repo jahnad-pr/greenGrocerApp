@@ -159,7 +159,7 @@ export default function PaymentPopup({ isOpen, onClose, userData, setAmount, set
             transformPerspective: 1200,
             transformStyle: "preserve-3d"
           }}
-          className="w-full max-w-[550px] backdrop-blur-xl py-10 bg-white/90 flex items-center justify-center flex-col gap-5 rounded-3xl px-10 relative z-10 shadow-xl"
+          className="w-[85%] max-w-[550px] backdrop-blur-xl py-10 bg-white/90 flex items-center justify-center flex-col gap-5 rounded-3xl px-10 relative z-10 shadow-xl"
         >
           <motion.h1
             initial={{ y: 20, opacity: 0 }}

@@ -375,7 +375,7 @@ const ProductManage = () => {
                   <img
                     onClick={() => showPopup(true)}
                     className="w-[60%] border-2 border-gray-300 border-dashed rounded-3xl m-5"
-                    src={place_three}
+                    src={''}
                     alt=""
                   />
                 )}

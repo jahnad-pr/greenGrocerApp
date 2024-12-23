@@ -5,17 +5,21 @@ import gg from '../../../assets/Logos/gg.png'
 export default function Navigator({userData}) {
 
   const [expanded, setExpanded] = useState(false);
+  
 
   const navigator = useNavigate()
   const location = useLocation()
 
   return (
-    <div className={`h-full bg-gradient-to-b relative from-[#e2e7ea] via-[#ecf1f4]  to-[#c8ccce] pb-14 pt-6 z-10 duration-500`}>
+    <div className={`md:h-full ${expanded ? 'w-[100vw] md:w-[20%]' : 'md:w-32 w-[calc(100vw_-_40px)]'} md:bg-gradient-to-b bg-[#4f5c511d] backdrop-blur-xl absolute bottom-0 md:relative from-[#e2e7ea] via-[#ecf1f4] pt-10 pb-5 to-[#c8ccce] md:pb-14 md:pt-6 z-50 duration-500 md:rounded-none
+    rounded-[30px] rounded-br-[80px] m-[20px] md:m-0`}>
 
+      <> 
+        
 
-        <div className={`w-full gap-6 duration-500 h-full flex flex-col px-10`}>
+        <div className={`w-full overflow-hidden  gap-6 duration-500 md:h-full flex flex-col px-10`}>
 
-        <div className={`w-full h-36 group inline-flex items-center duration-500 gap-4 border-b-2 ${expanded && 'border-gray-400/30'}`}>
+        <div className={`w-full h-36 group md:inline-flex hidden  items-center duration-500 gap-4 border-b-2 ${expanded && 'border-gray-400/30'}`}>
           <img onClick={()=>navigator('/user/home')} className='h-14 w-14 object-cover cursor-pointer rounded-full brightness-0' src={gg} alt="" />
           <p className={`text-[25px]  ${!expanded ? 'w-0 opacity-0' : 'w-[200px] opacity-100'} duration-500 font-bold overflow-hidden`}>Greengrocer</p>
 
@@ -27,14 +31,14 @@ export default function Navigator({userData}) {
             
         </div>
 
-          <h4 className={`mt-5  ${!expanded ? 'w-0 opacity-0' : 'w-[200px] opacity-100'}  overflow-hidden duration-500`}>Menu</h4>
+          <h4 className={`mt-5  ${!expanded ? 'w-0 opacity-0' : 'w-[200px] opacity-100'} hidden md:block overflow-hidden duration-500`}>Menu</h4>
 
         {/* { !location.pathname.startsWith('/user/home')&&!location.pathname.startsWith('/user/products') ?
         <i onClick={()=>navigator(-1)} className="ri-arrow-left-s-fill text-[35px]"></i>:
         <i className="ri-menu-line text-[30px]"></i>
         } */}
 
-        <span className={`flex flex-col duration-500 ${expanded ? 'gap-8' : 'gap-14'}`}>
+        <span className={`flex md:flex-col md:justify-normal justify-between md:items-start items-center duration-500 ${expanded ? 'gap-8' : 'gap-14'}`}>
 
         {/* <i onClick={()=>navigator('/user/search')} className="ri-search-line text-[30px] cursor-pointer transition-colors"></i> */}
         <span onClick={()=>navigator('/user/home')} className='flex items-center gap-6 hover:translate-x-5 hover:opacity-80 duration-500 hover:scale-110 cursor-pointer'>
@@ -51,21 +55,21 @@ export default function Navigator({userData}) {
         <p className={`text-[20px] font-medium  ${!expanded ? 'w-0 opacity-0' : 'w-[200px] opacity-100'} overflow-hidden duration-500`} >Store</p>
         </span>
 
-        <span onClick={()=>navigator('/user/wallet')}  className='flex items-center cursor-pointer gap-6 hover:translate-x-5 hover:opacity-80 duration-500 hover:scale-110 cursor-pointer0'>
+        {userData &&
+          <>
+        <span onClick={()=>navigator('/user/wallet')}  className='hidden md:flex items-center cursor-pointer gap-6 hover:translate-x-5 hover:opacity-80 duration-500 hover:scale-110 cursor-pointer0'>
         <img className='w-8 h-8 duration-500'  src="/wallet-3.svg" alt="" />
         {/* <i className="ri-wallet-line text-[25px] cursor-pointer transition-colors"></i> */}
         <p className={`text-[20px] font-medium text-nowrap  ${!expanded ? 'w-0 opacity-0' : 'w-[200px] opacity-100'} overflow-hidden duration-500`}>Wallet</p>
         </span>
 
-        {userData &&
-        <>
         <span onClick={()=>navigator('/user/cart')}  className='flex items-center gap-6 hover:translate-x-5 hover:opacity-80 duration-500 hover:scale-110 cursor-pointer'>
         <img className='w-8 h-8 duration-500'  src="/bag.svg" alt="" />
         {/* <i className="ri-shopping-cart-line text-[25px] cursor-pointer transition-colors"></i> */}
         <p className={`text-[20px] font-medium text-nowrap ${!expanded ? 'w-0 opacity-0' : 'w-[200px] opacity-100'}  overflow-hidden duration-500`} >Cart list</p>
         </span>
 
-        <span onClick={()=>navigator('/user/bookmarks')} className='flex  items-center gap-6 hover:translate-x-5 hover:opacity-80 duration-500 hover:scale-110 cursor-pointer'>
+        <span onClick={()=>navigator('/user/bookmarks')} className='hidden md:flex  items-center gap-6 hover:translate-x-5 hover:opacity-80 duration-500 hover:scale-110 cursor-pointer'>
         <img className='w-8 h-8 duration-500' src="/folder-favorite.svg" alt="" />
         {/* <i onClick={()=>navigator('/user/bookmarks')} className="ri-bookmark-line text-[25px] cursor-pointer transition-colors"></i> */}
         <p className={`text-[20px] font-medium text-nowrap ${!expanded ? 'w-0 opacity-0 ' : 'w-[200px] opacity-100'}  overflow-hidden duration-500`} >Favorites</p>
@@ -78,6 +82,15 @@ export default function Navigator({userData}) {
         {/* <i onClick={()=>navigator('/user/bookmarks')} className="ri-bookmark-line text-[25px] cursor-pointer transition-colors"></i> */}
         <p className={`text-[20px] font-medium text-nowrap ${!expanded ? 'w-0 opacity-0 ' : 'w-[200px] opacity-100'}  overflow-hidden duration-500`} >Find</p>
         </span>
+
+        { userData?._id &&
+        <div onClick={()=>navigator(`/user/profile/${userData._id}`)} className="md:w-full w-20 bg-red-100 md:hidden duration-500  flex items-center gap-4 cursor-pointer">
+          <img className='h-10 w-10 object-cover rounded-full' src={userData?.profileUrl||'/ph-pic.jpg'} alt="" />
+        </div>
+
+        }
+
+
         </span>
 
         
@@ -89,7 +102,7 @@ export default function Navigator({userData}) {
         { userData && <i onClick={()=>navigator(`/user/Cart`)}  className="ri-shopping-cart-line text-[30px] cursor-pointer transition-colors"></i>} */}
 
         { userData?._id &&
-        <div onClick={()=>navigator(`/user/profile/${userData._id}`)} className="w-full duration-500 h-20 flex items-center gap-4 cursor-pointer">
+        <div onClick={()=>navigator(`/user/profile/${userData._id}`)} className="w-40  duration-500  hidden md:flex items-center gap-4 cursor-pointer">
           <img className='h-14 w-14 object-cover rounded-full' src={userData?.profileUrl||'/ph-pic.jpg'} alt="" />
           <span className={` ${!expanded ? 'w-0 opacity-0' : 'w-[200px] opacity-100'}  overflow-hidden duration-500`}>
           <p className='text-[20px] leading-none font-bold duration-500 text-nowrap'>{userData?.username}</p>
@@ -100,6 +113,9 @@ export default function Navigator({userData}) {
         }
           
         </div>
+      </>
+
+
         
     </div>
   )

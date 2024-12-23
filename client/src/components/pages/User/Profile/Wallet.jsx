@@ -50,7 +50,7 @@ export default function Wallet({userData}) {
   };
 
   return (
-    <div className="w-[96%] min-h-screen bg-[#f2f2f2] overflow-x-hidden">
+    <div className="md:w-[96%] w-full min-h-screen bg-[#f2f2f2] overflow-x-hidden">
       <div className="w-full h-full px-4 md:px-20 lg:px-80 flex flex-col items-center gap-5 fade-in">
         {/* Head */}
         {transactions?.length > 0 &&<h1 className="text-[35px] font-bold my-10 mt-16 slide-down">Wallet and Coin </h1>}
@@ -156,19 +156,19 @@ export default function Wallet({userData}) {
             </div>}
 
               {!transactions?.length > 0 && (
-                <div className="col-span-6 min-h-[10vh] text-center pb-16 flex flex-col items-center justify-center">
+                <div className="col-span-6 min-h-[10vh] h-1/2 text-center pb-20 flex flex-col items-center justify-center relative">
                   <img 
                     src={'/empty-wallet-remove.svg'} 
                     alt="Empty Wallet" 
-                    className="w-96 h-96 mb-6 opacity-80 object-cover"
+                    className="md:w-96 md:h-96 w-60 h-60 mb-6 opacity-80 object-cover"
                   />
                   <h3 className="text-[30px] text-gray-800 mb-2">
                     No transactions yet!
                   </h3>
-                  <p className="text-gray-600 opacity-55 mb-4 max-w-md mx-auto text-[18px]">
+                  <p className="text-gray-600 opacity-55 mb-4 max-w-md mx-auto text-[18px] md:px-0 px-8">
                     Start your journey by adding coins to your wallet. Purchase coins to unlock exclusive deals and make seamless transactions.
                   </p>
-                  <HoverKing  event={() => setShowPaymentPopup(true)} styles={'fixed bottom-36 left-1/2 -translate-x-[15%] rounded-full border-0 font-medium text-[16px] bg-white'} Icon={<i className="ri-money-euro-circle-line text-[30px] "></i>} >Add coin now</HoverKing>
+                  <HoverKing  event={() => setShowPaymentPopup(true)} styles={'absolute bottom-0 left-1/2 -translate-x-[50%] rounded-full border-0 font-medium text-[16px] bg-white'} Icon={<i className="ri-money-euro-circle-line text-[30px] "></i>} >Add coin now</HoverKing>
 
                   {/* <button 
                     onClick=

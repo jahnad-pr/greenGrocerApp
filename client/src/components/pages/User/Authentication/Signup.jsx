@@ -7,7 +7,7 @@ import { IoAdd } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 // import { ToastContainer, toast } from "react-toastify";
 import ForgotPassword from "./ForgotPassword";
-import { showToast } from '../../../parts/Toast/Tostify'
+import { showToast,Tostify } from '../../../parts/Toast/Tostify'
 
 import {
   useLoginMutation,
@@ -33,10 +33,10 @@ export default function Signup({ setSign }) {
     confirmPassword: "",
   });
   const [upData, setUpData] = useState({ email: "", password: "" });
-  const [mission, setMission] = useState(false); // Toggle between signup and login screens
+  const [mission, setMission] = useState(true); // Toggle between signup and login screens
   const [showPassword, setShowPassword] = useState(false);
   const [popup, showPopup] = useState(false);
-  const [profileUrl,setProfileUrl] = useState('')
+  const [profileUrl, setProfileUrl] = useState('')
   const [dataForm, setData] = useState(false);
   const [method, setMethode] = useState("");
   const [verifiedData, setVerifyData] = useState(false);
@@ -50,9 +50,9 @@ export default function Signup({ setSign }) {
 
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
 
-const handleImageSave = (blob) => {
-  setProfileUrl(blob[0])
-};
+  const handleImageSave = (blob) => {
+    setProfileUrl(blob[0])
+  };
 
   // data form etk query api
   const [
@@ -71,14 +71,14 @@ const handleImageSave = (blob) => {
     { isLoading: isUerExistLoading, error: isUerExistError, data: isUerExistData },
   ] = useIsUerExistMutation();
 
-    // Custom content component for the toast
-    const ToastContent = ({ title, message }) => (
-      <div>
-          <strong>{title}</strong>
-          <div>{message}</div>
-      </div>
+  // Custom content component for the toast
+  const ToastContent = ({ title, message }) => (
+    <div>
+      <strong>{title}</strong>
+      <div>{message}</div>
+    </div>
   );
-  
+
 
 
 
@@ -177,6 +177,8 @@ const handleImageSave = (blob) => {
       mission ? formData : upData,
       mission
     );
+    console.log(validationErrors)
+    
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
@@ -186,7 +188,7 @@ const handleImageSave = (blob) => {
           await isUerExist(formData).unwrap()
 
         } else {
-          await login({...upData,profileUrl:profileUrl}).unwrap();
+          await login({ ...upData, profileUrl: profileUrl }).unwrap();
         }
       } catch (err) {
         showToast(err.message, "error");
@@ -195,11 +197,11 @@ const handleImageSave = (blob) => {
   };
 
   // Transition effect on mission state change
-  useEffect(() => {
-    scroller.current.style.transform = mission
-      ? "translateX(0vw)"
-      : "translateX(-50vw)";
-  }, [mission]);
+  // useEffect(() => {
+  //   scroller.current.style.transform = mission
+  //     ? "translateX(0vw)"
+  //     : "translateX(-50vw)";
+  // }, [mission]);
 
   useEffect(() => {
     if (verifiedData) {
@@ -207,7 +209,7 @@ const handleImageSave = (blob) => {
 
       // showToast("account created successfully", "success");
       if (method === "google") {
-        
+
         (async () => {
           const data = googleDATA;
           console.log(data);
@@ -239,7 +241,7 @@ const handleImageSave = (blob) => {
             nder: verifiedData.gender,
             phone: verifiedData.phone,
             place: verifiedData.place,
-            profileUrl:profileUrl
+            profileUrl: profileUrl
           };
           await signUp(dataForm).unwrap();
           // setSign(true);
@@ -263,7 +265,7 @@ const handleImageSave = (blob) => {
   };
 
   return (
-    <>
+    <><Tostify />
       <ImageUploadPopup
         isOpen={isImagePopupOpen}
         onClose={() => setIsImagePopupOpen(false)}
@@ -284,80 +286,37 @@ const handleImageSave = (blob) => {
         <ForgotPassword showToast={showToast} setShowForgotPassword={setShowForgotPassword} />
       )}
       {/* <div ref={scroller} className="w-[150%] h-full  flex duration-500"> */}
-      <div ref={scroller} className={`w-[150%] duration-500
-      bg-[linear-gradient(#d2d2d0,#d1d1cf,#cecece,#c6c8c7,#c6c7c6,#c3c4c3,#b5b9b8)] h-full flex`}>
+      <div ref={scroller} className={`w-[200%] duration-500
+      bg-[linear-gradient(#d2d2d0,#d1d1cf,#cecece,#c6c8c7,#c6c7c699,#c3c4c399,#b5b9b899)] h-full flex`}>
+
         <div
           onClick={() => navigator("/user/home")}
-          className={`bg-gray-200/40 font-medium absolute ${mission ? "right-10" : "right-[39%]"
-            } duration-700 top-10 px-5 py-2 rounded-full flex gap-3 items-center justify-center z-10`}
+          className={`bg-gray-200/40 font-medium absolute right-10 duration-700 top-10 px-5 py-1 rounded-full flex gap-3 items-center justify-center z-10`}
         >
           <i className="ri-user-4-line text-[20px]"></i>
           <p>Gust accound</p>
         </div>
 
-        <div className="w-full h-full flex duration-300">
-          {/* First container */}
-          <div className="flex-[2] rounded-r-[555px]">
-            <div className="h-[108%] w-20  opacity-40  absolute z-10 left-[40%] "></div>
-            <img
-              className="absolute h-[111%] translate-y-[-55px] aspect-square translate-x-[-26%] mix-blend-darken"
-              src={siginImg}
-              alt="Background Image"
-            />
-          </div>
+        <div className="w-full h-full flex duration-300 flex-col">
 
-          {/* Second container */}
-          <div className="flex-[3] relative">
-            <div className="w-full h-full flex flex-col max-w-[50%] mx-auto items-center justify-center duration-700">
-              {/* App logo */}
-              <img
-                className={`w-[18%] absolute bottom-8 right-8 ${mission ? "opacity-20" : "opacity-0"} brightness-0 duration-300`}
-                src={greenGrocerLogo}
-                alt="Logo"
-              />
 
-              {/* Conditional rendering for logo in login mode */}
-              <AnimatePresence>
-                {!mission && (
-                  <motion.div
-                    initial={{ scale: 0.0, rotate: 5, height: 0 }}
-                    animate={{ scale: 1, rotate: 0, height: "auto" }}
-                    exit={{ scale: 0, height: 0, rotate: 0 }}
-                  >
-                    <img className="w-[80%]" src={greenGrocerLogo} alt="" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
 
-              {/* Profile placeholder in signup mode */}
-              <AnimatePresence>
-                {mission && (
-                  <motion.div
-                    initial={{ scale: 0.0, height: 0, rotate: -180 }}
-                    animate={{ scale: 1, rotate: 0, height: "auto" }}
-                    exit={{ scale: 0, height: 0, rotate: 180 }}
-                  >
-                    <span onClick={() => setIsImagePopupOpen(true)} className="relative group">
-                      <div className="w-8 h-8 z-10 bg-orange-300 rounded-full group-hover:scale-110 group-hover:shadow-lg duration-300  flex items-center justify-center absolute bottom-0 right-0">
-                        <IoAdd size={28} />
-                      </div>
-                      <img
-                        className="max-w-[8rem] min-w-[8rem] min-h-[8rem] group-hover:scale-125 rounded-full cursor-pointer duration-300 bg-slate-200"
-                        src={profileUrl||placeholder}
-                        alt="Profile Placeholder"
-                      />
-                    </span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+          {/* new */}
+          <div className="w-full  min-h-full p-8 xl:p-10 xl:px-60">
 
-              {/* Signup message */}
-              <p className="text-[18px] opacity-35 my-5 duration-500">
-                Signup below to get started
-              </p>
+            <div className="w-full h-full max-w-[1500px] flex flex-col xl:rounded-[60px] md:flex-row rounded-[30px] bg-[#ffffff60] rounded-br-[120px] xl:rounded-br-[180px] relative">
 
-              {/* Input Fields */}
-              <div className="flex flex-col w-full max-w-[80%] duration-500">
+              {/* img */}
+              <div className={`w-full ${mission ? "h-[30%] md:h-full" : "h-[50%] md:h-full"} overflow-hidden duration-500`}>
+              <img className="w-full h-full object-bottom object-cover xl:rounded-l-[60px]  md:object-center rounded-[30px] rounded-br-[120px] md:rounded-l-[30px] md:rounded-r-[0px]" src={mission ? "/fruto.jpg" : "/vego.jpg"} alt="" />
+              </div>
+
+              {/* contents */}
+              <div className="w-full h-[60%] flex items-center pt-4 md:justify-center md:h-full flex-col xl:gap-16 gap-8">
+                <img className="max-w-[200px]" src={greenGrocerLogo} alt="" />
+
+                 {/* Input Fields */}
+              <div className="flex flex-col  w-full max-w-[80%] xl:px-10 duration-500 xl:gap-3">
                 {/* Username Input */}
                 <AnimatePresence>
                   {mission && (
@@ -372,7 +331,7 @@ const handleImageSave = (blob) => {
                       exit={{ opacity: 0, scale: 0, height: 0, margin: 0 }}
                       transition={{ duration: 0.5 }}
                     >
-                      <div className="w-full flex items-center justify-center bg-[linear-gradient(45deg,#f5efef,#f5efef)] py-2 px-5 gap-5 rounded-full mb-5">
+                      <div className="w-full flex items-center justify-center bg-[linear-gradient(45deg,#f5efef,#f5efef)] py-1 px-5 gap-5 rounded-[30px] rounded-br-[120px] mb-5">
                         <i className="ri-user-line text-[28px] opacity-20"></i>
                         <input
                           name="username"
@@ -388,7 +347,7 @@ const handleImageSave = (blob) => {
                 </AnimatePresence>
 
                 {/* Email Input */}
-                <div className="w-full flex items-center justify-center bg-[linear-gradient(45deg,#f5efef,#f5efef)] py-2 px-5 gap-5 rounded-full duration-700 mb-5">
+                <div className="w-full flex items-center justify-center bg-[linear-gradient(45deg,#f5efef,#f5efef)] py-1 px-5 gap-5 rounded-[30px] rounded-br-[120px] duration-700 mb-5">
                   <i className="ri-at-line text-[28px] opacity-20"></i>
                   <input
                     name="email"
@@ -401,7 +360,7 @@ const handleImageSave = (blob) => {
                 </div>
 
                 {/* Password Input */}
-                <div className="w-full flex items-center justify-center bg-[linear-gradient(45deg,#f5efef,#f5efef)] py-2 px-5 gap-5 rounded-full mb-5 relative">
+                <div className="w-full flex items-center justify-center bg-[linear-gradient(45deg,#f5efef,#f5efef)] py-1 px-5 gap-5 rounded-[30px] rounded-br-[120px] mb-5 relative">
                   <i className="ri-key-line text-[28px] opacity-20"></i>
                   <input
                     name="password"
@@ -423,8 +382,8 @@ const handleImageSave = (blob) => {
                     )}
                   </button>
                 </div>
-                
-              
+
+
 
                 {/* Confirm Password Input */}
                 <AnimatePresence>
@@ -440,7 +399,7 @@ const handleImageSave = (blob) => {
                       exit={{ opacity: 0, scale: 0, height: 0, margin: 0 }}
                       transition={{ duration: 0.5 }}
                     >
-                      <div className="w-full flex items-center justify-center bg-[linear-gradient(45deg,#f5efef,#f5efef)] py-2 px-5 gap-5 rounded-full">
+                      <div className="w-full flex items-center justify-center bg-[linear-gradient(45deg,#f5efef,#f5efef)] py-1 px-5 gap-5 rounded-[30px] rounded-br-[120px]">
                         <i className="ri-lock-line text-[28px] opacity-20"></i>
                         <input
                           name="confirmPassword"
@@ -454,9 +413,10 @@ const handleImageSave = (blob) => {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
 
-              {/* error message */}
+              <p className="text-[15px] xl:mt-12 text-gray-500 text-center xl:text-[18px] mt-4">{mission?'Already have an account?':'New to GreenGrocer?' }<span className="text-blue-500 cursor-pointer" onClick={() => setMission(!mission)}>{mission?' login':' signup'}</span></p>
+   
+               {/* error message */}
               <AnimatePresence>
                 {Object.keys(errors).length > 0 && (
                   <motion.div
@@ -470,13 +430,13 @@ const handleImageSave = (blob) => {
                     exit={{ opacity: 0, scale: 0, height: 0, margin: 0 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <div className=" mb-4 mx-16 px-10 rounded-3xl mt-8 bg-[linear-gradient(45deg,#ffffff,#f5efef)] border-[2px] border-gray-300 py-5">
+                    <div className=" mx-16 px-10 rounded-3xl mt-8 bg-[linear-gradient(45deg,#ffffff50,#f5efef50)] border-[1px] border-gray-300 py-2">
                       {Object.values(errors).map(
                         (error, index) =>
                           index === 0 && (
                             <p
                               key={index}
-                              className="text-[18px] text-red-500 font-medium"
+                              className="text-[18px] text-red-500 font-medium text-nowrap"
                             >
                               {error}
                             </p>
@@ -486,45 +446,61 @@ const handleImageSave = (blob) => {
                   </motion.div>
                 )}
               </AnimatePresence>
+              </div>
 
-                {  !mission &&
-                  <p className="text-[16px] text-blue-900 cursor-pointer w-[80%] ml-3" onClick={() => setShowForgotPassword(true)}>
-                    Forgot password?
-                  </p>
-                  }
 
-              {/* Sign Up Button */}
+
+                <button onClick={signUpUser} className='flex justify-start items-center font-bold rounded-full text-white absolute bottom-3 -right-3 bg-[linear-gradient(#b4c2ba,#789985)] overflow-hidden w-[150px] h-[70px] hover:scale-125 duration-500 group'>
+                  {/* <img className='group-hover:-translate-x-full min-w-[70px] p-4 brightness-[100]  duration-500' src="/bag-2-1.svg" alt="" />
+                   */}
+                  <p className="text-[20px] min-w-[150px]">{!mission ? "Login" : "Signup"}</p>
+                  {/* <i className="ri-shopping-bag-line font-thin rounded-full min-w-[70px] text-[25px]  group-hover:-translate-x-full duration-500"></i> */}
+                  <img className='group-hover:-translate-x-[80%] min-w-[70px] p-5 brightness-[100]  duration-500' src="/arrow-right.svg" alt="" />
+                </button>
+
+              <FcGoogle className="w-full mt-3" onClick={loginWithGoogle} size={65} />
+
+{/* 
+              Sign Up Button
               <button
                 onClick={signUpUser}
                 className="bg-[linear-gradient(to_left,#f7085a,#bc4a97)] py-5 text-white w-[80%] text-[20px] rounded-full font-bold shadow-[6px_6px_10px_#00000080_inset] duration-700 mt-8"
               >
                 Signup
-              </button>
+              </button> */}
 
-              {/* Switch to Login */}
-              <p className="text-[18px] text-gray-500 my-10 cursor-pointer">
-                Already a member?{" "}
-                <span
-                  onClick={() => (setMission(!mission), setErrors({}))}
-                  className="text-blue-900"
-                >
-                  Click to { mission ? "login" : "signup" }
-                </span>
-              </p>
-              <FcGoogle onClick={loginWithGoogle} size={45} />
 
+                
+              </div>
 
             </div>
-          </div>
-        </div>
 
-        {/* Background Image in the Right Container */}
-        <div className="bg-gray-300 flex-[2] rounded-r-[555px]">
-          <img
-            className={`absolute h-[118%] translate-y-[-55px] aspect-[] duration-500 left-[82%]`}
-            src={logImg}
-            alt="Right Background Image"
-          />
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+
+
+      
         </div>
       </div>
     </>

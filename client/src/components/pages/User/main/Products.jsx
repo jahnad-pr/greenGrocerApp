@@ -87,8 +87,8 @@ export default function Products({ userData }) {
   )};
 
   return (
-    <div className="w-[96%] h-full bg-[#f2f2f2]">
-      <div className="w-full h-full backdrop-blur-3xl pl-40">
+    <div className="md:w-[96%] w-full h-full bg-[#f2f2f2]">
+      <div className="w-full h-full backdrop-blur-3xl xl:pl-40 sm:px-20 pl-10">
         <div className="w-full h-full pt-16 overflow-y-scroll">
           {/* Main head */}
           {  catData?.data?.length > 0 ?
@@ -105,7 +105,7 @@ export default function Products({ userData }) {
             })}
             <div
               style={{ left: `${160 * cPosition}px` }}
-              className={`w-16 h-1 duration-500 bg-[#00000050] absolute bottom-0`}
+              className={`w-16 h-1 duration-500 bg-[#44764850] absolute bottom-0`}
             />
           </div>
 

@@ -390,13 +390,21 @@ export default function OrderSummary({userData}) {
           <p onClick={()=>console.log(applyCoupon)} className="text-[25px] font-bold leading-none">Coupons</p>
           <p className="text-[18px] opacity-45">Available coupons for you</p>
 
+          { CouponDatas?.length > 0 ?
           <div className="inline-flex gap-5 mt-8 overflow-x-scroll pb-10">
                   {CouponDatas?.map((coupon, index) => (
                     <Coupon setCode={setCode} index={index} coupon={coupon} />
                     
                   ))}
 
-                </div>
+                </div>:
+                <>
+                  <img className="h-[80%] filter-[brightness(0)] mx-auto mt-10" src='/ticket-expired.svg' alt="No categories" />
+                  <p className=" w-full text-center text-[20px] leading-none font-mediumbg-red-200 flex-1 flex items-center justify-center">No Coupons Found</p>
+                  <p className="mx-auto text-center text-[15px] opacity-45 leading-none">No coupons for you for this price range</p>
+                </>
+              }
+
           
           </div>
           

@@ -33,6 +33,7 @@ const Search = ({userData}) => {
   const [showInStock, setShowInStock] = useState(false);
   const [showFeatured, setShowFeatured] = useState(false);
   const [popularityData, setPopularityData] = useState({});
+  const [expanded, setExpanded] = useState(false);
 
   // Categories limited to fruits and vegetables
   const categories = [
@@ -182,15 +183,20 @@ const showToast = (message, type = "success") => {
   return (
     <>
     <ToastContainer title="Error" position="bottom-left" />
-    <div className="w-[96%] h-full bg-[#f2f2f2]">
-      <div className=" mix-blend-screen absolute w-full h-full"></div>
-      <div className="w-full h-full backdrop-blur-3xl pr-40">
-        <div className="w-full h-full  overflow-y-scroll flex">
+    <div className="w-full lg:w-[94%] h-full bg-[#f2f2f2]">
+      <div className="w-full h-full">
+        <div className="w-full h-full  overflow-y-scroll flex relative">
           {/* Filter Sidebar */}
 
-          <div className="w-[400px] h-full pr-6 mr-6 bg-[#899a9015]">
-            <div className="h-full bg-[#ffffff20] backdrop-blur-md  p-6 px-20 overflow-scroll pb-40">
+                <div style={{opacity: !expanded ? 1 : 0}} onClick={() => setExpanded(!expanded)} className={`w-14 h-14 block lg:hidden duration-500 absolute z-50  mt-5 bg-[#b3afaf2c] ml-10 p-2 rounded-[10px] rounded-br-[40px]`}>
+                  <img className={`w-full h-full p-1`} src='/setting-5.svg' alt="" />
+                </div>
+
+          <div className={`lg:w-[400px] md:w-[100%] w-full pb-20 z-10 md:px-20 lg:px-10 backdrop-blur-3xl ${!expanded?'-left-full':'left-0'} absolute lg:static h-full mr-6 duration-500`}>
+            <div className="h-full w-full bg-[#ffffff20] backdrop-blur-md px-20 md:px-0 pb-40">
+              <img onClick={() => setExpanded(!expanded)} className='w-14 absolute block lg:hidden rotate-90 top-10 right-3' src="/pin.svg" alt="" />
               <h2 onClick={() => getAllCollection()} className="text-[30px] mt-8 font-bold mb-6">Filters</h2>
+
 
               {/* View Options */}
               <div className="mb-6">
@@ -376,11 +382,13 @@ const showToast = (message, type = "success") => {
             </div>
           </div>
 
+
+
           {/* Main Content */}
-          <div className="flex-1 pt-16">
+          <div className="flex-1 pt-16 overflow-scroll">
             {/* Search input */}
-            <div className="relative w-3/4 mb-10">
-              <div className="search-container relative mb-6">
+            <div className="relative mt-6 w-3/4 mb-10 mx-auto">
+              <div className="search-container relative mb-5">
                 <input
                   type="text"
                   placeholder="Search products..."
@@ -400,7 +408,7 @@ const showToast = (message, type = "success") => {
 
             {/* Products Grid */}
             {showProducts && (
-              <div className="w-full h-auto flex my-5 gap-5 relative flex-wrap product-grid">
+              <div className="w-full h-auto flex my-5 gap-5 relative flex-wrap product-grid items-center justify-center">
                 {filteredProducts.map((product) => ((product?.category?.name.toLowerCase() === selectedCategory.toLowerCase() || selectedCategory === 'All Categories' || selectedCategory === 'all') &&
                   <div key={product._id} className="animate-card">
                     <ProductCard key={product._id} showToast={showToast} product={product} navigate={navigate} userData={userData} />
@@ -411,7 +419,7 @@ const showToast = (message, type = "success") => {
 
             {/* Collections Grid */}
             {showCollections && (
-              <div className="w-full h-auto flex my-5 gap-8 relative flex-wrap product-grid">
+              <div className="w-full h-auto flex my-5 gap-8 relative flex-wrap product-grid justify-center">
                 {collections.map((collection, index) => ( (collection?.category?.name.toLowerCase() === selectedCategory.toLowerCase() || selectedCategory === 'All Categories' || selectedCategory === 'all') &&
                   <div key={index} className="animate-card">
                     <CollectionCard type={'collection'} data={collection} pos={index} />

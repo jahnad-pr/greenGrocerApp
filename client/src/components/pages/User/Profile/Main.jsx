@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import picr from "../../../../assets/images/picr.png";
 import ind from "../../../../assets/images/indicator.png";
 import gg from "../../../../assets/Logos/gg.png";
@@ -8,20 +8,22 @@ import { ToastContainer } from "react-toastify";
 
 export default function Main({ userData}) {
 
+  const [close,setClose] = useState(false)
+
   const navigator = useNavigate()
 
   return (
       <> 
-    <div className="w-[96%] duration-500 h-full bg-[#f2f2f2]">
+    <div className="md:w-[96%] w-full duration-500 h-full bg-[#f2f2f2]">
       <div className="h-full duration-500 w-full flex">
           
          {/* container root */}
-        <div className="h-full w-full duration-500 px-40 overflow-scroll">
+        <div className="h-full w-full duration-500 md:px-40 px-10 overflow-scroll fle">
         { userData && 
-        <><span className="flex py-20 pt-28">
+        <><span className="flex py-20 pt-28 bg-red-500">
             
-            <div className="w-[50%] h-[45%] justify-center flex-col px-60 ">
-              <h1  className="text-[85px] leading-none font-bold">{userData?.username}</h1>
+            <div className="w-[50%] h-[45%] justify-center flex-col md:px-60  px-10">
+              <h1  className="md:text-[85px] text-[30px] leading-none font-bold break-words text-wrap">{userData?.username}</h1>
               <p className="text-[20px] text-orange-400 opacity-75">
                 {/* @{userData?.username}123HK */}
               </p>
@@ -34,7 +36,7 @@ export default function Main({ userData}) {
             </div>
 
             {/* profile pic section */}
-            <motion.div layoutId={'pic'}  className="w-[35%] max-h-[20%] flex pl-2 items-end justify-start pb-14">
+            <motion.div layoutId={'pic'}  className="md:w-[35%] max-h-[20%] flex pl-2 items-end md:justify-start justify-center pb-14">
               <img className="w-1/2 rounded-full shadow-2xl" src={userData?.profileUrl||'/ph-pic.jpg'} alt="" />
             </motion.div>
           </span>
@@ -98,18 +100,22 @@ export default function Main({ userData}) {
         </div>
 
         {/* naviagation container */}
-        <div className="w-[08%] hover:w-[30%] bg-[#f2f2f2] group duration-500 h-full font-['lufga']">
-          <div className="w-full h-full flex pt-24 pr-5 scroll-pt-14 pl-0 flex-col gap-5 items-center">
+        {/* bg-[#f2f2f2] */}
+        <div className={`md:w-[08%] w-full pl-20 md:pl-20 md:static absolute ${close?'left-0':'-left-full'}  top-0 hover:md:w-[30%] group duration-500 h-full font-['lufga'] backdrop-blur-3xl bg-[#ffffffcb]`}>
+
+          <img onClick={()=>setClose(!close)} className={`w-14 h-14  object-cover absolute ${!close?'-right-20 rotate-[270deg]':'right-10 rotate-[90deg]'}  top-10 duration-500`} src="/pin.svg" alt="" />
+
+          <div className="w-full h-full flex pt-24 pr-5 scroll-pt-14 pl-0 flex-col gap-5 md:items-center">
           {/* <img className="w-16 object-cover mb-8" src={gg} alt="" /> */}
 
           {/* profile */}
-          <span className="group">
+          <span className="group ">
                 <span className="flex">
                   <img src='/user.svg' className=" w-[30px] text-[#758a7c]"/>
-                  <p className="font-semibold group-hover:ml-3 text-[20px] text-[#5a695f] w-0 overflow-hidden hidden group-hover:w-auto  group-hover:inline">Profile</p>
+                  <p className="font-semibold md:group-hover:ml-3 text-[20px] text-[#5a695f] md:w-0 overflow-hidden md:hidden md:group-hover:w-auto  group-hover:inline">Profile</p>
                 </span>
 
-          <span className="leading-none opacity-0 group-hover:opacity-100 flex flex-col gap-3 mt-3 group-hover:pl-12 ml-3 h-0 w-0 overflow-hidden group-hover:h-32 group-hover:w-auto duration-1000" >
+          <span className="leading-none md:opacity-0 md:group-hover:opacity-100 flex flex-col gap-3 mt-3 group-hover:pl-12 ml-3 md:h-0 md:w-0 overflow-hidden group-hover:h-32 group-hover:w-auto duration-1000" >
             <h1 onClick={()=>navigator('/user/profile/:12/manage')} className="text-[20px] font-medium leading-none opacity-55 hover:text-[#284936] hover:opacity-100 cursor-pointer">Manage profile</h1>
             <h1 onClick={()=>navigator('/user/Orders')} className="text-[20px] font-medium leading-none opacity-55 hover:text-[#284936] hover:opacity-100 cursor-pointer">Your orders</h1>
             <h1 onClick={()=>navigator('/user/Coupons')} className="text-[20px] font-medium leading-none opacity-55 hover:text-[#284936] hover:opacity-100 cursor-pointer">Coupons</h1>
@@ -122,9 +128,9 @@ export default function Main({ userData}) {
           <span className="duration-500 group">
             <span className="flex">
           <img src='/setting.svg' className="w-[30px] text-[#758a7c]" />
-          <p className="font-semibold ml-3 group-hover:ml-3 text-[20px] text-[#718779]  hidden group-hover:inline">Configaration</p>
+          <p className="font-semibold ml-3 group-hover:ml-3 text-[20px] text-[#718779]  md:hidden md:group-hover:inline">Configaration</p>
             </span>
-          <span className="leading-none flex flex-col ml-5 gap-3 mt-5 group-hover:pl-12 h-0 w-0 overflow-hidden group-hover:h-32 group-hover:w-auto duration-1000" >
+          <span className="leading-none flex flex-col ml-5 gap-3 mt-5 group-hover:pl-12 md:h-0 md:w-0 overflow-hidden md:group-hover:h-32 group-hover:w-auto duration-1000" >
             <h1 className="text-[20px] font-medium leading-none opacity-55 hover:text-[#284936] hover:opacity-100 cursor-pointer">Settings</h1>
             <h1 onClick={()=>navigator('/user/map')} className="text-[20px] font-medium leading-none opacity-55 hover:text-[#284936] hover:opacity-100 cursor-pointer">Manage Location</h1>
       
@@ -137,10 +143,10 @@ export default function Main({ userData}) {
           <span className="duration-500 group">
             <span className="flex">
           <img src='/category.svg' className=" w-[30px] text-[#758a7c]"></img>
-          <p className="font-semibold ml-3 group-hover:ml-3 text-[20px] text-[#718779] hidden group-hover:inline">Application</p>
+          <p className="font-semibold ml-3 group-hover:ml-3 text-[20px] text-[#718779] md:hidden md:group-hover:inline">Application</p>
 
             </span>
-          <span className="leading-none flex flex-col gap-3 mt-5 group-hover:pl-12 h-0 w-0 overflow-hidden group-hover:h-24 group-hover:w-auto duration-1000" >
+          <span className="leading-none flex flex-col gap-3 mt-5 group-hover:pl-12 md:h-0 md:w-0 overflow-hidden md:group-hover:h-24 group-hover:w-auto duration-1000" >
             <h1 className="text-[20px] font-medium leading-none opacity-55 hover:text-[#284936] hover:opacity-100 cursor-pointer">Contact</h1>
             <h1 className="text-[20px] font-medium leading-none opacity-55 hover:text-[#284936] hover:opacity-100 cursor-pointer">About site</h1>
             <h1 className="text-[20px] font-medium leading-none opacity-55 hover:text-[#284936] hover:opacity-100 cursor-pointer">About the farms</h1>
