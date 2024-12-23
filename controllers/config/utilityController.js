@@ -28,7 +28,7 @@ module.exports.uploadImages = async (req,res)=>{
     if (!req.file) {
       return res.status(400).send('No file uploaded');
     }
-    const fileUrl = `http://localhost:8080/uploads/Products/${req.file.filename}`;
+    const fileUrl = `https://shalu.ddns.net/uploads/Products/${req.file.filename}`;
 
     res.send({ url: fileUrl });
   
