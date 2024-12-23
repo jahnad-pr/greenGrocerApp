@@ -24,6 +24,9 @@ module.exports.upload = multer({ storage: storage });
 
 // Set up Multer to store images in a folder called 'uploads'
 module.exports.uploadImages = async (req,res)=>{  
+
+  console.log(req.file);
+  
   
     if (!req.file) {
       return res.status(400).send('No file uploaded');
