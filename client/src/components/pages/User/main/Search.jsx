@@ -51,7 +51,7 @@ const Search = ({userData}) => {
             ></div>
           ))}
         </div>
-        <p className="text-lg font-medium text-gray-600">Loading your bookmarks...</p>
+        <p className="text-lg font-medium text-gray-600">Loading your produts...</p>
       </div>
     </div>
   );
