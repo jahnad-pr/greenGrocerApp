@@ -26,9 +26,7 @@ const LoadingAnimation = () => (
 
 export default function Products({ userData }) {
   const [cPosition, setPosition] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
-  const [showPopup, setShowPopup] = useState(true);
   const navigator = useNavigate();
 
   const [getCategories, { isLoading: catLoading, data: catData }] = useGetCategoriesMutation();
@@ -44,15 +42,15 @@ export default function Products({ userData }) {
     if (proData) {
       setFadeOut(false);
       setProductData(proData);
-      setIsLoading(false);
     }
   }, [proData]);
 
   const handleCategoryChange = async (index) => {
-    if (index === cPosition || isLoading) return;
+    if (index === cPosition) return;
     setFadeOut(true);
-    setIsLoading(true);
-    setTimeout(() => setPosition(index), 300);
+    setTimeout(() => {
+      setPosition(index);
+    }, 300);
   };
 
   useEffect(() => {
@@ -61,6 +59,9 @@ export default function Products({ userData }) {
       getCAtegoryCollctiions(catData?.data[cPosition]._id);
     }
   }, [catData, cPosition]);
+
+  // Rest of the component remains the same...
+  // Include EmptyState, return statement, and other UI elements as in your original code
 
   const EmptyState = () => (
     <div className="w-full h-[60vh] flex items-center pr-20 justify-center mt-36 flex-col text-center gap-5 relative">
