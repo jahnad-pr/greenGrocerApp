@@ -17,7 +17,7 @@ export default function Navigator({userData}) {
       <> 
         
 
-        <div className={`w-full overflow-hidden  gap-6 duration-500 md:h-full flex flex-col px-5`}>
+        <div className={`w-full overflow-hidden  gap-6 duration-500 md:h-full flex flex-col px-5 md:px-10`}>
 
         <div className={`w-full h-36 group md:inline-flex hidden  items-center duration-500 gap-4 border-b-2 ${expanded && 'border-gray-400/30'}`}>
           <img onClick={()=>navigator('/user/home')} className='h-14 w-14 object-cover cursor-pointer rounded-full brightness-0' src={gg} alt="" />
