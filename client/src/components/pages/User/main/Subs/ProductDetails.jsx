@@ -273,8 +273,8 @@ export default function ProductDetails({ userData }) {
         }
 
             <ToastContainer title="Error" position="bottom-left" />
-            <div className={`md:w-[96%] w-screen lg:h-full flex-1 bg-product font-['lufga']`}>
-                <div className="bg-[#ceb6499c] mix-blend-screen absolute w-full h-full"></div>
+            <div className={`md:w-[96%] w-screen lg:h-full flex-1 bg-product font-['lufga'] 2x:overflow-hidden`}>
+                <div className="bg-[#ceb6499c] mix-blend-screen absolute `md:w-[96%] w-screen h-full"></div>
                 <div className="w-full h-full sm:px-10 px-8 2xl:px-40 py-12 backdrop-blur-3xl overflow-scroll overflow-x-hidden">
                     {/* main container */}
                     <div className="w-full lg:h-full flex flex-col 2xl:flex-row py-2">
@@ -387,7 +387,7 @@ export default function ProductDetails({ userData }) {
                                     {/* related */}
                                     <div className="overflow-hidden w-[828px] max-w-[100%] bg-red-1 h-auto ">
                                         <div className="w-full flex flex-col relative xl:scale-90 translate-x-[-5%]">
-                                            <span className="flex-grow-[7] w-full flex gap-8 list overflow-scroll">
+                                            <span className="flex-grow-[7] w-full flex gap-8 list">
                                                 {productsData?.map((relatedProduct, index) => {
                                                     return (
                                                         (index >= showRelateCount && index < showRelateCount + 3) &&
