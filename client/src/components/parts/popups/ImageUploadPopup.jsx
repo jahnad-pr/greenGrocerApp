@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
-import { removeBackground } from '../../../utils/removeBackground';
+import { removeBackground } from '../../../utils/removeBackground.js';
 
 const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3,urls=false, maxSizeMB = 5, showRemoveBg = false }) => {
   const [images, setImages] = useState([]);
