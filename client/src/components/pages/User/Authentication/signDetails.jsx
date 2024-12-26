@@ -154,7 +154,7 @@ useEffect(() => {
       </div> */}
 
       {/* Form Container */}
-      <div className="space-y-6 relative bg-[#ffffff31] h-[88%] flex items-center flex-col justify-center px-32 rounded-[30px] text-white">
+      <div className="space-y-6 relative bg-[#ffffff31] h-[88%] flex items-center flex-col justify-center md:px-32 px-10 rounded-[30px] text-white">
         {/* Header */}
         <div className="text-center mb-8 space-y-2">
           <div className="w-16 h-16 bg-purple-400 rounded-full mx-auto mb-4 opacity-80 flex items-center justify-center">
