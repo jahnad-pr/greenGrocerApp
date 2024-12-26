@@ -75,7 +75,7 @@ export default function DeletePopup({showPopup,redish=true,deleteData={},updater
                         transformPerspective: 1200,
                         transformStyle: "preserve-3d"
                     }}
-                    className={`w-full max-w-[550px] backdrop-blur-2xl py-10 ${redish ? ' bg-gradient-to-r from-[#3b3636] to-[#6e1919]' :'bg-[linear-gradient(to_left,#4e9b55,#3d7251)]'} flex items-center justify-center flex-col gap-5 rounded-3xl px-10 relative z-10`}
+                    className={`w-[calc(100%_-_40px)] max-w-[550px] backdrop-blur-2xl py-10 ${redish ? ' bg-gradient-to-r from-[#3b3636] to-[#6e1919]' :'bg-[linear-gradient(to_left,#4e9b55,#3d7251)]'} flex items-center justify-center flex-col gap-5 rounded-3xl px-10 relative z-10`}
                 >
                     <motion.h1 
                         initial={{ y: 20, opacity: 0 }}

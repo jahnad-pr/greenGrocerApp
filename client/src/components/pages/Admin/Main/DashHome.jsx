@@ -196,7 +196,7 @@ export default function DashHome() {
             <div className="w-[50%] h-[35%] ">
               <div className="aspect-square h-full  rounded-full inline-flex relative gap-10 items-center">
                 <img className="h-full object-cover absolute" src={picr} alt="" />
-                <img className="h-full" src='/ph-pic.jpg' alt="" />
+                <img className="h-full rounded-full" src='/ph-pic.jpg' alt="" />
                 <span className='w-full flex flex-col gap-3 pt-8'>
                   <h1 className="text-[45px] font-bold leading-none  font-['Lufga']">Welcome Shalu</h1>
                   <p className="text-[15px] opacity-75">this is your world !</p>

@@ -34,7 +34,7 @@ export const Timeline = ({ currentStatus }) => {
   const progress = isCancelled ? 0 : (currentIndex === -1 ? 0 : (currentIndex + 1) / mainStatusData.length);
 
   return (
-    <div className="w-full bg- font-sans md:px-8">
+    <div className="w-full bg- font-sans 2xl:px-8">
       {!isCancelled ? (
         <div ref={ref} className="relative max-w-7xl mx-auto">
           <div className="flex overflow-x-auto gap-8 px-4">

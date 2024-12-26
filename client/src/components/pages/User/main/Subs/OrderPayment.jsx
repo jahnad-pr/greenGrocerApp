@@ -199,7 +199,7 @@ const OrderPayment = ({userData}) => {
     {
       id: 'Razorpay',
       name: 'Razorpay',
-      icon: <img className='px-12 mt-5' src={roz} alt="Razorpay" />,
+      icon: <img className='w-40 h-40 object-cover' src={roz} alt="Razorpay" />,
     },
     // {
     //   id: 'Credit / Debit Card',
@@ -209,12 +209,12 @@ const OrderPayment = ({userData}) => {
     { 
       id: 'Cash on Delivery',
       name: 'Cash on Delivery',
-      icon: <img className='w-full h-40 px-12 mt-5' src={'/box.svg'} alt="COD" />,
+      icon: <img className='w-40 h-40 object-cover' src={'/box.svg'} alt="COD" />,
     },
     {
       id: 'Coin Wallet',
       name: 'Coin',
-      icon: <img className='px-12 mt-5' src={coin} alt="Coin" />,
+      icon: <img className='w-40 h-40 object-cover' src={coin} alt="Coin" />,
     },
   ];
 
@@ -240,15 +240,14 @@ const OrderPayment = ({userData}) => {
   return (
     <>
     <Tostify />
-    <div className="max-w-[96%] w-full mx-auto p-6 bg-[#f2f2f2]">
-      <div className="w-full h-full px-40">
+    <div className="md:max-w-[96%] w-full mx-auto bg-[#f2f2f2]">
+      <div className="w-full h-full px-10 md:px-20 xl:px-40 overflow-scroll pb-60">
         <h1 onClick={()=>console.log(currentData.price)} className="text-[35px] font-bold mb-12">Payment</h1>
 
-        <span className='inline-flex gap-12'>
+        <span className='inline-flex gap-12 flex-col lg:flex-row'>
 
         {/* Payment amount */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold"></h2>
 
           <p className="text-[28px] font-bold ">Payment totel</p>
           <p className="text-[18px] opacity-45 mb-8">The payment you want to pay for this order <br />
@@ -303,14 +302,14 @@ const OrderPayment = ({userData}) => {
         <div className="mb-8">
           <p className="text-[28px] font-bold leading-none mt-20">Payment Method</p>
           <p className="text-[18px] opacity-45 mb-12">Choose the payment methode to place order</p>
-          <div className="grid grid-cols-6 md:grid-cols-6 gap-4">
+          <div className="flex gap-4 flex-wrap">
               {paymentMethods.map((method) => (
                 (method.name !== 'Cash on Delivery' || currentData.price <= 1000) &&
                 (!location?.state?.retry || method.name === 'Razorpay') &&
                 <div
                   key={method.id}
                   className={`
-                  flex flex-col items-center justify-center rounded-[30px] pb-8 rounded-br-[120px] border-2 cursor-pointer transition-all relative
+                  flex flex-col items-center p-6 min-w-[250px] justify-center rounded-[30px] pb-8 rounded-br-[120px] border-2 cursor-pointer transition-all relative
                   ${selectedMethod === method.id
                       ? 'border-[#6e827690] bg-[#6e827630]'
                       : 'border-gray-200 hover:border-gray-300'
@@ -334,37 +333,25 @@ const OrderPayment = ({userData}) => {
                     {method.icon}
                   </div>
                   {
-                    <div className={`text-[18px] pr-8 font-medium opacity-45 ${method.id === 'Cash on Delivery'&& '-translate-y-3' }  ${method.name === 'Coin'&& 'translate-y-2' }`}>{method.name}</div>
+                    <div className={`text-[18px] pr-8 font-medium opacity-45 ${method.id === 'Cash on Delivery'&& '' }  ${method.name === 'Coin'&& 'translate-y-2' }`}>{method.name}</div>
                   }
                 </div>
               ))}
           </div>
         </div>
 
+        <span className='relative'>
         <HoverKing
                 event={placeOrders} 
                 // event={()=>navigate('/user/profile/address', { state: { items: location?.state?.items } })} 
-                styles={'fixed bottom-20 border-0 right-64 rounded-full bg-[linear-gradient(to_left,#0bc175,#0f45ff)] font-bold'} 
+                styles={'absolute border-0 left-0 rounded-full bg-[linear-gradient(to_left,#0bc175,#0f45ff)] font-bold'} 
                 Icon={<i className="ri-arrow-right-line text-[30px] rounded-full text-white"></i>}
               >
               {isLoading ? 'Processing...' :selectedMethod==='Cash on Delivery'?'Place order':'Pay'}
               </HoverKing>
+        </span>
 
-        {/* <div className="mt-8 flex justify-end">
-          <button
-            onClick={placeOrders}
-            disabled={isLoading}
-            className={`
-              px-16 absolute bottom-20 py-[15px] 
-              bg-[linear-gradient(to_left,#0bc175,#0f45ff)] 
-              text-[18px] rounded-full text-white font-medium 
-              mt-10 w-full max-w-[300px]
-              ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}
-            `}
-          >
-            
-          </button>
-        </div> */}
+      
 
       </div>
     </div>

@@ -145,26 +145,28 @@ export default function ManageAddress({ userData }) {
   return (
     userData && (
       <>
-        <div className="w-[96%] bg-[#f2f2f2] h-full">
+        <div className="lg:w-[96%] w-screen bg-[#f2f2f2] h-full">
 
-          <div className="w-full h-full flex flex-col items-center gap-5">
+          <div className="w-full h-full flex flex-col items-center gap-5 overflow-y-scroll">
 
             {/* new */}
-            <span className="w-full h-full px-20 pt-10">
+            <span className="w-full h-full lg:px-20 px-12 pt-10">
 
               <h1 className="text-[35px] font-bold">Add new address</h1>
 
-              <span className="w-fyll h-full flex gap-5">
-                <span className="w-1/2">
+              <span className="w-fyll flex lg:flex-row flex-col">
+                <span className="lg:w-1/2">
 
 
                   <p className="text-[28px] font-bold mt-8">Location Type</p>
                   <p className="text-[18px] mb-5 opacity-55">Choose you location type to make the<br /> selection easy for you to find</p>
 
-                  <span className="flex gap-5 mt-12">
+                  <span className="inline-flex mt-5 gap-5 2xl:flex-row flex-col">
+
+                    <span className="flex gap-5">
 
                     {/* first */}
-                    <div onClick={() => setForm((prev) => ({ ...prev, locationType: 'Home' }))} className="w-1/3 p-5 cursor-pointer hover:scale-[1.04] duration-500 text-center border rounded-[30px] rounded-br-[80px] shadow relative pt-8 bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d970]">
+                    <div onClick={() => setForm((prev) => ({ ...prev, locationType: 'Home' }))} className="w-1/2 p-5 cursor-pointer hover:scale-[1.04] duration-500 text-center border rounded-[30px] rounded-br-[80px] shadow relative pt-8 bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d970]">
                       <img
                         src='/home-2.svg'
                         alt="Fast Delivery"
@@ -182,7 +184,7 @@ export default function ManageAddress({ userData }) {
 
 
                     {/* second */}
-                    <div onClick={() => setForm((prev) => ({ ...prev, locationType: 'Work' }))} className="w-1/3 p-5 cursor-pointer hover:scale-[1.04] duration-500 text-center border rounded-[30px] rounded-br-[80px] shadow relative pt-8 bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d970]">
+                    <div onClick={() => setForm((prev) => ({ ...prev, locationType: 'Work' }))} className="w-1/2 p-5 cursor-pointer hover:scale-[1.04] duration-500 text-center border rounded-[30px] rounded-br-[80px] shadow relative pt-8 bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d970]">
                       <img
                         src='/buildings.svg'
                         alt="Fast Delivery"
@@ -197,10 +199,11 @@ export default function ManageAddress({ userData }) {
                         <div className={`w-full h-full bg-[#a83f93] rounded-full ${formData?.locationType === 'Work' ? "opacity-100" : 'opacity-0'}`}></div>
                       </div>
                     </div>
+                    </span>
 
 
-                    {/* third */}
-                    <div onClick={() => setForm((prev) => ({ ...prev, locationType: 'Person' }))} className="w-1/3 px-4 cursor-pointer hover:scale-[1.04] duration-500 text-center border rounded-[30px] bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d970] rounded-br-[80px] relative pt-8">
+                    <span className="flex gap-5">
+                    <div onClick={() => setForm((prev) => ({ ...prev, locationType: 'Person' }))} className="w-1/2 pb-8 xl:pb-0 px-4 cursor-pointer hover:scale-[1.04] duration-500 text-center border rounded-[30px] bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d970] rounded-br-[80px] relative pt-8">
                       <img
                         src='/user-tag.svg'
                         alt="Fast Delivery"
@@ -216,8 +219,7 @@ export default function ManageAddress({ userData }) {
                       </div>
                     </div>
 
-                    {/* fourth */}
-                    <div onClick={() => setForm((prev) => ({ ...prev, locationType: 'Other' }))} className="w-1/3 px-4 cursor-pointer hover:scale-[1.04] duration-500 text-center border rounded-[30px] bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d970] rounded-br-[80px] relative pt-8">
+                    <div onClick={() => setForm((prev) => ({ ...prev, locationType: 'Other' }))} className="w-1/2 px-4 cursor-pointer hover:scale-[1.04] duration-500 text-center border rounded-[30px] bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d970] rounded-br-[80px] relative pt-8">
                       <img
                         src='/location.svg'
                         alt="Fast Delivery"
@@ -233,6 +235,8 @@ export default function ManageAddress({ userData }) {
                       </div>
                     </div>
 
+                    </span>
+
                   </span>
 
                   <p className="text-[28px] font-bold mt-8">Location</p>
@@ -245,12 +249,12 @@ export default function ManageAddress({ userData }) {
                 </span>
 
                 {/* form container */}
-                <span className="w-1/2 h-full px-16">
+                <span className="lg:w-1/2 lg:px-16 h-auto xl:pb-36 pb-80 ">
 
                   <p className="text-[28px] font-bold mt-8">Address</p>
                   <p className="text-[18px] mb-5 opacity-55">Hopply fill the form To make more <br />clarity of the location wich you want</p>
 
-                  <div className="flex w-full max-w-[450px] gap-8 mb-5">
+                  <div className="flex w-full 2xl:flex-row flex-col max-w-[450px] gap-8 mb-5">
                   <InputField
                     label="First Name"
                     name="FirstName"
@@ -294,7 +298,7 @@ export default function ManageAddress({ userData }) {
                 />
 
                 </span>
-                <div className="flex w-full max-w-[450px] gap-8 mb-5">
+                <div className="flex 2xl:flex-row flex-col w-full max-w-[450px] gap-8 mb-5">
                 <InputField
                   label="City"
                   name="city"
@@ -311,7 +315,7 @@ export default function ManageAddress({ userData }) {
                     placeholder="69XXXX"
                   />
                 </div>
-                <div className="flex w-full max-w-[450px] gap-8 mb-5">
+                <div className="flex w-full 2xl:flex-row flex-col max-w-[450px] gap-8 mb-5">
                   <SelectField
                     label="State"
                     name="state"
@@ -329,16 +333,19 @@ export default function ManageAddress({ userData }) {
                     value={formData.phone}
                     onChange={inputHandler}
                     type="number"
-                    placeholder="+91 90XXXXXXXX"
+                    placeholder="+91 90XXXXXXXX"absolute
                   />
                 </div>
+                <div className="relative bg-red-500">
                 <HoverKing
                   event={updateProfileSubmit}
-                  styles="absolute bottom-14 right-14 text-[18px] border-0 text-white -translate-x-1/2 rounded-full"
+                  styles="absolute top-5 left-28 text-[18px] border-0 text-white -translate-x-1/2 rounded-full"
                   Icon={<i className="ri-apps-2-add-line text-[30px] rounded-full"></i>}
                 >
                   Submit
                 </HoverKing>
+                </div>
+                  
 
                 </span>
 

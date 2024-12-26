@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 
 export default function Main({ userData}) {
 
-  const [close,setClose] = useState(false)
+  const [close,setClose] = useState(true)
 
   const navigator = useNavigate()
 
@@ -18,33 +18,33 @@ export default function Main({ userData}) {
       <div className="h-full duration-500 w-full flex">
           
          {/* container root */}
-        <div className="h-full w-full duration-500 md:px-40 px-10 overflow-scroll fle">
+        <div className={`h-full flex-1 duration-500 ${close ? '2xl:px-40' : '2xl:px-20'} xl:px-20 sm:px-10 px-4 overflow-scroll flex flex-col`}>
         { userData && 
-        <><span className="flex py-20 pt-28">
+        <><span className={`flex lg:py-20 py-5 pt-28 items-center justify-center ${close?'xl:flex-row ':'xl:flex-col 2xl:flex-row'} flex-col`}>
             
-            <div className="w-[50%] h-[45%] justify-center flex-col md:px-60  px-10">
-              <h1  className="md:text-[85px] text-[30px] leading-none font-bold">{userData?.username}</h1>
+            <div className={`justify-center flex-col w-full lg:w-auto lg:px-20 order-2 ${close ? 'xl:order-1' : 'xl:order-2 2xl:order-1'}`}>
+              <h1 className="lg:text-[65px] text-[40px] lg:text-left mt-3 lg:mt-0 text-center leading-none whitespace-pre font-bold">{`${userData?.username.replace(/ /g,'\n')}`}</h1>
               <p className="text-[20px] text-orange-400 opacity-75">
                 {/* @{userData?.username}123HK */}
               </p>
-              <p className="text-[#776963] text-[20px]">
+              <p className="text-[#776963] text-[20px] text-center w-full text-wrap break-words">
               {userData?.email}
               </p>
               {/* mnaage address button */}
               {/* <p onClick={()=>navigator('/user/profile/manageaddress')} className="text-[18px] text-blue-500 cursor-pointer">Manage address</p> */}
-              <img className="h-16 w-16 opacity-30" src={ind} alt="" />
+              <img className="h-16 w-16 opacity-30 mx-auto lg:mx-0" src={ind} alt="" />
             </div>
 
             {/* profile pic section */}
-            <motion.div layoutId={'pic'}  className="md:w-[35%] max-h-[20%] flex pl-2 items-end md:justify-start justify-center pb-14">
-              <img className="w-1/2 rounded-full shadow-2xl" src={userData?.profileUrl||'/ph-pic.jpg'} alt="" />
+            <motion.div layoutId={'pic'}  className=" flex pl-2 items-end md:justify-start justify-center order-1">
+              <img className="xl:w-[300px] xl:h-[300px] w-[200px] h-[200px] rounded-full shadow-2xl" src={userData?.profileUrl||'/ph-pic.jpg'} alt="" />
             </motion.div>
           </span>
 
           {/* bottom config container */}
-          <div className="w-full  py-0 gap-5 flex items-start justify-center">
+          <div className={`w-full  py-0 gap-5 flex flex-1 ${close ? 'xl:flex-row' : 'xl:flex-col 2xl:flex-row'} flex-col-reverse items-center justify-center pb-60 lg:pb-0 sm:px-10 px-0 ${close ? 'md:px-20' : 'md:px-4'} lg:px-0`}>
             {/* user order list btn */}
-            <div onClick={()=>navigator('/user/Orders')} className="w-80 cursor-pointer bg-[linear-gradient(45deg,#00000020,#00000010)] hover:translate-y-10 duration-500 rounded-[65px] order-2">
+            <div onClick={()=>navigator('/user/Orders')} className="lg:w-80 cursor-pointer bg-[linear-gradient(45deg,#00000020,#00000010)] hover:translate-y-10 duration-500 rounded-[65px] order-2">
               <div className="w-full flex justify-center items-center">
                 <p className="text-[35px] font-bold ">
                   Your
@@ -54,7 +54,7 @@ export default function Main({ userData}) {
                 <img className="h-[110px] my-8 mb-12 opacity-65" src="/box.svg" alt="" />
                 {/* <i className="ri-box-3-line text-[150px] opacity-15 text-[#284936]"></i> */}
               </div>
-              <p className="px-10 translate-y-[-30px] opacity-35">
+              <p className="px-10 translate-y-[-30px] opacity-35 text-center">
                 This button allows users to view and manage their past and
                 current orders. By clicking, users can track order status, view
                 details, and check their order history in one convenient place
@@ -62,7 +62,7 @@ export default function Main({ userData}) {
             </div>
             
             {/* user coupon list btn */}
-            <div onClick={()=>navigator('/user/Coupons')} className="w-72 cursor-pointer h- bg-[linear-gradient(#00000015,#00000005)] hover:-translate-y-10 duration-500 rounded-[65px] order-3 translate-y-[19%]">
+            <div onClick={()=>navigator('/user/Coupons')} className="lg:w-80 cursor-pointer bg-[linear-gradient(#00000015,#00000005)] hover:-translate-y-10 duration-500 rounded-[65px] order-3 xl:translate-y-[19%]">
               <div className="w-full grid place-items-center  mb-5">
                 <p className="text-[35px] font-bold translate-y-[30px]">
                   Coupons
@@ -77,7 +77,7 @@ export default function Main({ userData}) {
             </div>
 
             {/* manage profile btn */}
-            <div onClick={()=>navigator('/user/profile/:12/manage')}  className="w-80 cursor-pointer bg-[linear-gradient(45deg,#8f9e95,#6d8475)] hover:-translate-y-10 duration-500 rounded-[65px] order-1 translate-y-[8%] text-white">
+            <div onClick={()=>navigator('/user/profile/:12/manage')}  className={`lg:w-80 cursor-pointer lg:bg-[linear-gradient(45deg,#8f9e95,#6d8475)] bg-[linear-gradient(45deg,#8f9e9590,#6d847580)] hover:-translate-y-10 duration-500 rounded-[65px] order-1 ${close ? 'translate-y-[8%]' : 'translate-y-[0%]'} text-white`}>
               <div className="w-full flex justify-center items-center mb-5">
                 {/* <i className="ri-user-line text-[120px] opacity-45"></i>
                  */}
@@ -87,7 +87,7 @@ export default function Main({ userData}) {
                   Manage <br /> Profile{" "}
                 </p>
               </div>
-              <p className="px-10 translate-y-[-30px] opacity-55">
+              <p className="px-10 translate-y-[-30px] opacity-55 text-center">
                 Your profile allows you to manage details like name, contact
                 info, bio, and interests, making connections simpler. You can
                 also track recent activities, orders, and favorites for a more
@@ -101,18 +101,18 @@ export default function Main({ userData}) {
 
         {/* naviagation container */}
         {/* bg-[#f2f2f2] */}
-        <div className={`md:w-[08%] w-full pl-20 md:pl-20 md:static absolute ${close?'left-0':'-left-full'}  top-0 hover:md:w-[30%] group duration-500 h-full font-['lufga'] backdrop-blur-3xl bg-[#ffffffcb]`}>
+        <div onMouseEnter={()=>setClose(false)} onMouseLeave={()=>setClose(true)} className={`md:static min-w-[100vw] md:min-w-[auto] first-line absolute ${!close?'left-0':'-left-full'}  top-0 hover:md:w-[380px] w-[100px] group duration-500 h-full backdrop-blur-3xl pl-10 md:pl-0 bg-[#ffffffcb]`}>
+        
+          <img onClick={()=>setClose(!close)} className={`w-14 h-14  object-cover block md:hidden absolute ${close?'-right-20 -rotate-[90deg]':'rotate-[90deg] right-10'}  top-10 duration-500 `} src="/pin.svg" alt="" />
 
-          <img onClick={()=>setClose(!close)} className={`w-14 h-14  object-cover absolute ${!close?'-right-20 rotate-[270deg]':'right-10 rotate-[90deg]'}  top-10 duration-500`} src="/pin.svg" alt="" />
-
-          <div className="w-full h-full flex pt-24 pr-5 scroll-pt-14 pl-0 flex-col gap-5 md:items-center">
+          <div className="w-full h-full flex pt-24 hover:md:pr-16 scroll-pt-14 pr-5 pl-0 flex-col gap-5 ml-8">
           {/* <img className="w-16 object-cover mb-8" src={gg} alt="" /> */}
 
           {/* profile */}
           <span className="group ">
-                <span className="flex">
+                <span className="flex mb-8 md:mt-0 md:mb-0">
                   <img src='/user.svg' className=" w-[30px] text-[#758a7c]"/>
-                  <p className="font-semibold md:group-hover:ml-3 text-[20px] text-[#5a695f] md:w-0 overflow-hidden md:hidden md:group-hover:w-auto  group-hover:inline">Profile</p>
+                  <p className="font-semibold md:group-hover:ml-3 text-[20px] text-[#5a695f] md:w-0 overflow-hidden md:hidden md:group-hover:w-auto ml-5 lg:ml-0 group-hover:inline">Profile</p>
                 </span>
 
           <span className="leading-none md:opacity-0 md:group-hover:opacity-100 flex flex-col gap-3 mt-3 group-hover:pl-12 ml-3 md:h-0 md:w-0 overflow-hidden group-hover:h-32 group-hover:w-auto duration-1000" >
@@ -126,7 +126,7 @@ export default function Main({ userData}) {
 
           {/* Settings */}
           <span className="duration-500 group">
-            <span className="flex">
+            <span className="flex  mt-8 mb-8 md:mt-0 md:mb-0">
           <img src='/setting.svg' className="w-[30px] text-[#758a7c]" />
           <p className="font-semibold ml-3 group-hover:ml-3 text-[20px] text-[#718779]  md:hidden md:group-hover:inline">Configaration</p>
             </span>
@@ -141,7 +141,7 @@ export default function Main({ userData}) {
 
           {/*  about app */}
           <span className="duration-500 group">
-            <span className="flex">
+            <span className="flex mt-8 mb-8 md:mt-0 md:mb-0">
           <img src='/category.svg' className=" w-[30px] text-[#758a7c]"></img>
           <p className="font-semibold ml-3 group-hover:ml-3 text-[20px] text-[#718779] md:hidden md:group-hover:inline">Application</p>
 

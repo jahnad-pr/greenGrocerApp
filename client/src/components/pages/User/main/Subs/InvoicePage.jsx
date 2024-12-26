@@ -283,12 +283,12 @@ const InvoicePage = () => {
     };
 
     return (
-        <div className="w-[96%] min-h-screen bg-[#f2f2f2] overflow-x-hidden">
-            <div className="w-full h-full px-4 md:px-20 lg:px-80 flex flex-col items-center gap-5 fade-in">
+        <div className="md:w-[96%] min-h-screen bg-[#f2f2f2] overflow-x-hidden">
+            <div className="w-full px-4 md:px-20 lg:px-80 flex flex-col items-center gap-5 fade-in pb-40">
 
                 <div onClick={() => navigator(-1) }
                 
-                    className="flex items-center gap-1 cursor-pointer hover:text-blue-500 duration-300 absolute left-40 top-8 group">
+                    className="flex top-3 left-3 items-center gap-1 cursor-pointer hover:text-blue-500 duration-300 absolute 2xl:left-40 2xl:top-8 group">
                     <i className='ri-arrow-left-s-fill inline-block text-[28px] relative left-0 duration-500 group-hover:-left-5'></i>
                     <p className='text-[18px]'>Back to Success Page</p>
                 </div>
@@ -297,7 +297,7 @@ const InvoicePage = () => {
                 <h1 className="text-[30px] font-bold my-10 mt-16 slide-down">Order Invoice</h1>
 
                 <div className="w-full bg-[linear-gradient(45deg,#ffffff90,#ffffff70)] backdrop-blur-sm rounded-[40px] p-8">
-                    <div className="flex justify-between mb-8">
+                    <div className="2xl:flex justify-between mb-8">
                         <div className="space-y-2 min-w-[250px]">
                             <div className="text-sm space-y-1">
                                 <p className="text-[18px] opacity-75 mt-8 leading-8">Order ID: <br></br><span className="font-medium">{data?.order_id}</span></p>
@@ -308,11 +308,11 @@ const InvoicePage = () => {
                         </div>
 
                         {/* Footer */}
-                        <span className='inline-flex flex-col items-center gap-5'>
+                        <span className='inline-flex flex-col items-center gap-5 mt-8 2xl:mt-0 mb-12 2xl:mb-0'>
                             <button onClick={() => downloadInvoice(data)} className='mt-4 px-6 py-2 bg-[#657a6d] text-white rounded-full flex gap-5 cursor-pointer hover:opacity-60'>
                                 <i className='ri-download-line font-bold'></i>
                                 Download Invoice</button>
-                            <p className='px-40 text-center'>Download Invoice in PDF,  Its may help you to track your order, and it help you to reduce the confusion in feature about the amount and further details</p>
+                            <p className='2xl:px-40 px-10 text-center'>Download Invoice in PDF,  Its may help you to track your order, and it help you to reduce the confusion in feature about the amount and further details</p>
                         </span>
 
 
@@ -341,8 +341,8 @@ const InvoicePage = () => {
                     <div className="overflow-x-auto rounded-[30px]">
                         <table className="w-full text-[17px]">
                             <thead>
-                                <tr className="px-40 bg-[linear-gradient(45deg,#50a05599,#657a6d)] text-white">
-                                    <th className="py-4 px-6 text-left rounded-tl-[30px] pl-20">Item</th>
+                                <tr className="2xl:px-40 bg-[linear-gradient(45deg,#50a05599,#657a6d)] text-white">
+                                    <th className="py-4 px-6 text-left rounded-tl-[30px] 2xl:pl-20">Item</th>
                                     <th className="py-4 px-6 text-left">Quantity</th>
                                     <th className="py-4 px-6 text-left">Price</th>
                                     <th className="py-4 px-6 text-left rounded-tr-[30px]">Discount Price</th>
@@ -352,7 +352,7 @@ const InvoicePage = () => {
                                 {
                                     data?.items?.map((item, index) => (
                                         <tr key={index} className="border-b hover:bg-gray-50 duration-300">
-                                            <td className="py-4 px-6 pl-20 ">{item.product.name}</td>
+                                            <td className="py-4 px-6 2xl:pl-20 ">{item.product.name}</td>
                                             <td className="py-4 px-6">{item.quantity / 1000} KG</td>
                                             <td className="py-4 px-6">₹{item.product.regularPrice * (item.quantity / 1000)}</td>
                                             <td className="py-4 px-6">₹{

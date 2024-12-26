@@ -84,7 +84,7 @@ export default function Navigator({userData}) {
         </span>
 
         { userData?._id &&
-        <div onClick={()=>navigator(`/user/profile/${userData._id}`)} className="md:w-full w-20 bg-red-100 md:hidden duration-500  flex items-center gap-4 cursor-pointer">
+        <div onClick={()=>navigator(`/user/profile/${userData._id}`)} className="md:w-full w-20 md:hidden duration-500  flex items-center gap-4 cursor-pointer">
           <img className='h-10 w-10 object-cover rounded-full' src={userData?.profileUrl||'/ph-pic.jpg'} alt="" />
         </div>
 

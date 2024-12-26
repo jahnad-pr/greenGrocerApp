@@ -224,18 +224,18 @@ export default function OrderSummary({userData}) {
 
   return (
     <> 
-    <div className="w-[92%] h-full flex bg-[#f2f2f2] ">
+    <div className="md:w-[94%] h-full flex flex-col 2xl:flex-row bg-[#f2f2f2] overflow-scroll">
     {/* from-[#e7ecef] via-[#e6ebee] to-[#c8ccce] */}
       {/* <div className="absolute w-full h-full overflow-scroll"></div> */}
 
           {/* new one */}
-          <div className="min-w-[80%] px-20 overflow-scroll pb-40">
+          <div className="min-w-[80%] sm:px-20 px-10 2xl:pb-80 pb-0 sm:pb-40">
 
 
           <h1 onClick={()=>console.log(applyCoupon)} className="text-[35px] font-bold my-8">Order Summary</h1>
 
           {/* info conatianer */}
-          <span className="flex gap-20 w-full">
+          <span className="flex gap-20 w-full flex-col lg:flex-row">
 
           {/* basic informations */}
           <span className="min-w-[40%]">
@@ -266,7 +266,7 @@ export default function OrderSummary({userData}) {
           </span>
 
           {/* deal informations */}
-          <span className="min-w-[50%] flex">
+          <span className="min-w-[50%] flex flex-col md:flex-row pb-20 md:pb-">
             <span>
           <p className="text-[28px] font-bold">Deal info</p>
           <p className="text-[18px] opacity-40 mb-8 max-w-[320px]">May happen slight changes according to your distunse the products</p>
@@ -308,9 +308,9 @@ export default function OrderSummary({userData}) {
 
 
           {/* product info container */}
-          <span className="flex gap-8 pb-10">
+          <span className="flex flex-col 2xl:flex-row gap-8 pb-10">
           {/* product list */}
-          <div className="w-1/2 h-80 mt-8 overflow-scroll bg-gradient-to-b from-[#dcdcdc90] to-[#d9d9d970] p-6 px-10 rounded-[30px]">
+          <div className="2xl:w-1/2 h-80 mt-8 overflow-scroll bg-gradient-to-b from-[#dcdcdc90] to-[#d9d9d970] p-6 px-5 sm:px-10  rounded-[30px]">
           <p className="text-[28px] font-bold leading-none">Products</p>
           <p className="text-[18px] opacity-45">Products and its additional informations</p>
 
@@ -346,7 +346,7 @@ export default function OrderSummary({userData}) {
           </div>
 
           {/* payment totel info */}
-          <div className="w-1/2 h-80 mt-8 pl-10  bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d990] p-5 rounded-[30px]">
+          <div className="2xl:w-1/2 mt-8 pl-10  bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d990] p-5 rounded-[30px]">
           <p className="text-[28px] font-bold leading-none">Payment</p>
           <p className="text-[18px] opacity-45">The payment bill additional informations</p>
 
@@ -384,9 +384,9 @@ export default function OrderSummary({userData}) {
 
           </span>
 
-          <span className="flex">
+          <span className="flex flex-col gap-16 xl:gap-0 xl:flex-row pb-40">
           {/* coupons */}
-          <div className="w-1/2 mt-3">
+          <div className="xl:w-1/2 mt-3">
           <p onClick={()=>console.log(applyCoupon)} className="text-[25px] font-bold leading-none">Coupons</p>
           <p className="text-[18px] opacity-45">Available coupons for you</p>
 
@@ -399,7 +399,7 @@ export default function OrderSummary({userData}) {
 
                 </div>:
                 <>
-                  <img className="h-[80%] filter-[brightness(0)] mx-auto mt-10" src='/ticket-expired.svg' alt="No categories" />
+                  <img className="h-[80%] min-h-[200px] xl:min-h-[auto] filter-[brightness(0)] mx-auto mt-10" src='/ticket-expired.svg' alt="No categories" />
                   <p className=" w-full text-center text-[20px] leading-none font-mediumbg-red-200 flex-1 flex items-center justify-center">No Coupons Found</p>
                   <p className="mx-auto text-center text-[15px] opacity-45 leading-none">No coupons for you for this price range</p>
                 </>
@@ -409,15 +409,15 @@ export default function OrderSummary({userData}) {
           </div>
           
           {/* delivery methode */}
-          <div className="w-1/2 h-44 mt-3">
+          <div className="xl:w-1/2 sm:h-44  mt-3">
           <p className="text-[25px] font-bold leading-none">Delivery method</p>
           <p className="text-[18px] opacity-45  mb-8">Choose according to your preference,<br />Perfect time for you</p>
 
           
-                  <span className="flex gap-5">
+                  <span className="flex flex-col sm:flex-row gap-5">
 
               {/* first */}
-              <div onClick={()=>setDelivery('Fast Delivery')} className="w-1/3 p-5 cursor-pointer hover:scale-[1.04] duration-500 text-center border hover:shadow-[0px_0px_20px_#d5dfff] rounded-[30px] rounded-br-[80px] shadow relative pt-8 bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d970]">
+              <div onClick={()=>setDelivery('Fast Delivery')} className="sm:w-1/3 p-5 cursor-pointer hover:scale-[1.04] duration-500 text-center border hover:shadow-[0px_0px_20px_#d5dfff] rounded-[30px] rounded-br-[80px] shadow relative pt-8 bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d970]">
                 <img
                   src='/flash-1.svg'
                   alt="Fast Delivery"
@@ -435,7 +435,7 @@ export default function OrderSummary({userData}) {
 
 
               {/* second */}
-              <div onClick={()=>setDelivery('Normal Delivery')} className="w-1/3 p-5 cursor-pointer hover:scale-[1.04] duration-500 text-center border hover:shadow-[0px_0px_20px_#fcffd1] rounded-[30px] rounded-br-[80px] shadow relative pt-8 bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d970]">
+              <div onClick={()=>setDelivery('Normal Delivery')} className="sm:w-1/3 p-5 cursor-pointer hover:scale-[1.04] duration-500 text-center border hover:shadow-[0px_0px_20px_#fcffd1] rounded-[30px] rounded-br-[80px] shadow relative pt-8 bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d970]">
                 <img
                   src='/group.svg'
                   alt="Fast Delivery"
@@ -453,7 +453,7 @@ export default function OrderSummary({userData}) {
 
 
               {/* third */}
-              <div onClick={()=>setDelivery('Eco Delivery')} className="w-1/3 px-4 cursor-pointer hover:scale-[1.04] duration-500 text-center border rounded-[30px] bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d970] rounded-br-[80px] hover:shadow-[0px_0px_20px_#ceffde] relative pt-8">
+              <div onClick={()=>setDelivery('Eco Delivery')} className="sm:w-1/3 px-4 pb-8 sm:pb-0 cursor-pointer hover:scale-[1.04] duration-500 text-center border rounded-[30px] bg-gradient-to-b from-[#dcdcdc70] to-[#d9d9d970] rounded-br-[80px] hover:shadow-[0px_0px_20px_#ceffde] relative pt-8">
                 <img
                   src='/sun-fog.svg'
                   alt="Fast Delivery"
@@ -476,8 +476,8 @@ export default function OrderSummary({userData}) {
 
           </div>
 
-          <div className="min-w-[20%] h-full py-10">
-            <div className="w-full h-full px-8 pt-10 flex flex-col gap-10">
+          <div className="2xl:py-10 md:px-40 px-10 2xl:px-0">
+            <div className="w-full h-full px-8 md:pt-10 flex flex-col gap-10 pb-80">
 
             {/* constact */}
             <div className="w-full h-auto pb-12 border-2 pl-12 rounded-[30px] relative rounded-bl-[120px] bg-gradient-to-b from-[#dcdcdc90] to-[#d9d9d970] px-5 py-3"> 
@@ -567,22 +567,26 @@ export default function OrderSummary({userData}) {
           
             <div className="mt-8 flex justify-end">
             { adressData && adressData.length > 0 ? (
+              <span className="relative">
               <HoverKing 
                 event={()=>navigate('/user/payment',{ state:{ add:{ totelProducts:summary.items/2,taxes:summary.taxes,deliveryFee:summary.deliveryFee }, order:{ offerPrice:summary.discount/2,address,price:grandTotal,deliveryMethod:delivery,items:itemses,qnt:location?.state?.qnt,coupon:{ code:applyCoupon?.code, amount: counDiscount,usage:(userData?.couponApplyed?.[applyCoupon?.code] || 0) } } } })} 
-                styles={'fixed bottom-12 border-0 right-20 rounded-full bg-[linear-gradient(to_left,#0bc175,#0f45ff)] font-bold'} 
+                styles={'absolute border-0 right-1/2  rounded-full bg-[linear-gradient(to_left,#0bc175,#0f45ff)] font-bold'} 
                 Icon={<i className="ri-arrow-right-line text-[30px] rounded-full text-white"></i>}
               >
                 Checkout
               </HoverKing>
+              </ span>
             ) : (
+              <span className="relative">
               <HoverKing 
                 event={()=>navigate('/user/profile/address')} 
                 // event={()=>navigate('/user/profile/address', { state: { items: location?.state?.items } })} 
-                styles={'fixed bottom-12 border-0 right-64 rounded-full bg-[linear-gradient(to_left,#0bc175,#0f45ff)] font-bold'} 
+                styles={'absolute border-0 right-1/2  rounded-full bg-[linear-gradient(to_left,#0bc175,#0f45ff)] font-bold'} 
                 Icon={<i className="ri-arrow-left-line text-[30px] rounded-full text-white"></i>}
               >
                 Add address
               </HoverKing>
+              </span>
             )}
           </div>
 

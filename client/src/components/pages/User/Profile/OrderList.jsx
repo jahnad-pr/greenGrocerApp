@@ -103,7 +103,7 @@ const OrderList = ({userData}) => {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="w-full h-[90vh] flex items-center justify-center flex-col text-center gap-5"
+      className="w-full h-1/2 flex items-center justify-center flex-col text-center gap-5 relative md:pb-10"
     >
       <motion.img salu
         initial={{ y: 20 }}
@@ -113,7 +113,7 @@ const OrderList = ({userData}) => {
           stiffness: 100,
           damping: 10
         }}
-        className="h-[50%]" 
+        className="md:h-[50%] h-[30%]" 
         src={'/box-remove.svg'} 
         alt="No categories" 
       />
@@ -134,12 +134,13 @@ const OrderList = ({userData}) => {
           initial={{ y: 20 }}
           animate={{ y: 0 }}
           transition={{ delay: 0.1 }}
-          className="opacity-45 text-[18px]"
+          className="opacity-45 text-[18px] px-10"
         >
-          Now your order list empty, to make the order buy products<br/>
+          Now your order list empty, to make the order buy products
           and make your life healthy and natural with us
         </motion.p>
-        <HoverKing event={() => navigate("/user/products")} styles={'fixed bottom-36 left-1/2 -translate-x-[45%] rounded-full border-0 font-medium text-[16px] bg-white'} Icon={<i className="ri-arrow-drop-right-line text-[50px] text-white"></i>} >Let's add your product</HoverKing>
+        <HoverKing event={() => navigate("/user/products")} styles={'absolute bottom-0 left-1/2 -translate-x-[45%] rounded-full border-0 font-medium text-[16px] bg-white'} Icon={<i className="ri-arrow-drop-right-line text-[50px] text-white"></i>} >Let's add your product</HoverKing>
+
 
       </motion.div>
     </motion.div>
@@ -150,13 +151,13 @@ const OrderList = ({userData}) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="h-full w-full max-w-[96%] flex bg-[#f2f2f2]"
+      className="h-full w-full md:max-w-[96%] flex bg-[#f2f2f2]"
     >
       <motion.div 
         initial={{ backdropFilter: "blur(0px)" }}
         animate={{ backdropFilter: "blur(8px)" }}
         transition={{ duration: 0.5 }}
-        className="w-full h-full px-40 backdrop-blur-3xl overflow-hidden"
+        className="w-full h-full lg::px-40 px-6 backdrop-blur-3xl overflow-hidden items-center flex"
       >
         {orders.length > 0 ? (
           <motion.main 
@@ -171,37 +172,50 @@ const OrderList = ({userData}) => {
             >
               Manage your orders
             </motion.h1>
-            <p className='pr-96 text-[18px] mb-8 ml-5 opacity-55'>Effortlessly track and manage your orders in one place.
+            <p className='xl:pr-9 pr-10 text-[18px] mb-8 ml-5 opacity-55'>Effortlessly track and manage your orders in one place.
               Stay updated with real-time order status and notifications.
               Access your order history and easily reorder items.
               Enjoy a seamless shopping experience with Green Grocer!</p>
 
-            <div className="mb-8 flex gap-4 ml-4 text-[16px] absolute bottom-0 right-20">
+            <div className="mb-8 flex gap-4 ml-4 text-[16px] xl:absolute md:bottom-0 md:right-20 bottom-[85%] right-[40%]">
+
+              <span>
+
               <span className='flex gap-3 items-center'>
               <div className="h-4 w-4 bg-[#c9ce86] rounded-full"></div>
               <p>Pending</p>
               </span>
+
               <span className='flex gap-3 items-center'>
               <div className="h-4 w-4 bg-[#7082b4] rounded-full"></div>
               <p>Processed</p>
               </span>
+
               <span className='flex gap-3 items-center'>
               <div className="h-4 w-4 bg-[#cda686] rounded-full"></div>
               <p>Shipped</p>
               </span>
+              </span>
+
+              <span>
               <span className='flex gap-3 items-center'>
               <div className="h-4 w-4 bg-[#8ecf86] rounded-full"></div>
               <p>Delivered</p>
               </span>
+
               <span className='flex gap-3 items-center'>
               <div className="h-4 w-4 bg-[#cc8ba9] rounded-full"></div>
               <p>Cancelled</p>
               </span>
+
+              </span>
+
+
             </div>
 
             <motion.div 
               variants={containerVariants}
-              className="flex flex-wrap gap-3"
+              className="flex flex-wrap gap-3 pb-40 justify-center"
             >
               <AnimatePresence>
                 {orders?.map((order, index) => (
@@ -213,6 +227,7 @@ const OrderList = ({userData}) => {
                     exit={{ opacity: 0, scale: 0.9 }}
                     whileHover={{ scale: 1.02 }}
                     transition={{ delay: index * 0.1 }}
+                    className='w-full max-w-[300px] inline-flex items-center justify-center'
                   >
                     <Order 
                       order={order}

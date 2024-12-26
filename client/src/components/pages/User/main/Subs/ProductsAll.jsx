@@ -27,7 +27,7 @@ export default function ProductsAll() {
 
                 {/* fruit collection */}
                 <span className='flex'>
-           <h1 style={{whiteSpace:'pre-line'}} className={`text-[120px] mb-20 leading-none font-bold mt-20 font-['lufga']`}>
+          <h1 style={{whiteSpace:'pre-line'}} className={`text-[120px] mb-20 leading-none font-bold mt-20 font-['lufga']`}>
             {location?.state?.title?.replace(/ /g,'\n')}
           </h1>
           {/* <span className='flex-1'></span> */}

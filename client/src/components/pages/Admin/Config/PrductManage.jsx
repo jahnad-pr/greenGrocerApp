@@ -13,6 +13,7 @@ import {
 } from "../../../../services/Admin/adminApi";
 import ImagePicker from "../../../parts/popups/ImgaePicker";
 import { useLocation, useNavigate } from "react-router-dom";
+import ImageUploadPopup from "../../../parts/popups/ImageUploadPopup";
 
 const ProductManage = () => {
   const navigator = useNavigate();
@@ -40,6 +41,13 @@ const ProductManage = () => {
     featured: false,
   });
 
+
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+
+  const handleImageSave = (blob) => {
+    setUrl(blob);
+  };
+
   const location = useLocation();
 
   // Set formData if updating an existing product
@@ -47,6 +55,7 @@ const ProductManage = () => {
     if (location.state.product&&location.state.product.name) {
       setFormData( location.state.product );
       setImageUrls([[location.state.product.pics.one],[location.state.product.pics.two],[location.state.product.pics.three] ])
+      setUrl({[0]:location.state.product.pics.one,[1]:location.state.product.pics.two,[2]:location.state.product.pics.three})
       setAction("update");
     }
   }, [location]);
@@ -128,7 +137,7 @@ const ProductManage = () => {
       return "Organization must contain atleast 4 letters and no numbers or symbols."
     } else  if (!data.from.trim()) return "Source location is required.";
     
-    if (!images || images.length < 3) return "Please select 3 images.";
+    if (!urls || urls.length < 3) return "Please select 3 images.";
     return "";
   };
 
@@ -200,32 +209,8 @@ const ProductManage = () => {
     return new File([u8arr], filename, { type: mime });
   };
 
-  // Upload image files
-  async function uploadImages(base64Images, index) {
-    const key = index === 0 ? "one" : index === 1 ? "two" : "three";
-    if (base64Images) {
-      const file = base64ToFile(base64Images, "profile.png");
-      const formData = new FormData();
-      formData.append("file", file);
-      try {
-        const { data } = await axios.post(
-          import.meta.env.VITE_IMAGE_UPLOAD_URL,
-          formData,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-            withCredentials: true,
-          }
-        );
-        setUrl((prevData)=>({ ...prevData,[key]:data?.url  }));
-        
-      } catch (error) {
-        console.error("Upload error:", error);
-        showToast("Image upload failed", "error");
-      }
-    }
-  }
 
-  useEffect(()=>{ Object.values(urls).length>=3?actuallUpload():'' },[urls])
+  // useEffect(()=>{ Object.values(urls).length>=3?actuallUpload():'' },[urls])
 
   function areObjectsEqual(obj1, obj2) {
     // Check if both objects have the same number of keys
@@ -274,18 +259,17 @@ const ProductManage = () => {
 
     if(!formData?.pics || setImageUrls[0]){
 
-    upsertData = { ...formData, pics:urls };
+    upsertData = { ...formData, pics:{ one:urls[0], two:urls[1], three:urls[2] } };
 
     }else{
 
-    upsertData = { ...formData };
+    upsertData = { ...formData,  pics:{ one:urls[0], two:urls[1], three:urls[2] } };
     }
 
     if(action==='update'&&areObjectsEqual(upsertData,location.state.product)&&!isChanged){
       return showToast('Nothing Changed','error')
     }
 
-    
 
     try {
 
@@ -308,11 +292,11 @@ const ProductManage = () => {
         return showToast(errors, "error");
       }
 
-        if(!formData?.pics || setImageUrls[0]){
-          await Promise.all( Object.values(images).map((img, idx) => uploadImages(img, idx)) );
-        }else{
+        // if(!formData?.pics || setImageUrls[0]){
+        //   await Promise.all( Object.values(images).map((img, idx) => uploadImages(img, idx)) );
+        // }else{
           actuallUpload()
-        }
+        // }
       
 
     } else {
@@ -323,7 +307,15 @@ const ProductManage = () => {
   return (
     <>
       <ToastContainer position="bottom-left" />
-      {popup && (
+      <ImageUploadPopup
+        isOpen={isImagePopupOpen}
+        onClose={() => setIsImagePopupOpen(false)}
+        onSave={handleImageSave}
+        showRemoveBg={true}
+        urls={urls}
+        maxImages={3}
+      />
+      {/* {popup && (
         <ImagePicker
         setChaged={setChaged}
           maxImages={3}
@@ -331,14 +323,25 @@ const ProductManage = () => {
           setImageUrls={setImageUrls}
           showPopup={showPopup}
         />
-      )}
-      <div className="container w-[100%] h-full pt-[56px] my-8 relative">
+      )} */}
+      <div className="container w-[100%] h-full pt-[56px] my-8 relative overflow-scroll">
         <div className="w-full h-full bg-[radial-gradient(circle_at_10%_10%,_rgb(237,248,255)_0%,rgba(255,0,0,0)_100%);] rounded-tl-[65px] flex justify-center relative">
           <div className="">
+
+            <div
+              onClick={() => navigator(-1)}
+              className="flex md:absolute top-8 mt-8 md:mt-0 left-10 items-center justify-center bg-red opacity-55 hover:text-[59A5D4] hover:opacity-100 cursor-pointer"
+            >
+              <i className="ri-arrow-left-s-fill text-[35px]"></i>
+              <p className="text-[18px] translate-y-[-2px] font-medium">
+                Products
+              </p>
+            </div>
+
             {/* Head */}
             <span className="flex justify-center items-center flex-col my-8">
               <h1 className="text-[30px] font-bold">Update Product Details</h1>
-              <p className="text-center opacity-45 px-80">
+              <p className="text-center opacity-45 lg:px-80 px-10">
                 This message prompts the admin to carefully review and confirm
                 any updates to a product's details. It serves as a final check
                 to ensure accuracy in pricing, descriptions, and inventory
@@ -346,46 +349,48 @@ const ProductManage = () => {
               </p>
             </span>
 
-            <span className="inline-flex h-full w-full gap-10 justify-center items-center mt-16">
+            <span className=" w-full gap-10 justify-center items-center mt-16">
               {/* Image picker */}
-              <span className="flex max-w-[40%] flex-col items-center self-start">
-                {images && (
+              <span className="flex max-w-[800px] mx-auto justify-center max-h-[300px]  min-h-[200px] gap-20 min-w-[200px] items-center self-start">
+                {urls[1] && (
                   <>
                     <img
-                      onClick={() => showPopup(true)}
-                      className="w-40 h-40 mb-10 rounded-2xl"
-                      src={images[0]}
+                      onClick={() => setIsImagePopupOpen(true)}
+                      className="max-w-40 max-h-40 min-w-40 min-h-40 mb-10 rounded-2xl"
+                      src={urls[0]}
                       alt=""
                     />
                     <img
-                      onClick={() => showPopup(true)}
-                      className="w-40 h-40 mb-10 rounded-2xl"
-                      src={images[1]}
+                      onClick={() => setIsImagePopupOpen(true)}
+                      className="max-w-40 max-h-40 min-w-40 min-h-40 mb-10 rounded-2xl"
+                      src={urls[1]}
                       alt=""
                     />
                     <img
-                      onClick={() => showPopup(true)}
-                      className="w-40 h-40 mb-10 rounded-2xl"
-                      src={images[2]}
+                      onClick={() => setIsImagePopupOpen(true)}
+                      className="max-w-40 max-h-40 min-w-40 min-h-40 mb-10 rounded-2xl"
+                      src={urls[2]}
                       alt=""
                     />
                   </>
                 )}
-                {!images && (
+                {!urls[1] && (
                   <img
-                    onClick={() => showPopup(true)}
-                    className="w-[60%] border-2 border-gray-300 border-dashed rounded-3xl m-5"
-                    src={''}
+                    onClick={() => setIsImagePopupOpen(true)}
+                    className="w-full h-full max-h-[200px] border-2 p-6 border-gray-300 border-dashed rounded-3xl m-5"
+                    src={'/box-add.svg'}
                     alt=""
                   />
                 )}
               </span>
 
-              <span className="h-full">
+              <span className="lg:flex pb-20 justify-center pt-8">
+
+              <div className="flex mt-8 lg:mt-0 pr-10 px-10 lg:pl-0">
                 {/* Editor */}
-                <div className="flex-1 h-10 w-full flex flex-col items-center gap-5">
+                <div className="flex-1 w-full  flex-col items-center gap-5">
                   {/* Product Name */}
-                  <div className="flex-col flex gap-1">
+                  <div className="flex-col  gap-1">
                     <label
                       className="font-bold opacity-55 w-full max-w-[410px] ml-2"
                       htmlFor="productName"
@@ -494,10 +499,13 @@ const ProductManage = () => {
                     </span>
                   </div>
                 </div>
-              </span>
+
+              </div>
+
+              {/* ------------------------------------------------------------------------------- */}
 
               {/* Stock, Freshness, Harvested Time, and From */}
-              <span className="flex flex-col gap-5 items-center self-start">
+              <span className="flex pr-10 px-10 lg:px-0 flex-col gap-5 mt-8 lg:mt-0 pb-40 lg:pb-0 items-center self-start">
                 {/* Stock */}
                 <span className="flex flex-col gap-1">
                   <label className="font-bold opacity-55 w-full max-w-[200px] ml-2">
@@ -591,16 +599,12 @@ const ProductManage = () => {
                     ? "Update Product"
                     : "Add Product"}
                 </button>
-                <div
-                  onClick={() => navigator(-1)}
-                  className="flex absolute top-8 left-10 items-center justify-center bg-red opacity-55 hover:text-[59A5D4] hover:opacity-100 cursor-pointer"
-                >
-                  <i className="ri-arrow-left-s-fill text-[35px]"></i>
-                  <p className="text-[18px] translate-y-[-2px] font-medium">
-                    Products
-                  </p>
-                </div>
+            
               </span>
+              </span>
+              
+
+
             </span>
           </div>
         </div>

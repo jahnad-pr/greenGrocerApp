@@ -17,21 +17,22 @@ export default function OrderSuccess() {
 
 
   return (
-    <div className='w-[96%] h-full bg-[#f5f5f5] mx-auto'>
-      <div className="w-full h-full px-4 md:px-20 lg:px-80 flexitems-center gap-5 fade-in">
+    <div className='md:w-[96%] bg-[#f5f5f5] mx-auto overflow-scroll'>
+      <div className="w-full px-4 md:px-20 lg:px-80 gap-5 fade-in pb-40">
+
         <img className='bg-blend-darken mx-auto mt-28 mb-12 rounded-lg w-28 h-28' src={data?.payment_status !== 'pending' || data?.payment_method ===  'Cash on Delivery' ? tick : cross} alt="" />
         <span className='flex flex-col items-center gap-4'>
           <span className='leading-[32px] text-center'>
-            <p onClick={()=>console.log(data)} className='text-[40px] mb-8 font-["lufga"]'>
+            <p onClick={()=>console.log(data)} className='md:text-[40px] text-[28px] mb-8 font-["lufga"]'>
               {data?.payment_status !== 'pending' || data?.payment_method ===  'Cash on Delivery' ? 'Thank you for your purchase':'Payment Failed'}</p>
               {
                 data?.payment_status !== 'pending' || data?.payment_method ===  'Cash on Delivery'&&
-            <p className='text-[20px] opacity-75 ["lufga"]'>We've received your order will ship in 3-4 hours.<br />
+            <p className='md:text-[20px] text-[15px] opacity-75 ["lufga"]'>We've received your order will ship in 3-4 hours.<br />
               Your order ID is <span className=''>{data?.order_id}</span></p>
               }
               {
                 data?.payment_status === 'pending' || data?.payment_method !==  'Cash on Delivery' &&
-                <p className='text-[20px] opacity-75 ["lufga"]'>You can check your order status in your account.<br/> And you can continue with your paynment</p> 
+                <p className='md:text-[20px] text-[15px] opacity-75 ["lufga"] leading-tight'>You can check your order status in your account. And you can continue with your paynment</p> 
               }
           </span>
 
@@ -93,10 +94,10 @@ export default function OrderSuccess() {
             <i className='ri-arrow-right-s-fill inline-block text-[28px] relative left-0 group-hover:left-8 duration-500 group-hover:text-[35px]'></i>
           </span> */}
 
-          <div className="flex gap-3 mt-5 ['lufga']">
+          <div className="flex flex-col md:flex-row gap-3 mt-5 ['lufga'] justify-center">
             <button onClick={() => navigator('/user/Orders',{replace:true})} className={`group text-[18px] px-14 py-4 ${data?.payment_status !== 'pending' || data?.payment_method ===  'Cash on Delivery' ? 'bg-[#85a290]' : 'bg-[linear-gradient(to_left,#ee3241,#f8858c)]'} rounded-full text-white`}>View Orders</button>
-            <button onClick={() => navigator('/user/Wallet',{replace:true})} className={`text-[18px] font-medium  ${data?.payment_status !== 'pending' || data?.payment_method ===  'Cash on Delivery' ? 'bg-[#85a290]' : 'bg-[linear-gradient(to_left,#ee3241,#f8858c)]'} rounded-full p-[2px]`}>
-              <p className={` ${data?.payment_status !== 'pending' || data?.payment_method ===  'Cash on Delivery' ? 'bg-[#85a290]' : 'text-[#e65757]'}  bg-white w-full h-full px-12 text-center flex items-center rounded-full font-medium`}>View Wallet</p>
+            <button onClick={() => navigator('/user/Wallet',{replace:true})} className={`mt-5 md:mt-0 text-[18px] font-medium  ${data?.payment_status !== 'pending' || data?.payment_method ===  'Cash on Delivery' ? 'bg-[#85a290]' : 'bg-[linear-gradient(to_left,#ee3241,#f8858c)]'} rounded-full p-[2px]`}>
+              <p className={`py-4 ${data?.payment_status !== 'pending' || data?.payment_method ===  'Cash on Delivery' ? 'bg-[#85a290]' : 'text-[#e65757]'}  bg-white w-full h-full px-12 text-center flex items-center rounded-full font-medium`}>View Wallet</p>
             </button>
           </div>
         </span>

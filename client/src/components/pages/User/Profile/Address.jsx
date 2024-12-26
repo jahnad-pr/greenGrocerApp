@@ -14,15 +14,15 @@ import { showToast } from "../../../parts/Toast/Tostify";
 const EmptyState = () => {
   const navigate = useNavigate()
   return (
-  <div className="w-full h-[60vh] flex items-center pr-20 justify-center mt-36 flex-col text-center gap-5 relative">
+  <div className="w-full h-full mt-40 flex items-center justify-center flex-col pb-28 text-center gap-5 relative">
       <img className="h-[80%] filter-[brightness(0)]" src='/receipt.svg' alt="No categories" />
       <div className="flex flex-col gap-2">
         <h1 className="text-[30px] font-bold">No address addes yet!</h1>
-        <p className="opacity-45 text-[18px]">
-          Add your products to cart for buy the products,<br></br> You can buy many products in one order
+        <p className="opacity-45 text-[18px] max-w-[700px]">
+          Add your products to cart for buy the products,  You can buy many products in one order
         </p>
         {/* <p onClick={() => navigate("/user/products")} className="text-[20px] text-blue-600 font-medium"></p> */}
-        <HoverKing  event={() => navigate('/user/profile/manageaddress')} styles={'fixed bottom-36 left-1/2 -translate-x-[65%] rounded-full border-0 font-medium text-[16px] bg-white'} Icon={<i className="ri-apps-2-add-line text-[30px] "></i>} >Let's add address</HoverKing>
+        <HoverKing  event={() => navigate('/user/profile/manageaddress')} styles={'absolute bottom-0 left-1/2 -translate-x-[50%] rounded-full border-0 font-medium text-[16px] bg-white'} Icon={<i className="ri-apps-2-add-line text-[30px] "></i>} >Let's add address</HoverKing>
       </div>
     </div>
 )};
@@ -70,40 +70,44 @@ export default function Address({ userData }) {
   return (userData &&
     <> 
       {/* <ToastContainer title="Error" position="bottom-left" /> */}
-      <div className="w-[96%] h-full">
+      <div className="md:w-[96%] h-full">
         {/* <div className="bg-[#5a52319c] mix-blend-screen absolute w-full h-full"></div> */}
-        <div className="w-full h-full flex flex-col items-center gap-5 backdrop-blur-3xl">
-          <span className="w-full h-full px-64 bg-[#ffffff81] relative  overflow-scroll pb-96">
+        <div className="w-full h-full flex flex-col items-center  backdrop-blur-3xl">
+          <span className="w-screen h-full md:px-64 px-10  relative  overflow-scroll pb-96">
+            {/* Head */}
+            {adressData?.length > 0 &&<h1 className="text-[35px] font-bold my-16 mb-8 leading-tight pt-14 md:pt-0">Manage Address</h1>}
 
           {adressData?.length > 0 &&
-          <div className="mb-8 flex gap-4 ml-4 text-[16px] absolute bottom-0 right-20">
+          <div className="mb-8 flex gap-4 md:ml-4 text-[16px] md:absolute bottom-0 right-40">
               <span className='flex gap-3 items-center'>
-              <div className="h-4 w-4 bg-[#4e9c1a] rounded-full"></div>
+              <div className="h-4 w-4 bg-[#4e9c1a6c] rounded-full"></div>
               <p>Home</p>
               </span>
               <span className='flex gap-3 items-center'>
-              <div className="h-4 w-4 bg-[#c13a3a] rounded-full"></div>
+              <div className="h-4 w-4 bg-[#c13a3a77] rounded-full"></div>
               <p>Work</p>
               </span>
               <span className='flex gap-3 items-center'>
-              <div className="h-4 w-4 bg-[#2831b0] rounded-full"></div>
+              <div className="h-4 w-4 bg-[#2831b04e] rounded-full"></div>
               <p>Person</p>
               </span>
               <span className='flex gap-3 items-center'>
-              <div className="h-4 w-4 bg-[#9e9120] rounded-full"></div>
+              <div className="h-4 w-4 bg-[#9e912059] rounded-full"></div>
               <p>Other</p>
               </span>
             </div>}
 
-            {adressData?.length > 0 && <HoverKing event={() => navigate('/user/profile/manageaddress')} styles={'fixed text-[18px] font-bold text-white/50 bottom-28 right-64 rounded-full'} Icon={<i className="ri-apps-2-add-line text-[30px] "></i>} >Add address</HoverKing>}
+            {adressData?.length > 0 && 
+            <span className="">
+              <HoverKing event={() => navigate('/user/profile/manageaddress')} styles={'absolute text-[18px]  font-bold text-white/50 bottom-[90%] md:bottom-28 scale-75 2xl:right-64 right-10 md:right-28 rounded-full'} Icon={<i className="ri-apps-2-add-line text-[30px]"></i>} >Add address</HoverKing>
+            </span>
+            }
 
-            {/* Head */}
-            {adressData?.length > 0 &&<h1 className="text-[35px] font-bold my-16 mb-8">Manage Address</h1>}
 
             {adressData?.length > 0 ?
 
               // {/* address container */}
-              <div className="w-full flex flex-wrap gap-12">
+              <div className="w-full flex flex-wrap gap-12 md:justify-start justify-center">
 
                 {
                   adressData?.map((address, index) => {
@@ -155,7 +159,7 @@ function AdressCard({ home, work, person, other, address, phone, navigate, showT
       />
     )}
       <div onClick={() => navigate('/user/profile/manageaddress', { state: address })}
-        className="w-[330px] h-[260px] hover:scale-105 duration-500 mt-5 pt-16 bg-gradient-to-b from-[#dcdcdc50] to-[#d9d9d930] rounded-[30px] rounded-tl-[120px] flex flex-col p-10 py-4 gap-5 relative group">
+        className="sm:w-[330px] w-[280px] hover:scale-105 duration-500 mt-5 pb-12 md:pb-16 pt-16 bg-gradient-to-b from-[#dcdcdc50] to-[#d9d9d930] rounded-[30px] rounded-tl-[120px] flex flex-col p-10 py-4 gap-5 relative group">
 
         <span className="flex  items-center gap-3">
           <img className={`w-20  group-hover:scale-125 duration-500 absolute -left-2 -top-5 ${address.locationType === 'Work' ? 'p-1' : ''}`} src={address.locationType === 'Home' ? '/home.svg' : address.locationType === 'Work' ? '/buildings.svg' : address.locationType === 'Person' ? '/user-tag.svg' : address.locationType === 'Other' ? '/location.svg' : ''} alt="" />
@@ -168,7 +172,7 @@ function AdressCard({ home, work, person, other, address, phone, navigate, showT
           <p className="">{address.FirstName} {address.LastName}</p>
             <p>{address.exactAddress}</p>
             <p>{address.streetAddress}</p>
-            <p className="font-medium text-nowrap">{address.city.toUpperCase()}, {address.state.toUpperCase()} {address.pincode}</p>
+            <p className="font-medium md:text-nowrap">{address.city.toUpperCase()}, {address.state.toUpperCase()} {address.pincode}</p>
         </span>
 
         <span>

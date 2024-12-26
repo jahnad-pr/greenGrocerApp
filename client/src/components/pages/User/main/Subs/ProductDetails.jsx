@@ -273,26 +273,26 @@ export default function ProductDetails({ userData }) {
         }
 
             <ToastContainer title="Error" position="bottom-left" />
-            <div className={`w-[96%] h-full flex-1 bg-product font-['lufga']`}>
+            <div className={`md:w-[96%] w-screen lg:h-full flex-1 bg-product font-['lufga']`}>
                 <div className="bg-[#ceb6499c] mix-blend-screen absolute w-full h-full"></div>
-                <div className="w-full h-full px-40 py-12 backdrop-blur-3xl">
+                <div className="w-full h-full sm:px-10 px-8 2xl:px-40 py-12 backdrop-blur-3xl overflow-scroll overflow-x-hidden">
                     {/* main container */}
-                    <div className="w-full h-full flex py-2">
-                        <div className="w-[45%] h-full flex flex-col">
+                    <div className="w-full lg:h-full flex flex-col 2xl:flex-row py-2">
+                        <div className="2xl:w-[45%] w-full mt-20 2xl:mt-0 pb-80 h-full flex flex-col order-2 2xl:order-1 min-h-[50%]">
                             <span>
 
 
                                 {/* <p className="text-[20px] mb-5 font-medium">Highlites</p> */}
                                 {/* Highlights of product */}
 
-                                <div className="w-full flex flex-wrap pr-16">
+                                <div className="w-full flex flex-col sm:flex-row flex-wrap xl:pr-16">
 
-                                    <div className=" h-full w-1/2 relative py-3">
+                                    <div className=" h-full sm:w-1/2 relative py-3">
                                         <p className="text-[18px] mb-2 font-medium">From</p>
                                         <h1 className="text-[22px] font-medium leading-none mb-4">
                                             {product?.from}
                                         </h1>
-                                        <p className="opacity-45 mb-2 mr-5">
+                                        <p className="opacity-45 mb-2 mr-5 max-w-[500px]">
                                             Who selling the product from their farm, this farm
                                             probebly your nearby farm,wich making fresh fruits
                                             and vegetables to you. We are planning to give
@@ -305,12 +305,12 @@ export default function ProductDetails({ userData }) {
 
 
 
-                                    <div className=" w-1/2 h-full py-3">
+                                    <div className=" sm:w-1/2 h-full py-3">
                                         <p className="text-[18px] mb-2 font-medium">Quality</p>
                                         <p className="text-[22px] font-medium leading-none mb-4 text-[#3c6e51]">
                                             {product?.freshness}
                                         </p>
-                                        <p className="opacity-45 mr-5">
+                                        <p className="opacity-45 mr-5 max-w-[500px]">
                                             Once the customer confirms their order, the wood is cut
                                             specifically for that piece. This approach minimizes waste
                                             and ensures fresh, custom-prepared material for every
@@ -318,7 +318,7 @@ export default function ProductDetails({ userData }) {
                                         </p>
                                     </div>
 
-                                    <div className=" w-1/2 h-full py-3 relative">
+                                    <div className=" sm:w-1/2 h-full py-3 relative">
                                         <p className="text-[18px] font-medium">Offer</p>
                                         <p className="text-[40px] leading-10 mt-5">
                                             {(() => {
@@ -344,7 +344,7 @@ export default function ProductDetails({ userData }) {
                                         <p className="opacity-45 mb-2 mr-20">The offer should be maximum amound and min quantity of 1 Kg</p>
                                         {/* <p className="text-[38px] mt-3 text-left opacity-35 font-bold">
                                             OFF
-                                        </p> */}
+                                        </p> */}bg-yellow-500
                                         {/* <p className="absolute bottom-4 font-medium opacity-75 left-4">
                                             00:00:00 <span className="opacity-45">remaining</span>
                                         </p> */}
@@ -385,9 +385,9 @@ export default function ProductDetails({ userData }) {
 
                                     {/* <p className="text-[20px] mt-8 font-bold">Related</p> */}
                                     {/* related */}
-                                    <div className="overflow-hidden w-[828px] bg-red-1 h-auto ">
-                                        <div className="w-full  flex flex-col relative scale-90 translate-x-[-5%]">
-                                            <span className="flex-grow-[7] flex gap-8 list">
+                                    <div className="overflow-hidden w-[828px] max-w-[100%] bg-red-1 h-auto ">
+                                        <div className="w-full flex flex-col relative xl:scale-90 translate-x-[-5%]">
+                                            <span className="flex-grow-[7] w-full flex gap-8 list overflow-scroll">
                                                 {productsData?.map((relatedProduct, index) => {
                                                     return (
                                                         (index >= showRelateCount && index < showRelateCount + 3) &&
@@ -434,7 +434,7 @@ export default function ProductDetails({ userData }) {
                         </div>
 
                         {/* product image container */}
-                        <div className="w-[55%] h-full  flex flex-col relative">
+                        <div className="2xl:w-[55%] h-full min-h-[60vh]  flex flex-col order-1 2xl:order-2 relative">
                             {/* products titlrs */}
                             <span className="flex">
 
@@ -462,20 +462,20 @@ export default function ProductDetails({ userData }) {
 
                             <span className="flex-1"></span>
 
-                            <span className="flex flex-col gap-8">
+                            <span className="flex flex-col xl:gap-8 gap-3 lg:translate-x-0 translate-x-[30%]">
                             {userData?._id &&
                                 <>
                                     {product?.stock > 0 &&
                                         <span onClick={() => checkData || gotoCart ? navigation('/user/Cart') : addToCartItem(product._id)} className=" text-[25px] group duration-500 w-auto rounded-full px-8 py-2 items-center gap-5  hover:bg-[#ceb64950] flex">
                                             {/* <i className={`ri-shopping-cart-${checkData || gotoCart ? 'fill' : 'line'} duration-500 py-2`}></i> */}
-                                            <img className="w-10 h-10" src="/bag.svg" alt="" />
+                                            <img className="lg:w-10 lg:h-10 w-8 h-8" src="/bag.svg" alt="" />
                                             <p className="text-[18px] text-nowrap group-hover:w-[100px] opacity-0 py-2 group-hover:opacity-100 w-0 duration-700 transition-all right-8">{checkData || gotoCart ? 'Go to Cart' : 'Add to cart'}</p>
                                         </span>
 
                                     }
                                     <span onClick={() => remover || bookMarkData ? removeBookmarkItme(product._id) : addToBookmarkItem(product._id)} className="py-3 text-[25px] group w-auto duration-500 rounded-full px-8 items-center gap-5  hover:bg-[#ceb64950] flex">
                                         {/* <i className={`ri-bookmark-${remover || bookMarkData ? 'fill' : 'line'} line duration-500 py-2`}></i> */}
-                                            <img className="w-10 h-10" src={"/folder-favorite.svg"} alt="" />
+                                            <img className="lg:w-10 lg:h-10 w-8 h-8" src={"/folder-favorite.svg"} alt="" />
 
                                         <p className="text-[18px] text-nowrap group-hover:w-[190px] opacity-0 py-2 group-hover:opacity-100 w-0 duration-700 transition-all right-8">{remover || bookMarkData ? 'Remove from favorite' : 'Add to favorite'}</p>
                                     </span>
@@ -500,7 +500,7 @@ export default function ProductDetails({ userData }) {
                             <span className="flex-1"></span>
                             <div className="w-full max-h-20  flex gap-5   overflow-hidden">
 
-                                <span className="flex-1"></span>
+                                <span className="2xl:flex-1"></span>
                                 <span onClick={() => showQnt(!qnt)} className="inline-flex justify-center items-center gap-5">
                                     <span className="flex items-center justify-center gap-5 bg-[#ceb64925] px-5 rounded-full py-2">
                                         {/* <i className="ri-shopping-basket-line text-[22px] opacity-70"></i> */}

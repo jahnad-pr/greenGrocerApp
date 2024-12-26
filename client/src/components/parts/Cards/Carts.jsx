@@ -225,7 +225,7 @@ export default function Carts({ data,setProductData,index,showToast }) {
 
       <i onClick={()=>removeItem(data?.product?._id)} className="ri-close-line p-[2px] py-1 bg-[#00000040] rounded-full absolute left-8 top-8 px-[5px]"></i>
         <p className="text-green-700 md:text-[24px] text-[18px] font-bold opacity-20 absolute w-0 rotate-90 left-4 top-32">{data?.product?.category?.name.toUpperCase()}</p>
-        <h1 className=" md:text-[24px] text-[18px] font-bold font-['lufga'] leading-none py-2">{data?.product?.name}</h1>
+        <h1 className=" md:text-[24px] text-[18px] font-bold leading-none py-2">{data?.product?.name}</h1>
       
         <p className="w-[calc(100%_-_64px)] text-center bg-[#00000010] font-bold py-[6px] my-2 mt-3 rounded-full">
           { defaultQnt &&

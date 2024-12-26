@@ -127,7 +127,7 @@ export default function Recents({datas,page}) {
               <div
                 key={user._id}
                 style={{ animationDelay: `${index * 150}ms` }}
-                className="w-full flex items-center font-['lufga'] gap-2 bg-[#f0f1f3] px-5 pr-8 py-3 rounded-[41px] grayscale-0 opacity-0 hover:scale-[0.90] duration-500 animate-[slideIn_0.5s_ease-out_forwards]"
+                className="w-full flex items-center gap-2 bg-[#f0f1f3] px-5 pr-8 py-3 rounded-[41px] grayscale-0 opacity-0 hover:scale-[0.90] duration-500 animate-[slideIn_0.5s_ease-out_forwards]"
               >
                 <img
                   className="w-12 h-12 rounded-full object-cover grayscale-0 opacity-0 animate-[fadeIn_0.3s_ease-out_forwards] delay-[200ms]"
@@ -156,7 +156,7 @@ export default function Recents({datas,page}) {
               <div
                 key={index}
                 style={{ animationDelay: `${index * 150}ms` }}
-                className="w-full flex items-center font-['lufga'] gap-2 pl-10 bg-[#f0f1f3] px-5 pr-8 py-3 rounded-[41px] grayscale-0 opacity-0 hover:scale-[0.90] duration-500 animate-[slideIn_0.5s_ease-out_forwards]"
+                className="w-full flex items-center gap-2 pl-10 bg-[#f0f1f3] px-5 pr-8 py-3 rounded-[41px] grayscale-0 opacity-0 hover:scale-[0.90] duration-500 animate-[slideIn_0.5s_ease-out_forwards]"
               >
                 { page==='products' &&
                   <img
@@ -190,7 +190,7 @@ export default function Recents({datas,page}) {
               <div
                 key={order._id}
                 style={{ animationDelay: `${index * 150}ms` }}
-                className="w-full flex items-center gap-2 bg-[#f0f1f3] font-['lufga'] px-5 pr-8 py-3 rounded-[41px] grayscale-0 opacity-0 hover:scale-[0.90] duration-500 animate-[slideIn_0.5s_ease-out_forwards]"
+                className="w-full flex items-center gap-2 bg-[#f0f1f3] px-5 pr-8 py-3 rounded-[41px] grayscale-0 opacity-0 hover:scale-[0.90] duration-500 animate-[slideIn_0.5s_ease-out_forwards]"
                 onClick={() => navigate(`/admin/orders/${order._id}`)}
               >
                 <img

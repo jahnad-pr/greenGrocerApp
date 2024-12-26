@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import { removeBackground } from '../../../utils/removeBackground';
 
-const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3, maxSizeMB = 5, showRemoveBg = false }) => {
+const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3,urls=false, maxSizeMB = 5, showRemoveBg = false }) => {
   const [images, setImages] = useState([]);
   const [currentImage, setCurrentImage] = useState(null);
   const [cropper, setCropper] = useState(null);
@@ -36,6 +36,31 @@ const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3, maxSizeMB = 
 
     return true;
   };
+
+  useEffect(()=>{
+    if (urls) {
+      setImages([
+        {
+          "original": {},
+          "preview": urls[0],
+          "cropped": {},
+          "processed": true
+        },
+        {
+          "original": {},
+          "preview": urls[1],
+          "cropped": {},
+          "processed": true
+        },
+        {
+          "original": {},
+          "preview": urls[2],
+          "cropped": {},
+          "processed": true
+        }
+      ])
+    }
+  }, [urls])
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -104,6 +129,7 @@ const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3, maxSizeMB = 
           try {
             const processedBlob = await removeBackground(img.cropped);
             setProcessedCount(prev => prev + 1);
+            setBgRemoved(true);
             return {
               ...img,
               preview: URL.createObjectURL(processedBlob),
@@ -118,7 +144,7 @@ const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3, maxSizeMB = 
       );
 
       setImages(processedImages);
-      setBgRemoved(true); // Set background removal completed
+       // Set background removal completed
     } catch (error) {
       setError('Failed to process some images. Please try again.');
     } finally {
@@ -149,8 +175,16 @@ const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3, maxSizeMB = 
     const uploadedUrls = await Promise.all(croppedImages.map(async (cropped) => {
       return await uploadToCloudinary(cropped);
     }));
-    console.log(uploadedUrls);
-    onSave(uploadedUrls);
+    console.log({
+      [0]:uploadedUrls[0]||urls[0],
+      [1]:uploadedUrls[1]||urls[1],
+      [2]:uploadedUrls[2]||urls[2]
+    });
+    onSave({
+      [0]:uploadedUrls[0]||urls[0],
+      [1]:uploadedUrls[1]||urls[1],
+      [2]:uploadedUrls[2]||urls[2]
+    });
     onClose();
   };
 
@@ -174,14 +208,15 @@ const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3, maxSizeMB = 
           exit={{ scale: 0.4, opacity: 0, rotateX: -90, y: 60 }}
           transition={{ type: "spring", damping: 15, stiffness: 300, bounce: 0.4, duration: 0.6 }}
           style={{ transformPerspective: 1200, transformStyle: "preserve-3d" }}
-          className="relative p-5 px-12 min-w-[400px] pt-8 rounded-[30px] rounded-bl-[120px] backdrop-blur-2xl border border-white/20 shadow-xl bg-[linear-gradient(to_right,#ffffff20,#dc262640)]"
+          className="relative p-5 px-12 max-w-[600px] min-w-[400px] pt-8 rounded-[30px] rounded-bl-[120px] backdrop-blur-2xl border border-white/20 shadow-xl bg-[linear-gradient(to_right,#ffffff20,#dc262640)]"
         >
           <span className='flex items-center justify-between mb-8'>
           <motion.h3 
+          onClick={() => console.log(images)}
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-2xl font-['lufga'] font-medium text-white"
+            className="text-2xl font-medium text-white"
           >
             {currentImage ? 'Crop Image' : `Selected Images ${maxImages>1?'('+images.length+'/':''}${maxImages>1?maxImages+')':''}`}
           </motion.h3>
@@ -310,7 +345,7 @@ const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3, maxSizeMB = 
               </div>
               
               <div className="flex justify-end space-x-3">
-                {images.length === maxImages && !isProcessing && showRemoveBg && (
+                {images.length === maxImages && !isProcessing && showRemoveBg && !images[maxImages-1]?.processed && (
                   <motion.button
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -321,7 +356,7 @@ const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3, maxSizeMB = 
                     Remove Backgrounds
                   </motion.button>
                 )}
-                {(images.length > 0 && bgRemoved) || (!showRemoveBg && images.length > 0) && ( // Show Save All button only after background removal
+                { bgRemoved===true  || (!showRemoveBg && images?.length > 0) ?  ( // Show Save All button only after background removal
                   <motion.button
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -331,7 +366,7 @@ const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3, maxSizeMB = 
                   >
                     {isProcessing ? 'Processing...' : maxImages > 1 ? 'Save All' : 'Save'}
                   </motion.button>
-                )}
+                ):''}
               </div>
             </>
           )}

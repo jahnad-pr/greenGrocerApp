@@ -174,26 +174,26 @@ export default function OrderDetails({userData}) {
             initial={{ opacity: 1, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className='w-[94%] hull bg-product'
+            className='md:w-[94%] bg-product overflow-scroll'
         >
             <motion.div 
                 initial={{ opacity: 1 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
-                className="bg-[#5a52319c] mix-blend-screen backdrop-blur-3xl absolute w-full h-full"
+                className="bg-[#5a52319c] mix-blend-screen backdrop-blur-3xl absolute w-[90%] h-full"
             />
-            <div className="w-full h-full backdrop-blur-3xl">
+            <div className="w-full 2xl:h-full backdrop-blur-3xl">
                 <motion.div 
                     initial={{ y: 0, opacity: 1 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
-                    className="w-full mx-auto pt-16 px-20 h-[70%] p-5  flex"
+                    className="w-full mx-auto 2xl:px-20 px-12 h-[70%] lg:flex pt-6"
                 >
                     <motion.div 
                         initial={{ x: -20, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ delay: 0.4, duration: 0.5 }}
-                        className="w-[20%] flex flex-col p-5 gap-1"
+                        className="lg:w-[20%] flex flex-col gap-1"
                     >
                         {crrentOrder.items &&
                             <>
@@ -288,8 +288,10 @@ export default function OrderDetails({userData}) {
                             initial={{ x: 20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ delay: 0.6, duration: 0.5 }}
-                            className="w-[20%]  flex flex-col gap-1 relative"
+                            className="lg:w-[20%] flex lg:flex-col gap-1 relative pb-20 mt-14 lg:mt-0"
                         >
+                            <span className='flex flex-col min-w-[50%] lg:min-w-[auto]'>
+
                             <span className='items-end gap-6'>
                                 <motion.s 
                                     initial={{ y: 20, opacity: 0 }}
@@ -313,7 +315,7 @@ export default function OrderDetails({userData}) {
                             </span>
                                 <span className='h-'></span>
 
-                                <p className='text-[25px] mt-5 capitalize'>{crrentOrder?.items[currentPosition - 1]?.product?.freshness}</p>
+                                <p className='text-[25px] capitalize'>{crrentOrder?.items[currentPosition - 1]?.product?.freshness}</p>
                                 {  crrentOrder?.items[currentPosition - 1]?.product?.freshness==='Harvested' &&
                                 <>
                                 <p className='opacity-45 leading-none'>Harvested on:</p>
@@ -326,22 +328,28 @@ export default function OrderDetails({userData}) {
                                     
                                 }
 
-                                <p className='text-[25px] mt-5 '>Address</p>
-                                <span className='opacity-65 leading-tight'>
+                                <p className='text-[25px] mt-3 mb-2 '>Address</p>
+                                <span className='opacity-65 leading-tight pr-10 font-mono'>
 
-                                <p>{crrentOrder?.delivery_address?.locationType} {crrentOrder?.delivery_address?.exactAddress}</p>
-                                <p>{crrentOrder?.delivery_address?.streetAddress}</p>
-                                <p>{crrentOrder?.delivery_address?.city?.toUpperCase()}, {'KERALA'}, {crrentOrder?.delivery_address?.pincode}</p>
+                                <p className=''>{crrentOrder?.delivery_address?.locationType} {crrentOrder?.delivery_address?.exactAddress}</p>
+                                <p className=''>{crrentOrder?.delivery_address?.streetAddress}</p>
+                                <p className=''>{crrentOrder?.delivery_address?.city?.toUpperCase()}, {'KERALA'}, {crrentOrder?.delivery_address?.pincode}</p>
                                 </span>
                             { orderStatus!=='Cancelled' && orderStatus!=='Delivered' && orderStatus!=='Shipped' &&  
-                            <HoverKing event={()=>handleCancel(crrentOrder?._id, currentPosition)} styles={'absolute -bottom-24 rounded-full border-0'} redish={true} Icon={<i className="ri-close-circle-line text-[30px] text-[white] rounded-full"></i>} >Cancell order</HoverKing>}
+                            <div className=''>
+                                <HoverKing event={()=>handleCancel(crrentOrder?._id, currentPosition)} styles={'absolute right-0 bottom-0 rounded-full border-0'} redish={true} Icon={<i className="ri-close-circle-line text-[30px] text-[white] rounded-full"></i>} >Cancel order</HoverKing>
+                            </div>
+                            }
+                            </span>
 
                                 {orderStatus === 'Delivered' &&
                                     <HoverKing event={() => handleReturn(crrentOrder?._id, currentPosition)} styles={'absolute bottom-24 rounded-full border-0'} redish={true} Icon={<i className="ri-arrow-go-back-line text-[30px] text-[white] rounded-full"></i>} >Return order</HoverKing>}
 
+                                    <span className='flex flex-col'>
+                                    
                                 { orderStatus === 'Shipped' && 
                                 <div className='flex flex-col gap-2'>
-                                    <h1 className='text-[25px] mt-5'>Delivery Alert</h1>
+                                    <h1 className='text-[25px] leading-none'>Delivery Alert</h1>
                                     <p className='opacity-45 leading-tight'>
                                         Your order is out for delivery. Make sure to check your email for updates on your order status. If you have any concerns or questions, please feel free to reach out to us.
                                     </p>
@@ -349,12 +357,14 @@ export default function OrderDetails({userData}) {
                                 }
                                 { orderStatus !== 'Shipped' && orderStatus !== 'Delivered' &&
                                 <div className='flex flex-col gap-2'>
-                                    <h1 className='text-[25px] mt-5'>Delivery Alert</h1>
+                                    <h1 className='text-[25px] mt-5 leading-none '>Delivery Alert</h1>
                                     <p className='opacity-45 leading-tight'>
                                         Your order is yet to be shipped. Make sure to check your email for updates on your order status. If you have any concerns or questions, please feel free to reach out to us.
                                     </p>
                                 </div>
                                 }
+
+
 
                                 <span className='flex items-center gap-6'>
                                 <button onClick={() => navigate('/user/Order/Invoice', { state: { norma:true, data: crrentOrder } })} className=' flex justify-start group items-center font-bold rounded-full text-white my-4 bottom-0 right-3 bg-[linear-gradient(#b4c2ba,#789985)] overflow-hidden w-[70px] h-[70px] hover:scale-125 duration-500 group'>
@@ -363,6 +373,7 @@ export default function OrderDetails({userData}) {
                                 </button>
                                 <p className='text-[20px] leading-none font-["lufga"]'>See the <br /> Invoice</p>
                                 </span>
+                                    </span>
 
                             <span className='flex-1'></span>
                             
@@ -376,14 +387,14 @@ export default function OrderDetails({userData}) {
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.7, duration: 0.5 }}
-                    className="w-full h-[30%] p-12 bg-[#792e2e00]"
+                    className="w-full h-[30%] lg:p-12 bg-[#792e2e00]"
                 >
-                    <div className="w-full h-full flex p-10 justify-center items-center">
+                    <div className="w-full h-full 2xl:flex xl:p-10 mt-10 lg:mt-0 justify-center items-center pb-40 lg:pb-0">
                         <motion.span 
                             initial={{ x: -20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ delay: 0.8, duration: 0.5 }}
-                            className={`min-w-[300px] relative ${orderStatus === 'Pending' ?'pb-16':''} `}
+                            className={`min-w-[300px] relative ${orderStatus === 'Pending' ?'pb-16':''} flex flex-col gap-2 2xl:gap-0 items-center justify-center 2xl:justify-normal py-8 2xl:py-0`}
                         >
                             <p onClick={()=>alert(orderStatus)} className='opacity-50 '>Order payment Method & Date</p>
                             <span className='text-[20px] font-bold'>
@@ -426,7 +437,7 @@ export default function OrderDetails({userData}) {
                             initial={{ x: 20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ delay: 1, duration: 0.5 }}
-                            className='min-w-[300px] flex items-center justify-center flex-col'
+                            className='min-w-[300px] flex items-center justify-center flex-col pb-20 pt-10 2xl:pt-0 2xl:pb-0'
                         >
                             <p className='opacity-45'>TOTAL PAYMENT:</p>
                             <span className='text-[45px] leading-none font-bold'>

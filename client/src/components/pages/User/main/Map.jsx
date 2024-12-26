@@ -224,8 +224,8 @@ function Map({userData}) {
             )}
                 <div className="flex h-screen w-screen">
                     <div className="w-[30%] bg-white p-10 pl-16 shadow-lg overflow-y-auto">
-                        <h1 className="text-[35px] font-bold font-['lufga'] leading-none mt-12">Manage</h1>
-                        <h1 className="text-[35px] font-bold font-['lufga'] leading-none mb-4">Location</h1>
+                        <h1 className="text-[35px] font-bold leading-none mt-12">Manage</h1>
+                        <h1 className="text-[35px] font-bold leading-none mb-4">Location</h1>
                 <p className="text-sm text-gray-500 mb-8 pr-16">
                     Here you can manage your location, search a location, zoom in/out and get your current location.
                 </p>
@@ -242,7 +242,7 @@ function Map({userData}) {
                     <button className="bg-red-500 text-white p-2 rounded-full px-10 mb-2" onClick={handleZoomOut}>Zoom Out</button>
                 </span>
 
-                <h3 className="font-['lufga'] leading-none mb-4 mt-8">Sync your <br /> Current Location</h3>
+                <h3 className="leading-none mb-4 mt-8">Sync your <br /> Current Location</h3>
                 <p className="text-sm text-gray-500 pr-20">
                     Note: This feature is important in case you want to deliver your products to your customers. By clicking the "Get Current Location" button, your device will try to find your current location. If you don't allow the browser to access your location, it will not be possible to find your current location.
                 </p>
@@ -253,7 +253,7 @@ function Map({userData}) {
                 </button>
 
                 {/* location container */}
-                <span className="flex font-['lufga'] gap-3 my-5">
+                <span className="flex gap-3 my-5">
                 {locations.map((location, index) => (
                     <div key={index} className="relative w-40 h-52 bg-[#8f9a7743] items-center px-2 py-2 flex flex-col rounded-[22px] hover:translate-y-5 duration-500">
                         <div className="absolute right-2 top-2">
