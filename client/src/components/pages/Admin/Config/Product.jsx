@@ -108,7 +108,7 @@ const Products = () => {
       <div className="flex flex-col gap-2">
         <h1 className="text-[30px] font-bold">No Products</h1>
         <p className="opacity-45">
-         No user data found create a Products to continue
+        No user data found create a Products to continue
         </p>
         <p
           onClick={() =>

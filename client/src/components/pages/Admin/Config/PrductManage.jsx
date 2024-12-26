@@ -312,7 +312,7 @@ const ProductManage = () => {
         onClose={() => setIsImagePopupOpen(false)}
         onSave={handleImageSave}
         showRemoveBg={true}
-        urls={urls}
+        urls={urls[0]?urls:false}
         maxImages={3}
       />
       {/* {popup && (
