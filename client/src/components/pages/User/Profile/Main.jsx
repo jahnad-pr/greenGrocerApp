@@ -101,7 +101,7 @@ export default function Main({ userData}) {
 
         {/* naviagation container */}
         {/* bg-[#f2f2f2] */}
-        <div onMouseEnter={()=>setClose(false)} onMouseLeave={()=>setClose(true)} className={`md:static min-w-[100vw] md:min-w-[auto] first-line absolute ${!close?'left-0':'-left-full'}  top-0 hover:md:w-[380px] w-[100px] group duration-500 h-full backdrop-blur-3xl pl-10 md:pl-0 bg-[#ffffffcb]`}>
+        <div onMouseEnter={()=>setClose(false)} onMouseLeave={()=>setClose(true)} className={`md:static min-w-[100vw] md:min-w-[auto] first-line absolute ${!close?'left-0':'-left-full'}  top-0 hover:md:w-[380px] w-[100px] group duration-500 h-full backdrop-blur-3xl pl-10 md:pl-0`}>
         
           <img onClick={()=>setClose(!close)} className={`w-14 h-14  object-cover block md:hidden absolute ${close?'-right-20 -rotate-[90deg]':'rotate-[90deg] right-10'}  top-10 duration-500 `} src="/pin.svg" alt="" />
 
