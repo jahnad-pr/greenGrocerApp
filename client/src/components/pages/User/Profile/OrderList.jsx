@@ -24,7 +24,6 @@ const OrderList = ({userData}) => {
       )  
     }
   },[data]);
-
   const LoadingAnimation = () => (
     <div className="w-full h-screen flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
@@ -41,10 +40,13 @@ const OrderList = ({userData}) => {
             ></div>
           ))}
         </div>
-        <p className="text-lg font-medium text-gray-600">Loading your cart...</p>
+        <p className="text-lg font-medium text-gray-600">Loading your orders...</p>
       </div>
     </div>
   );
+
+  if(isLoading){ return <LoadingAnimation /> }
+
 
 
   const containerVariants = {
@@ -105,7 +107,6 @@ const OrderList = ({userData}) => {
     }
   };
 
-  if(isLoading){ return <LoadingAnimation /> }
 
   const getStatusTextColor = (status) => {
     switch (status.toUpperCase()) {
