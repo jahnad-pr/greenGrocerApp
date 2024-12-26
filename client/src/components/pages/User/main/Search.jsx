@@ -497,9 +497,9 @@ function ProductCard({ navigate, product, userData, showToast }) {
   const [addtoCart, { error: addError, data: addData }] = useAddtoCartMutation()
   const [checkPorductInCart, { data: checkData }] = useCheckPorductInCartMutation();
   const [gotoCart, setGoToCart] = useState(false);
-  const [addToBookmark, { data: addToBookmarkData }] = useAddToBookmarkMutation();
+  const [addToBookmark, { data: addToBookmarkData,isLoading }] = useAddToBookmarkMutation();
   const [checkItemIntheBookmark, { data: bookMarkData }] = useCheckItemIntheBookmarkMutation();
-  const [removeBookmarkItme, { data: removeData }] = useRemoveBookmarkItmeMutation();
+  const [removeBookmarkItme, { data: removeData,removeLoading }] = useRemoveBookmarkItmeMutation();
 
 
 
@@ -572,9 +572,23 @@ function ProductCard({ navigate, product, userData, showToast }) {
   
   return (
     <div onClick={()=> navigate('/user/productPage',{ state:{ id:product._id } })} className="h-80 min-w-56 max-w-56 flex flex-col justify-center items-center rounded-[40px] relative group cursor-pointer">
+
+
       { userData?._id &&
-        <i onClick={(e)=> isMared?bookmarkHandler(e,product._id,'remove'):bookmarkHandler(e,product._id,'add')} className={` ri-bookmark-${isMared?'fill':'line'} absolute top-28 right-0 rounded-full p-5 text-[30px] hover:scale-125 duration-500 `}></i>
+        <i className={` ri-bookmark-${isMared?'fill':'line'} absolute top-28 right-0 rounded-full p-5 text-[30px] hover:scale-125 duration-500 `}></i>
       }
+
+      {userData?._id && !isLoading && !removeLoading ? <img src={isMared ? '/hearted.svg' : '/heart.svg'} onClick={(e) => isMared ? bookmarkHandler(e, product._id, 'remove') : bookmarkHandler(e, product._id, 'add')} className={`w-20 h-20 opacity-45 absolute top-28 right-0 rounded-full p-5 hover:scale-125 duration-500 `}></img> : isLoading || removeLoading ?
+        <div className="flex gap-1 absolute top-[140px] right-4">
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="w-3 h-3 bg-green-600 rounded-full animate-bounce"
+              style={{ animationDelay: `${i * 0.1}s` }} removeLoading
+            ></div>
+          ))}
+        </div> : <img src={isMared ? '/hearted.svg' : '/heart.svg'} onClick={(e) => isMared ? bookmarkHandler(e, product._id, 'remove') : bookmarkHandler(e, product._id, 'add')} className={`w-20 h-20 opacity-45 absolute top-28 right-0 rounded-full p-5 hover:scale-125 duration-500 `}></img>}
+
     <img className="max-w-[120px] h-[120px] w-[120px] object-cover max-h-[120px] oscillater mix-blend-darken drop-shadow-2xl z-20" src={product.pics.one} alt={product.name} />
     <img className="px-0 max-w-[80px] shadowed opacity-20 absolute" src={product.pic} alt="" />
     <span className="w-full h-auto bg-[linear-gradient(#ffffff40,#ffffff70)] flex flex-col px-10 rounded-t-[30px] rounded-bl-[30px] rounded-br-[120px] pt-10 flex-1 justify- gap-2 pb-10">
