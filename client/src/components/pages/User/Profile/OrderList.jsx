@@ -24,6 +24,8 @@ const OrderList = ({userData}) => {
       )  
     }
   },[data]);
+
+  
   const LoadingAnimation = () => (
     <div className="w-full h-screen flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
