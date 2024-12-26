@@ -62,7 +62,7 @@ export default function Product({pos,data,type,userData}) {
             style={{ animationDelay: `${i * 0.1}s` }}
           ></div>
         ))}
-      </div>:""}
+      </div>:<img src={isMared?'/hearted.svg':'/heart.svg'} onClick={()=>isMared?bookmarkHandler(data._id,'remove'):bookmarkHandler(data._id,'add')} className={`w-20 h-20 opacity-45 absolute top-28 right-0 rounded-full p-5 hover:scale-125 duration-500 `}></img>}
         
         </span>
           </span>
