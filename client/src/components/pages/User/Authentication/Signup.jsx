@@ -304,11 +304,11 @@ export default function Signup({ setSign }) {
           {/* new */}
           <div className="w-full  min-h-full p-8 xl:p-10 xl:px-60">
 
-            <div className="w-full h-full max-w-[1500px] flex flex-col xl:rounded-[60px] md:flex-row rounded-[30px] bg-[#ffffff60] rounded-br-[120px] xl:rounded-br-[180px] relative">
+            <div className="w-full max-w-[1500px] flex flex-col xl:rounded-[60px] md:flex-row rounded-[30px] bg-[#ffffff60] rounded-br-[120px] xl:rounded-br-[180px] relative">
 
               {/* img */}
               <div className={`w-full ${mission ? "h-[30%] md:h-full" : "h-[50%] md:h-full"} overflow-hidden duration-500`}>
-              <img className="w-full h-full object-bottom object-cover xl:rounded-l-[60px]  md:object-center rounded-[30px] rounded-br-[120px] md:rounded-l-[30px] md:rounded-r-[0px]" src={mission ? "/fruto.jpg" : "/vego.jpg"} alt="" />
+              <img className="w-full h-60 md:h-auto object-bottom object-cover xl:rounded-l-[60px]  md:object-center rounded-[30px] rounded-br-[120px] md:rounded-l-[30px] md:rounded-r-[0px]" src={mission ? "/fruto.jpg" : "/vego.jpg"} alt="" />
               </div>
 
               {/* contents */}
@@ -458,7 +458,7 @@ export default function Signup({ setSign }) {
                   <img className='group-hover:-translate-x-[80%] min-w-[70px] p-5 brightness-[100]  duration-500' src="/arrow-right.svg" alt="" />
                 </button>
 
-              <FcGoogle className="w-full mt-3" onClick={loginWithGoogle} size={65} />
+              <FcGoogle className="mt-3 mb-10" onClick={loginWithGoogle} size={45} />
 
 {/* 
               Sign Up Button
