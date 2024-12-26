@@ -344,7 +344,7 @@ export default function ProductDetails({ userData }) {
                                         <p className="opacity-45 mb-2 mr-20">The offer should be maximum amound and min quantity of 1 Kg</p>
                                         {/* <p className="text-[38px] mt-3 text-left opacity-35 font-bold">
                                             OFF
-                                        </p> */}bg-yellow-500
+                                        </p> */}
                                         {/* <p className="absolute bottom-4 font-medium opacity-75 left-4">
                                             00:00:00 <span className="opacity-45">remaining</span>
                                         </p> */}
