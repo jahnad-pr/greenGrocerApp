@@ -106,7 +106,7 @@ const showToast = (message, type = "success") => {
 
           {/* the list of bookmarks */}
             { productsData?.length>0?
-            <div className="w-fullxl:px-40 md:px-16 px-12  0 mt-12 flex gap-8">
+            <div className="w-full xl:px-40 md:px-16 px-12  0 mt-12 flex gap-8">
 
               {
                 productsData?.map((item,index) => {
