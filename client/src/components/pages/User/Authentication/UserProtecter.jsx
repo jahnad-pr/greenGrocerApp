@@ -2,57 +2,66 @@ import React, { useEffect, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useGetUserMutation } from "../../../../services/User/userApi";
 
+export default function UserProtecter({ children }) {
+  const [getUser] = useGetUserMutation();
+  const [userData, setData] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-// ProtectedRoute component
-export default function UserProtecter({ children }) { 
+  useEffect(() => {
+    let isMounted = true;
 
-    const [getUser, { isLoading, error, data }] = useGetUserMutation();
-    const [userData,setData] = useState(false)
-    const navigater = useNavigate()
-    const location = useLocation()
-
-    // api to get userdata
-    useEffect(()=>{ (async()=>{
-         await getUser().unwrap()
-    })() },[location])
-
-    useEffect(()=>{
-        if(location.pathname==='/user/signup'){
-            if(data?.user.length>0){
-                navigater('/user/home',{ state:{ message:'',userData:data?.user } })
-            }
+    const fetchUser = async () => {
+      // Only fetch if we don't have userData yet
+      if (!userData) {
+        try {
+          const result = await getUser().unwrap();
+          if (isMounted) {
+            handleUserData(result);
+          }
+        } catch (error) {
+          if (isMounted) {
+            setData(false);
+          }
         }
-        if(location.pathname.startsWith('/user/profile')){
-            if(data?.user.length<=0){
-                navigater('/user/home',{ state:{ message:'',userData:data?.user } })
-            }
-        }
-    },[location,data])
+      }
+    };
 
+    fetchUser();
 
-    useEffect(()=>{ 
-        if(!data?.verified&&data?.user.length>0){   
-            navigater('/user/home',{ state:{ message:'your accound is blocked' } })
-            setData(false)
-        }else{
-            setData(data?.user)
-        }
-     },[data])
+    return () => {
+      isMounted = false;
+    };
+  }, []); // Remove location dependency
 
+  const handleUserData = (data) => {
+    if (!data?.verified && data?.user.length > 0) {
+      navigate('/user/home', { 
+        state: { message: 'your account is blocked' },
+        replace: true 
+      });
+      setData(false);
+      return;
+    }
 
-     useEffect(()=>{
-        if(error){
-            setData(false)
-        }
-     },[error])
+    setData(data?.user);
 
-     if(Array.isArray(userData)){
-        const sendData = userData[0]
-         return React.cloneElement(children, { userData:sendData })
-     }else{
+    // Handle routing logic
+    if (location.pathname === '/user/signup' && data?.user.length > 0) {
+      navigate('/user/home', { 
+        state: { message: '', userData: data?.user },
+        replace: true
+      });
+    }
+    
+    if (location.pathname.startsWith('/user/profile') && data?.user.length <= 0) {
+      navigate('/user/home', { 
+        state: { message: '', userData: data?.user },
+        replace: true
+      });
+    }
+  };
 
-         return React.cloneElement(children, { userData })
-     }
-
-
+  const userDataToPass = Array.isArray(userData) ? userData[0] : userData;
+  return React.cloneElement(children, { userData: userDataToPass });
 }
