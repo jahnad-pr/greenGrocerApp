@@ -6,6 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from 'framer-motion';
 import HoverKing from '../../../parts/buttons/HoverKing';
 
+  /**
+ * OrderList is a React component that renders a list of orders for a specific user.
+ * It fetches the orders from the server and displays them in a list.
+ * If there are no orders, it displays an empty state.
+ * @param {object} userData - The user data object from the server.
+ * @returns {ReactElement} - A ReactElement containing the list of orders.
+ */
 const OrderList = ({userData}) => {
   const [ getOders, { isLoading, error, data }, ] = useGetOdersMutation();
   const [orders,setOrders] = useState([]);
@@ -24,8 +31,9 @@ const OrderList = ({userData}) => {
       )  
     }
   },[data]);
-
   
+
+
   const LoadingAnimation = () => (
     <div className="w-full h-screen flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
