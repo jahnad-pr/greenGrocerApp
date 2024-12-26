@@ -53,7 +53,7 @@ export default function Product({pos,data,type,userData}) {
         <s><p className='opacity-30' >₹ {data?.regularPrice}</p></s>
         <p className='opacity-60 md:text-[25px] text-[20px] font-bold text-[#14532d]' >₹ {(data?.regularPrice - (data?.discount?.isPercentage ? (data?.regularPrice * data?.discount?.value / 100) : (data?.discount?.value || 0))).toFixed(2)}</p>
 
-        {userData?._id &&isLoading? <img src={isMared?'/hearted.svg':'/heart.svg'} onClick={()=>isMared?bookmarkHandler(data._id,'remove'):bookmarkHandler(data._id,'add')} className={`w-20 h-20 opacity-45 absolute top-28 right-0 rounded-full p-5 hover:scale-125 duration-500 `}></img>:isLoading?
+        {userData?._id &&!isLoading? <img src={isMared?'/hearted.svg':'/heart.svg'} onClick={()=>isMared?bookmarkHandler(data._id,'remove'):bookmarkHandler(data._id,'add')} className={`w-20 h-20 opacity-45 absolute top-28 right-0 rounded-full p-5 hover:scale-125 duration-500 `}></img>:isLoading?
         <div className="flex gap-1">
         {[0, 1, 2].map((i) => (
           <div
