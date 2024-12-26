@@ -573,11 +573,6 @@ function ProductCard({ navigate, product, userData, showToast }) {
   return (
     <div onClick={()=> navigate('/user/productPage',{ state:{ id:product._id } })} className="h-80 min-w-56 max-w-56 flex flex-col justify-center items-center rounded-[40px] relative group cursor-pointer">
 
-
-      { userData?._id &&
-        <i className={` ri-bookmark-${isMared?'fill':'line'} absolute top-28 right-0 rounded-full p-5 text-[30px] hover:scale-125 duration-500 `}></i>
-      }
-
       {userData?._id && !isLoading && !removeLoading ? <img src={isMared ? '/hearted.svg' : '/heart.svg'} onClick={(e) => isMared ? bookmarkHandler(e, product._id, 'remove') : bookmarkHandler(e, product._id, 'add')} className={`w-20 h-20 opacity-45 absolute top-28 right-0 rounded-full p-5 hover:scale-125 duration-500 `}></img> : isLoading || removeLoading ?
         <div className="flex gap-1 absolute top-[140px] right-4">
           {[0, 1, 2].map((i) => (
