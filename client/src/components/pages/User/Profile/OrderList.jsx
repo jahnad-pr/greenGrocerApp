@@ -35,7 +35,7 @@ const OrderList = ({userData}) => {
 
 
   const LoadingAnimation = () => (
-    <div className="w-full h-screen flex items-center justify-center">
+    <div className="w-full h-screen flex items-center justify-center md:justify-start md:items-start">
       <div className="flex flex-col items-center gap-4">
         <div className="relative w-24 h-24">
           <div className="absolute w-full h-full border-8 border-gray-200 rounded-full"></div>
