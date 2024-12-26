@@ -17,7 +17,7 @@ export default function Navigator({userData}) {
       <> 
         
 
-        <div className={`w-full overflow-hidden  gap-6 duration-500 md:h-full flex flex-col px-10`}>
+        <div className={`w-full overflow-hidden  gap-6 duration-500 md:h-full flex flex-col px-5`}>
 
         <div className={`w-full h-36 group md:inline-flex hidden  items-center duration-500 gap-4 border-b-2 ${expanded && 'border-gray-400/30'}`}>
           <img onClick={()=>navigator('/user/home')} className='h-14 w-14 object-cover cursor-pointer rounded-full brightness-0' src={gg} alt="" />
@@ -38,7 +38,7 @@ export default function Navigator({userData}) {
         <i className="ri-menu-line text-[30px]"></i>
         } */}
 
-        <span className={`flex md:flex-col md:justify-normal justify-between md:items-start items-center duration-500 ${expanded ? 'gap-8' : 'gap-14'}`}>
+        <span className={`flex md:flex-col md:justify-normal justify-between md:items-start items-center duration-500 ${expanded ? 'gap-8' : 'gap-6'}`}>
 
         {/* <i onClick={()=>navigator('/user/search')} className="ri-search-line text-[30px] cursor-pointer transition-colors"></i> */}
         <span onClick={()=>navigator('/user/home')} className='flex items-center gap-6 hover:translate-x-5 hover:opacity-80 duration-500 hover:scale-110 cursor-pointer'>
