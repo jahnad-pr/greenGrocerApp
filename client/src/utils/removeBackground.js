@@ -23,7 +23,7 @@
 //   }
 // };
 
-export const removeBackgroundPhotoRoom = async (imageBlob) => {
+export const removeBackground = async (imageBlob) => {
   const formData = new FormData();
   formData.append('file', imageBlob);
 
