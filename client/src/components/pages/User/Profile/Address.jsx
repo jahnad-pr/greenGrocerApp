@@ -166,6 +166,7 @@ export default function Address({ userData }) {
                 <h1 className="text-[35px] font-bold my-16 mb-8 leading-tight pt-14 md:pt-0">
                   Manage Address
                 </h1>
+                
                 <div className="w-full flex flex-wrap gap-12 md:justify-start justify-center">
                   {addressData.map((address, index) => (
                     <AddressCard
@@ -178,6 +179,10 @@ export default function Address({ userData }) {
                     />
                   ))}
                 </div>
+                {addressData?.length > 0 && 
+            <span className="">
+              <HoverKing event={() => navigate('/user/profile/manageaddress')} styles={'absolute text-[18px]  font-bold text-white/50 bottom-[90%] md:bottom-28 scale-75 2xl:right-64 right-10 md:right-28 rounded-full'} Icon={<i className="ri-apps-2-add-line text-[30px]"></i>} >Add address</HoverKing>
+            </span>}
               </>
             ) : (
               <EmptyState navigateTo={navigate} />
