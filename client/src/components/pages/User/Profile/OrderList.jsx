@@ -1,29 +1,26 @@
 import { Order } from './../../../parts/Cards/Order';
 import React, { useEffect, useState } from "react";
 import { useDeleteAddressMutation, useGetOdersMutation } from "../../../../services/User/userApi";
-import emptyStateImage from "../../../../assets/images/noCAtegory.png";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from 'framer-motion';
 import HoverKing from '../../../parts/buttons/HoverKing';
 
 const OrderList = ({userData}) => {
-  const [ getOders, { isLoading, error, data }, ] = useGetOdersMutation();
-  const [orders,setOrders] = useState([]);
+  const [ getOders, { isLoading, error, data } ] = useGetOdersMutation();
+  const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(()=>{ if(userData){ getOders(userData._id) } },[userData]);
-
-  useEffect(()=>{ 
-    if(data){ 
-      setOrders( datas =>
-        [...data].sort((a, b) => {
-          const dateA = new Date(a.time);
-          const dateB = new Date(b.time);
-          return dateB - dateA;
-        })
-      )  
+  useEffect(() => { 
+    if(userData){ 
+      getOders(userData._id);
     }
-  },[data]);
+  }, [userData]);
+
+  useEffect(() => { 
+    if(data){ 
+      setOrders(data.sort((a, b) => new Date(b.time) - new Date(a.time)));
+    }
+  }, [data]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -68,35 +65,50 @@ const OrderList = ({userData}) => {
 
   const getStatusColor = (status) => {
     switch (status.toUpperCase()) {
-      case "PROCESSED":
-        return "bg-[linear-gradient(45deg,#7082b4_30%,#738c7c)]";
-        case "SHIPPED":
-        return "bg-[linear-gradient(45deg,#ebaf8a,#738c7c)]";
-      case "PENDING":
-        return "bg-[linear-gradient(45deg,#ebe88a,#738c7c)]";
-      case "DELIVERED":
-        return "bg-[linear-gradient(45deg,#99eb8a,#738c7c)]";
-      case "CANCELLED":
-        return "bg-[linear-gradient(45deg,#eb8ab9,#738c7c)]";
-      default:
-        return "bg-gray-50";
+      case "PROCESSED": return "bg-[linear-gradient(45deg,#7082b4_30%,#738c7c)]";
+      case "SHIPPED": return "bg-[linear-gradient(45deg,#ebaf8a,#738c7c)]";
+      case "PENDING": return "bg-[linear-gradient(45deg,#ebe88a,#738c7c)]";
+      case "DELIVERED": return "bg-[linear-gradient(45deg,#99eb8a,#738c7c)]";
+      case "CANCELLED": return "bg-[linear-gradient(45deg,#eb8ab9,#738c7c)]";
+      default: return "bg-gray-50";
     }
   };
 
   const getStatusTextColor = (status) => {
     switch (status.toUpperCase()) {
-      case "PROCESSED":
-        return "text-blue-900";
-      case "SHIPPED":
-        return "text-orange-700";
-      case "DELIVERED":
-        return "text-green-700";
-      case "CANCELLED":
-        return "text-red-700";
-      default:
-        return "text-yellow-900";
+      case "PROCESSED": return "text-blue-900";
+      case "SHIPPED": return "text-orange-700";
+      case "DELIVERED": return "text-green-700";
+      case "CANCELLED": return "text-red-700";
+      default: return "text-yellow-900";
     }
   };
+
+  const LoadingSkeleton = () => (
+    <motion.div 
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="flex flex-wrap gap-3 pb-40 justify-center"
+    >
+      {[...Array(6)].map((_, index) => (
+        <motion.div
+          key={index}
+          variants={itemVariants}
+          className="w-[300px] h-[200px] bg-gray-200 rounded-xl animate-pulse"
+        >
+          <div className="h-full p-4 flex flex-col justify-between">
+            <div className="w-3/4 h-4 bg-gray-300 rounded"></div>
+            <div className="space-y-2">
+              <div className="w-1/2 h-3 bg-gray-300 rounded"></div>
+              <div className="w-1/3 h-3 bg-gray-300 rounded"></div>
+            </div>
+            <div className="w-1/4 h-6 bg-gray-300 rounded"></div>
+          </div>
+        </motion.div>
+      ))}
+    </motion.div>
+  );
 
   const EmptyState = () => (
     <motion.div 
@@ -105,14 +117,10 @@ const OrderList = ({userData}) => {
       transition={{ duration: 0.5 }}
       className="w-full h-1/2 flex items-center justify-center flex-col text-center gap-5 relative md:pb-10"
     >
-      <motion.img salu
+      <motion.img
         initial={{ y: 20 }}
         animate={{ y: 0 }}
-        transition={{ 
-          type: "spring",
-          stiffness: 100,
-          damping: 10
-        }}
+        transition={{ type: "spring", stiffness: 100, damping: 10 }}
         className="md:h-[50%] h-[30%]" 
         src={'/box-remove.svg'} 
         alt="No categories" 
@@ -139,12 +147,31 @@ const OrderList = ({userData}) => {
           Now your order list empty, to make the order buy products
           and make your life healthy and natural with us
         </motion.p>
-        <HoverKing event={() => navigate("/user/products")} styles={'absolute bottom-0 left-1/2 -translate-x-[45%] rounded-full border-0 font-medium text-[16px] bg-white'} Icon={<i className="ri-arrow-drop-right-line text-[50px] text-white"></i>} >Let's add your product</HoverKing>
-
-
+        <HoverKing 
+          event={() => navigate("/user/products")} 
+          styles="absolute bottom-0 left-1/2 -translate-x-[45%] rounded-full border-0 font-medium text-[16px] bg-white"
+          Icon={<i className="ri-arrow-drop-right-line text-[50px] text-white"></i>}
+        >
+          Let's add your product
+        </HoverKing>
       </motion.div>
     </motion.div>
   );
+
+  if (error) {
+    return (
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="w-full h-full flex items-center justify-center"
+      >
+        <div className="text-red-500 text-center">
+          <h2 className="text-xl font-bold">Error Loading Orders</h2>
+          <p>Please try again later</p>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div 
@@ -157,62 +184,57 @@ const OrderList = ({userData}) => {
         initial={{ backdropFilter: "blur(0px)" }}
         animate={{ backdropFilter: "blur(8px)" }}
         transition={{ duration: 0.5 }}
-        className="w-full h-full lg::px-40 px-6 backdrop-blur-3xl overflow-hidden items-center flex"
+        className="w-full h-full lg:px-40 px-6 backdrop-blur-3xl overflow-hidden items-center flex"
       >
-        {orders.length > 0 ? (
-          <motion.main 
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="pt-8 h-full overflow-y-auto pb-20"
+        <motion.main 
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="pt-8 h-full overflow-y-auto pb-20 w-full"
+        >
+          <motion.h1 
+            variants={headerVariants}
+            className="text-[42px] font-bold top-0 backdrop-blur-md p-4 z-10 font-[lufga]"
           >
-            <motion.h1 
-              variants={headerVariants}
-              className="text-[42px] font-bold top-0 backdrop-blur-md p-4 z-10 font-[lufga]"
-            >
-              Manage your orders
-            </motion.h1>
-            <p className='xl:pr-9 pr-10 text-[18px] mb-8 ml-5 opacity-55'>Effortlessly track and manage your orders in one place.
-              Stay updated with real-time order status and notifications.
-              Access your order history and easily reorder items.
-              Enjoy a seamless shopping experience with Green Grocer!</p>
+            Manage your orders
+          </motion.h1>
+          <p className="xl:pr-9 pr-10 text-[18px] mb-8 ml-5 opacity-55">
+            Effortlessly track and manage your orders in one place.
+            Stay updated with real-time order status and notifications.
+            Access your order history and easily reorder items.
+            Enjoy a seamless shopping experience with Green Grocer!
+          </p>
 
-            <div className="mb-8 flex gap-4 ml-4 text-[16px] xl:absolute md:bottom-0 md:right-20 bottom-[85%] right-[40%]">
-
-              <span>
-
-              <span className='flex gap-3 items-center'>
-              <div className="h-4 w-4 bg-[#c9ce86] rounded-full"></div>
-              <p>Pending</p>
+          <div className="mb-8 flex gap-4 ml-4 text-[16px] xl:absolute md:bottom-0 md:right-20 bottom-[85%] right-[40%]">
+            <span>
+              <span className="flex gap-3 items-center">
+                <div className="h-4 w-4 bg-[#c9ce86] rounded-full"></div>
+                <p>Pending</p>
               </span>
-
-              <span className='flex gap-3 items-center'>
-              <div className="h-4 w-4 bg-[#7082b4] rounded-full"></div>
-              <p>Processed</p>
+              <span className="flex gap-3 items-center">
+                <div className="h-4 w-4 bg-[#7082b4] rounded-full"></div>
+                <p>Processed</p>
               </span>
-
-              <span className='flex gap-3 items-center'>
-              <div className="h-4 w-4 bg-[#cda686] rounded-full"></div>
-              <p>Shipped</p>
+              <span className="flex gap-3 items-center">
+                <div className="h-4 w-4 bg-[#cda686] rounded-full"></div>
+                <p>Shipped</p>
               </span>
+            </span>
+            <span>
+              <span className="flex gap-3 items-center">
+                <div className="h-4 w-4 bg-[#8ecf86] rounded-full"></div>
+                <p>Delivered</p>
               </span>
-
-              <span>
-              <span className='flex gap-3 items-center'>
-              <div className="h-4 w-4 bg-[#8ecf86] rounded-full"></div>
-              <p>Delivered</p>
+              <span className="flex gap-3 items-center">
+                <div className="h-4 w-4 bg-[#cc8ba9] rounded-full"></div>
+                <p>Cancelled</p>
               </span>
+            </span>
+          </div>
 
-              <span className='flex gap-3 items-center'>
-              <div className="h-4 w-4 bg-[#cc8ba9] rounded-full"></div>
-              <p>Cancelled</p>
-              </span>
-
-              </span>
-
-
-            </div>
-
+          {isLoading ? (
+            <LoadingSkeleton />
+          ) : orders.length > 0 ? (
             <motion.div 
               variants={containerVariants}
               className="flex flex-wrap gap-3 pb-40 justify-center"
@@ -227,7 +249,7 @@ const OrderList = ({userData}) => {
                     exit={{ opacity: 0, scale: 0.9 }}
                     whileHover={{ scale: 1.02 }}
                     transition={{ delay: index * 0.1 }}
-                    className='w-full max-w-[300px] inline-flex items-center justify-center'
+                    className="w-full max-w-[300px] inline-flex items-center justify-center"
                   >
                     <Order 
                       order={order}
@@ -240,10 +262,10 @@ const OrderList = ({userData}) => {
                 ))}
               </AnimatePresence>
             </motion.div>
-          </motion.main>
-        ) : (
-          <EmptyState />
-        )}
+          ) : (
+            <EmptyState />
+          )}
+        </motion.main>
       </motion.div>
     </motion.div>
   );
