@@ -29,6 +29,8 @@ const EmptyState = () => {
 
 
 export default function Address({ userData }) {
+  
+  const [getAdresses, { isLoading, error, data },] = useGetAdressesMutation();
 
   const LoadingAnimation = () => (
     <div className="w-full h-screen flex items-center justify-center">
@@ -55,7 +57,6 @@ export default function Address({ userData }) {
 
 
   // mutation to update user
-  const [getAdresses, { isLoading, error, data },] = useGetAdressesMutation();
 
 
   const [adressData, setaddressData] = useState()
