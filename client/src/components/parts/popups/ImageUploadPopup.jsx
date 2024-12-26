@@ -127,6 +127,8 @@ const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3,urls=false, m
       const processedImages = await Promise.all(
         images.map(async (img, index) => {
           try {
+            console.log('akdslfffffffffffffffffffffffffffffffffffffffffffffffffff');
+            
             const processedBlob = await removeBackground(img.cropped);
             setProcessedCount(prev => prev + 1);
             setBgRemoved(true);
