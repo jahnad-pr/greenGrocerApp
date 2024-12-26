@@ -144,7 +144,7 @@ useEffect(() => {
 
   return (
     <>
-    <div className="w-screen h-screen backdrop-blur-lg bg-[#000000bd] flex items-center justify-center p-4 py-0 mx-auto absolute z-10 left-1/2 -translate-x-1/2">
+    <div className="w-screen  h-screen backdrop-blur-lg bg-[#000000bd] flex items-center justify-center p-4 py-0 mx-auto absolute z-50 left-1/2 -translate-x-1/2">
       {/* Background Images
       <div className="fixed left-0 top-1/2 -translate-y-1/2 -translate-x-1/2">
         <img src={leftImg} alt="Vegetables bowl" className="rounded" />
