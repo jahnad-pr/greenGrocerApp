@@ -499,7 +499,7 @@ function ProductCard({ navigate, product, userData, showToast }) {
   const [gotoCart, setGoToCart] = useState(false);
   const [addToBookmark, { data: addToBookmarkData,isLoading }] = useAddToBookmarkMutation();
   const [checkItemIntheBookmark, { data: bookMarkData }] = useCheckItemIntheBookmarkMutation();
-  const [removeBookmarkItme, { data: removeData,removeLoading }] = useRemoveBookmarkItmeMutation();
+  const [removeBookmarkItme, { data: removeData,isLoading:removeLoading }] = useRemoveBookmarkItmeMutation();
 
 
 
