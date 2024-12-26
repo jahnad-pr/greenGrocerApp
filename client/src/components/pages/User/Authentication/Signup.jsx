@@ -291,7 +291,7 @@ export default function Signup({ setSign }) {
 
         <div
           onClick={() => navigator("/user/home")}
-          className={`bg-gray-200/40 font-medium absolute right-10 duration-700 top-10 px-5 py-1 rounded-full flex gap-3 items-center justify-center z-10`}
+          className={`bg-gray-200/40 font-medium backdrop-blur-3xl absolute right-10 duration-700 top-10 px-5 py-1 rounded-full flex gap-3 items-center justify-center z-10`}
         >
           <i className="ri-user-4-line text-[20px]"></i>
           <p>Gust accound</p>
