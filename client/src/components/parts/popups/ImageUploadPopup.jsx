@@ -137,6 +137,7 @@ const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3,urls=false, m
               processed: true
             };
           } catch (error) {
+            console.log(error)
             console.error(`Error processing image ${index + 1}:`, error);
             return img;
           }
