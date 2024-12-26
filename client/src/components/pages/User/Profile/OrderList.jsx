@@ -192,7 +192,7 @@ const OrderList = ({userData}) => {
         initial={{ backdropFilter: "blur(0px)" }}
         animate={{ backdropFilter: "blur(8px)" }}
         transition={{ duration: 0.5 }}
-        className="w-full h-full lg::px-40 px-6 backdrop-blur-3xl overflow-hidden items-center flex"
+        className="w-full h-full lg:px-40 px-6 backdrop-blur-3xl overflow-hidden items-center flex"
       >
         {orders.length > 0 ? (
           <motion.main 
