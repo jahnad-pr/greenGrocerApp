@@ -63,7 +63,7 @@ export default function Navigator({userData}) {
         <p className={`text-[20px] font-medium text-nowrap  ${!expanded ? 'w-0 opacity-0' : 'w-[200px] opacity-100'} overflow-hidden duration-500`}>Wallet</p>
         </span>
 
-        <span onClick={()=>navigator('/user/cart')}  className='flex items-center gap-6 hover:translate-x-5 hover:opacity-80 duration-500 hover:scale-110 cursor-pointer'>
+        <span onClick={()=>navigator('/user/cart')}  className='hidden md:flex items-center gap-6 hover:translate-x-5 hover:opacity-80 duration-500 hover:scale-110 cursor-pointer'>
         <img className='w-8 h-8 duration-500'  src="/bag.svg" alt="" />
         {/* <i className="ri-shopping-cart-line text-[25px] cursor-pointer transition-colors"></i> */}
         <p className={`text-[20px] font-medium text-nowrap ${!expanded ? 'w-0 opacity-0' : 'w-[200px] opacity-100'}  overflow-hidden duration-500`} >Cart list</p>
