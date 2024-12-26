@@ -297,7 +297,7 @@ export default function Signup({ setSign }) {
           <p>Gust accound</p>
         </div>
 
-        <div className="w-full h-full flex duration-300 flex-col">
+        <div className="w-full h-full flex duration-300 flex-col overflow-scroll pb-20">
 
 
 
@@ -458,7 +458,7 @@ export default function Signup({ setSign }) {
                   <img className='group-hover:-translate-x-[80%] min-w-[70px] p-5 brightness-[100]  duration-500' src="/arrow-right.svg" alt="" />
                 </button>
 
-              <FcGoogle className="mt-3 mb-10" onClick={loginWithGoogle} size={45} />
+              <FcGoogle className="mt-3 mb-14" onClick={loginWithGoogle} size={45} />
 
 {/* 
               Sign Up Button
