@@ -41,7 +41,7 @@ export default function BookmarkCard({ data,userData,setBookData }) {
   useEffect(() => {
     if (removeData) {
       showToast("Removed from bookmark", "success");
-      setBookData((prevData) => prevData.filter((item) => item.product._id !== data.product._id));
+      // setBookData((prevData) => prevData.filter((item) => item.product._id !== data.product._id));
     }
   }, [removeData]);
 
