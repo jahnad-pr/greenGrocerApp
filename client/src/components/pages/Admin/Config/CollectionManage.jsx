@@ -202,7 +202,7 @@ const CollectionManage = () => {
     //   return "Minimum one product needed";
     // }
 
-    if (!imageUrl) {
+    if (!imageUrl&&!formState?.pic) {
       return "Select the image";
     }
 

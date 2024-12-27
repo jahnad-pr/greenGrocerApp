@@ -37,6 +37,16 @@ const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3,urls=false, m
     return true;
   };
 
+  /**
+   * Sets initial images from props.urls if provided.
+   * If maxImages is greater than 1, it adds additional images to the array.
+   * Each image object has "original", "preview", and "cropped" properties,
+   * with "original" and "cropped" set to empty objects and "preview" set
+   * to the corresponding URL from props.urls. The "processed" property is set
+   * to true.
+   * @param {boolean} urls - Whether urls prop is provided
+   * @param {number} maxImages - Maximum number of images allowed
+   */
   useEffect(()=>{
     if (urls) {
 
@@ -82,7 +92,7 @@ const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3,urls=false, m
               "processed": true
             })
       }
-      
+
       setImages(newImages)
 
     }
