@@ -511,11 +511,11 @@ export default function OrderSummary({userData}) {
                 {
                   adressData && adressData?.length > 0 &&
                   <h3 className={`font-semibold text-[25px] opacity-55 ${
-                  selectedAddress.locationType === "Work"
+                  selectedAddress?.locationType === "Work"
                     ? "text-[#ff0000]"
-                    : selectedAddress.locationType === "Home"
+                    : selectedAddress?.locationType === "Home"
                     ? "text-[#1c7721]"
-                    : selectedAddress.locationType === "Person"
+                    : selectedAddress?.locationType === "Person"
                     ? "text-[#0d32e9]"
                     : "text-[#706e1b]"
                 }`}>{selectedAddress?.locationType||adressData[0]?.locationType}</h3>
