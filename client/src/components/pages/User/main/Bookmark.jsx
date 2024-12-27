@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import BookmarkCard from "../../../parts/Cards/Bookmarks";
 import { useGetBookmarkItemsMutation } from "../../../../services/User/userApi";
 import EmptyState from "../../../parts/Main/EmptySatate";
@@ -29,6 +29,11 @@ const LoadingAnimation = () => (
 export default function Bookmark({ userData }) {
   const [getBookmarkItems, { data, isLoading }] = useGetBookmarkItemsMutation();
   const navigate = useNavigate();
+  const [bookmarks, setBookmarks] = useState([]);
+
+  useEffect(()=>{
+    setBookmarks(data?.items)
+  },[data])
 
   useEffect(() => {
     if (userData) {
@@ -38,24 +43,24 @@ export default function Bookmark({ userData }) {
 
   if (isLoading) return <LoadingAnimation />;
 
-  const bookmarks = data?.items || [];
+ 
 
   return (
     <div className="w-[96%] h-full bg-[#f2f2f2]">
       <div className="w-full h-full px-0 backdrop-blur-3xl">
         <div className="w-full h-full pt-16 overflow-y-scroll px-40">
-          {bookmarks.length > 0 && (
+          {bookmarks?.length > 0 && (
             <>
               <h1 className="text-[35px] font-bold">Favorites</h1>
               <p className="opacity-45 translate-y-[-9px] text-[20px] font-mono">{bookmarks.length} total items</p>
               <div className="w-full mt-10 h-full flex flex-wrap gap-6">
                 {bookmarks.map((item, index) => (
-                  <BookmarkCard userData={userData} data={item} key={index} />
+                  <BookmarkCard userData={userData} setBookData={setBookmarks} data={item} key={index} />
                 ))}
               </div>
             </>
           )}
-          {bookmarks.length === 0 && (
+          {bookmarks?.length === 0 && (
             <div className="w-full h-[60vh] flex items-center mt-20 pr-20 justify-center flex-col text-center gap-5 relative">
               <img className="h-[80%] filter-[brightness(0)]" src="/heart-remove.svg" alt="No categories" />
               <div className="flex flex-col gap-2">
