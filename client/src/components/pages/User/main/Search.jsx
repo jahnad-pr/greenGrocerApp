@@ -23,11 +23,11 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
   
   return (
-    <div className="flex justify-center items-center gap-2 my-8">
+    <div className="flex justify-center absolute bottom-6 right-12 items-center gap-2 my-8">
       <button 
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`px-4 py-2 rounded-lg ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#809e8c] text-white hover:bg-[#52aa57]'}`}
+        className={`px-4 py-2 rounded-full ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#809e8c] text-white hover:bg-[#52aa57]'}`}
       >
         Previous
       </button>
@@ -36,7 +36,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className={`px-4 py-2 rounded-lg ${currentPage === page ? 'bg-[#52aa57] text-white' : 'bg-[#809e8c] text-white hover:bg-[#52aa57]'}`}
+          className={`px-4 py-2 rounded-full ${currentPage === page ? 'bg-[#52aa57] text-white' : 'bg-[#809e8c] text-white hover:bg-[#52aa57]'}`}
         >
           {page}
         </button>
@@ -45,7 +45,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`px-4 py-2 rounded-lg ${currentPage === totalPages ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#809e8c] text-white hover:bg-[#52aa57]'}`}
+        className={`px-4 py-2 rounded-full ${currentPage === totalPages ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#809e8c] text-white hover:bg-[#52aa57]'}`}
       >
         Next
       </button>
@@ -75,7 +75,7 @@ const Search = ({userData}) => {
   const [popularityData, setPopularityData] = useState({});
   const [expanded, setExpanded] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 5;
 
   const LoadingAnimation = () => (
     <div className="w-full h-screen flex items-center justify-center">
