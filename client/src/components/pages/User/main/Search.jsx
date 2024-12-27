@@ -361,7 +361,7 @@ const Search = ({userData}) => {
                           onChange={(e) => {
                             setSelectedCategory(e.target.value);
                             if(e.target.value === 'All Categories') setFilteredProducts(productData);
-                            else setFilteredProducts((prev)=> prev.filter((data,index)=> data?.category?.name?.toLowerCase() === e.target.value?.toLowerCase() ) );          
+                            else setFilteredProducts((prev)=> productData.filter((data,index)=> data?.category?.name?.toLowerCase() === e.target.value?.toLowerCase() ) );          
                             setCurrentPage(1);
                           }}
                           className="category-radio"
