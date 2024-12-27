@@ -152,7 +152,7 @@ export default function OrderSummary({userData}) {
   }, [location?.state?.items])
 
     useEffect(()=>{
-    setGrandTotel((summary.items/2 - summary.discount/2 + (summary.taxes + summary.deliveryFee) - summary.coupon - counDiscount ).toFixed(2))
+    setGrandTotel((summary.items - summary.discount/2 + (summary.taxes + summary.deliveryFee) - summary.coupon - counDiscount ).toFixed(2))
 
   },[summary,counDiscount])
 
