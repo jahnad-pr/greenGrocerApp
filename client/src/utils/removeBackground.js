@@ -6,7 +6,7 @@ export const removeBackground = async (imageBlob) => {
     const response = await fetch('https://api.remove.bg/v1.0/removebg', {
       method: 'POST',
       headers: {
-        'X-Api-Key': 'dJtRqewhTES52K7ADe2B1SG9',
+        'X-Api-Key': 'KQbEpFnDRTvo2fckiEdhaxVo',
       },
       body: formData,
     });
