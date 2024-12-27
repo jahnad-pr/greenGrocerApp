@@ -20,14 +20,14 @@ export default function ProductsAll() {
 
   
   return (
-    <div className='w-[96%] h-full bg-gray-100 bg-product'>
-      <div className="bg-[#ffffff20] mix-blend-scree absolute w-full h-full backdrop-blur-3xl"></div>
+    <div className='md:w-[94%] h-full bg-gray-100 bg-product'>
+      <div className="bg-[#ffffffaf] mix-blend-scree absolute md:w-[94%] w-full h-full backdrop-blur-3xl"></div>
         <div className="w-full h-full backdrop-blur-3xl px-40">
             <div className="w-full h-fullpt- 0 overflow-y-scroll">
 
                 {/* fruit collection */}
                 <span className='flex'>
-          <h1 style={{whiteSpace:'pre-line'}} className={`text-[120px] mb-20 leading-none font-bold mt-20 font-['lufga']`}>
+          <h1 style={{whiteSpace:'pre-line'}} className={`text-[120px] mb-20 leading-none text-[#5a6a60d3] font-bold mt-20 font-['lufga']`}>
             {location?.state?.title?.replace(/ /g,'\n')}
           </h1>
           {/* <span className='flex-1'></span> */}

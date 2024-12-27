@@ -116,6 +116,7 @@ export default function Products({ userData }) {
                         </div>
                       )}
                       {CollData?.data?.map((data, index) => (
+                        index < 12 &&
                         data.isListed && <CollectionCard key={index} type="collection" data={data} pos={index} />
                       ))}
                     </div>
@@ -126,10 +127,10 @@ export default function Products({ userData }) {
                   <>
                     <h1 className="text-[30px] font-semibold mt-20">Products</h1>
                     <div className="w-full h-auto flex my-5 mt-8 gap-5 mb-80 relative flex-wrap">
-                      {productsData?.data?.length > 12 && (
+                      {productsData?.data?.length > 2 && (
                         <div onClick={() => navigator(`/user/collection/${catData?.data[cPosition].name}/products`, {
                           state: {
-                            products: CollData?.data,
+                            products: productsData?.data,
                             action: "collections",
                             title: `${catData?.data[cPosition].name}`
                           }
@@ -140,6 +141,7 @@ export default function Products({ userData }) {
                         </div>
                       )}
                       {productsData?.data?.map((data, index) => (
+                        index < 12 &&
                         <Product userData={userData} key={index} type="product" data={data} pos={index} />
                       ))}
                     </div>
