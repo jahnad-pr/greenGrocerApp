@@ -582,7 +582,7 @@ function ProductCard({ navigate, product, userData, showToast }) {
               style={{ animationDelay: `${i * 0.1}s` }} removeLoading
             ></div>
           ))}
-        </div> : <img src={isMared ? '/hearted.svg' : '/heart.svg'} onClick={(e) => isMared ? bookmarkHandler(e, product._id, 'remove') : bookmarkHandler(e, product._id, 'add')} className={`w-20 h-20 opacity-45 absolute top-28 right-0 rounded-full p-5 hover:scale-125 duration-500 `}></img>}
+        </div> :userData?._id? <img src={isMared ? '/hearted.svg' : '/heart.svg'} onClick={(e) => isMared ? bookmarkHandler(e, product._id, 'remove') : bookmarkHandler(e, product._id, 'add')} className={`w-20 h-20 opacity-45 absolute top-28 right-0 rounded-full p-5 hover:scale-125 duration-500 `}></img>:''}
 
     <img className="max-w-[120px] h-[120px] w-[120px] object-cover max-h-[120px] oscillater mix-blend-darken drop-shadow-2xl z-20" src={product.pics.one} alt={product.name} />
     <img className="px-0 max-w-[80px] shadowed opacity-20 absolute" src={product.pic} alt="" />
