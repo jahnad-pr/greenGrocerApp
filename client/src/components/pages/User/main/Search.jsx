@@ -360,7 +360,7 @@ const Search = ({userData}) => {
                           checked={selectedCategory === category}
                           onChange={(e) => {
                             setSelectedCategory(e.target.value);
-                            setFilteredProducts((prev)=> prev.filter((data,index)=> data?.product?.category?.name === e.target.value  ) );          
+                            setFilteredProducts((prev)=> prev.filter((data,index)=> data?.category?.name === e.target.value  ) );          
                             setCurrentPage(1);
                           }}
                           className="category-radio"
