@@ -360,6 +360,7 @@ const Search = ({userData}) => {
                           checked={selectedCategory === category}
                           onChange={(e) => {
                             setSelectedCategory(e.target.value);
+                            setFilteredProducts((prev)=> prev.filter((data,index)=> data?.product?.category?.name === e.target.value  ) );          
                             setCurrentPage(1);
                           }}
                           className="category-radio"
@@ -522,9 +523,10 @@ const Search = ({userData}) => {
                 <>
                   <div className="w-full h-auto flex my-5 gap-5 relative flex-wrap product-grid items-center justify-center">
                     {getCurrentItems(filteredProducts).map((product) => (
+                      // console.log(product?.category?.name)
                       (product?.category?.name.toLowerCase() === selectedCategory.toLowerCase() || 
-                       selectedCategory === 'All Categories' || 
-                       selectedCategory === 'all') &&
+                      selectedCategory === 'All Categories' || 
+                      selectedCategory === 'all') &&
                       <div key={product._id} className="animate-card">
                         <ProductCard 
                           key={product._id} 
@@ -553,8 +555,8 @@ const Search = ({userData}) => {
                   <div className="w-full h-auto flex my-5 gap-8 relative flex-wrap product-grid justify-center">
                     {getCurrentItems(collections).map((collection, index) => (
                       (collection?.category?.name.toLowerCase() === selectedCategory.toLowerCase() || 
-                       selectedCategory === 'All Categories' || 
-                       selectedCategory === 'all') &&
+                      selectedCategory === 'All Categories' || 
+                      selectedCategory === 'all') &&
                       <div key={index} className="animate-card">
                         <CollectionCard type={'collection'} data={collection} pos={index} />
                       </div>
