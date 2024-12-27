@@ -26,8 +26,8 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortField, setSortField] = useState("name");
-  const [sortOrder, setSortOrder] = useState("ascending");
+  const [sortField, setSortField] = useState("latest"); // Changed initial sort to latest
+  const [sortOrder, setSortOrder] = useState("descending"); // Changed initial order to descending
 
   // Show toast notification
   const showToast = (message, type = "success") => {
@@ -50,7 +50,12 @@ const Products = () => {
         [cat._id]: cat.isListed
       }), {});
       setToggler(toggleState);
-      setProductsData(data?.data);
+      
+      // Sort products by latest initially
+      const sortedProducts = [...data.data].sort((a, b) => 
+        new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      setProductsData(sortedProducts);
       setIsLoading(false);
     }
   }, [data]);
@@ -100,23 +105,25 @@ const Products = () => {
           comparison = new Date(b.createdAt) - new Date(a.createdAt);
           break;
         default:
-          comparison = 0;
+          comparison = new Date(b.createdAt) - new Date(a.createdAt); // Default to latest
       }
       return sortOrder === "ascending" ? comparison : -comparison;
     });
     
     return filtered;
   };
+
+  // Rest of the component remains the same...
   
-    // Handler functions
-    const handleUpdate = async (uniqeID, updateBool, action) => {
-      await updateProduct({ uniqeID, updateBool, action }).unwrap();
-    };
-  
-    const handleDelete = (uniqeID, updateBool, action) => {
-      setDeleteData({ uniqeID, updateBool, action });
-      showPopup(true);
-    };
+  // Handler functions
+  const handleUpdate = async (uniqeID, updateBool, action) => {
+    await updateProduct({ uniqeID, updateBool, action }).unwrap();
+  };
+
+  const handleDelete = (uniqeID, updateBool, action) => {
+    setDeleteData({ uniqeID, updateBool, action });
+    showPopup(true);
+  };
 
   // Get current page items
   const indexOfLastItem = currentPage * itemsPerPage;
