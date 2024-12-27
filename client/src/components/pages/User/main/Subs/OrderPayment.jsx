@@ -87,8 +87,9 @@ const OrderPayment = ({userData}) => {
             setOrderData(orderData)
   
             await placeOrder(orderData).unwrap();
-            toast.success('Payment successful! Order placed.');
-            navigator('/user/success',{ state: { data:{...data,...location.state.add} } });
+            toast.success('Payment successful! Order placed.')
+
+            navigator('/user/success',{ state: { data:{...orderData,...location.state.add} } });
 
           }else{
             updateOrdersStatus({
