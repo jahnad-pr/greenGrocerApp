@@ -43,7 +43,8 @@ const AddressSelectionPopup = ({ onClose, onSelect, userData }) => {
                 : address.locationType === "Person"
                 ? "text-[#0d32e9]"
                 : "text-[#706e1b]"
-            }`}>{address.locationType}</h3>
+            }`}>{address?.locationType}</h3>
+
                 {address.exactAddress}, {address.streetAddress}, {address.state}, {address.pincode}, +91 {address.phone}
               </li>
             ))}
