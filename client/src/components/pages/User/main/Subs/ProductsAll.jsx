@@ -91,7 +91,7 @@ const ProductsAll = () => {
             <button
               onClick={() => paginate(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 rounded bg-[#5a6a60d3] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 rounded bg-[#5a6a60d3] absolute top-0 left-0 text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next
             </button>
