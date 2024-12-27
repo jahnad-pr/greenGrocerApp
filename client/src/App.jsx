@@ -84,6 +84,7 @@ export default function App() {
             <Route path="/admin/Category" element={<AdminProtucter><Categories /></AdminProtucter>} />
             <Route path="/admin/Category/manage" element={<AdminProtucter><CategoryManage /></AdminProtucter>} />
             <Route path="/admin/Collection" element={<AdminProtucter><Collections /></AdminProtucter>} />
+            <Route path="/admin/Collection/manage" element={<AdminProtucter><CollectionManage /></AdminProtucter>} />
             <Route path="/admin/Offers/manage" element={<AdminProtucter><OfferManage /></AdminProtucter>} /> 
             <Route path="/admin/Offers" element={<AdminProtucter><Offers /></AdminProtucter>} /> 
             <Route path="/admin/Orders" element={<AdminProtucter><Orders /></AdminProtucter>} />

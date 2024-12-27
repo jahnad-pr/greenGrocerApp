@@ -16,6 +16,7 @@ import {
 
 // Assets
 import ColorPick from "../../../parts/popups/ColorPickerPopup";
+import ImageUploadPopup from "../../../parts/popups/ImageUploadPopup";
 
 // Constants
 const UPLOAD_ENDPOINT = import.meta.env.VITE_IMAGE_UPLOAD_URL;
@@ -43,6 +44,15 @@ const CollectionManage = () => {
   const [popup, showPop] = useState(false);
   const [isChanged, setChaged] = useState(false);
   const [formState, setFormState] = useState(INITIAL_FORM_STATE);
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
+
+  const handleImageSave = (blob) => {
+    setImageUrl(blob[0]);
+    console.log(blob[0]);
+    
+  };
+
 
   // Router hooks
   const navigate = useNavigate();
@@ -192,7 +202,7 @@ const CollectionManage = () => {
     //   return "Minimum one product needed";
     // }
 
-    if (!collectionImage[0]) {
+    if (!imageUrl) {
       return "Select the image";
     }
 
@@ -291,14 +301,14 @@ const CollectionManage = () => {
     const error = validateFormData(formState);
     if (!error) {
       try {
-        let imageUrl = formState?.pic || ''
+        // let imageUrl = formState?.pic || ''
 
         
-        if(!formState?.pic || collectionImage[0] && isChanged){
+        // if(!formState?.pic || collectionImage[0] && isChanged){
 
-          imageUrl = await uploadImage(collectionImage?.[0]);
+        //   imageUrl = await uploadImage(collectionImage?.[0]);
 
-        }
+        // }
 
         let collectionData = ''
         
@@ -344,15 +354,14 @@ const CollectionManage = () => {
   return (
     <>
       <ToastContainer position="bottom-left" />
-      {showImagePicker && (
-        <ImagePicker
-        setChaged={setChaged}
-          imageses={collectionImage}
-          maxImages={1}
-          setImageUrls={setCollectionImage}
-          showPopup={setShowImagePicker}
-        />
-      )}
+      <ImageUploadPopup
+        isOpen={isImagePopupOpen}
+        onClose={() => setIsImagePopupOpen(false)}
+        onSave={handleImageSave}
+        showRemoveBg={true}
+        // urls={urls[0]?urls:false}
+        maxImages={1}
+      />
       {popup && (
         <ColorPick
           colors={colors}
@@ -361,9 +370,9 @@ const CollectionManage = () => {
           showPop={showPop}
         />
       )}
-
-      <div className="container w-[105%] h-full pt-[56px] my-8 relative">
-        <div className="w-full h-full bg-[radial-gradient(circle_at_10%_10%,_rgb(222,255,247)_0%,rgba(255,0,0,0)_100%);] rounded-tl-[65px] flex justify-center relative">
+setShowImagePicker
+      <div className="container w-[105%] pt-[56px] mt-8 relative">
+        <div className="w-full h-full overflow-scroll bg-[radial-gradient(circle_at_10%_10%,_rgb(222,255,247)_0%,rgba(255,0,0,0)_100%);] rounded-tl-[65px] flex justify-center relative">
           {/* Back Navigation */}
           <div
             onClick={() => navigate("/admin/Collection")}
@@ -389,19 +398,19 @@ const CollectionManage = () => {
             </div>
 
             {/* Main Content */}
-            <div className="flex max-w-[55%] mx-auto">
+            <div className=" max-w-[55%] mx-auto">
               {/* Image Section */}
               <div className="mt-20">
                 <img
-                  onClick={() => setShowImagePicker(true)}
-                  className="w-[80%] border-2 border-gray-300 border-dashed rounded-3xl m-5 mr-10 cursor-pointer transition-transform hover:scale-105"
-                  src={ collectionImage[0] || formState.pic ||  placeholderImage}
+                  onClick={() => setIsImagePopupOpen(true)}
+                  className="max-w-[250px] mx-auto w-[80%] border-2 border-gray-300 border-dashed rounded-3xl m-5  cursor-pointer transition-transform hover:scale-105"
+                  src={ imageUrl || formState.pic ||  '/category.svg'}
                   alt="Collection"
                 />
               </div>
 
               {/* Form Section */}
-              <div className="flex-1">
+              <div className="flex-1 pb-40">
                 <div className="flex flex-col gap-5">
                   {/* Collection Name Input */}
                   <div className="flex flex-col gap-1">
@@ -450,7 +459,7 @@ const CollectionManage = () => {
                         name="description"
                         value={formState.description}
                         onChange={handleInputChange}
-                        className="outline-none w-[225px] py-3 px-5 bg-[linear-gradient(45deg,#AAEACD,#f5efef)] rounded-[20px] text-[18px] min-h-[120px] transition-all focus:shadow-lg"
+                        className="outline-none w-[525px] py-3 px-5 bg-[linear-gradient(45deg,#AAEACD,#f5efef)] rounded-[20px] text-[18px] min-h-[120px] transition-all focus:shadow-lg"
                         placeholder="Enter description"
                       />
                     </div>
@@ -492,7 +501,7 @@ const CollectionManage = () => {
                                 ${
                                   selectedProductIds.includes(product._id)
                                     ? "bg-green-50"
-                                    : "hover:bg-gray-100"
+                                    : "hover:bg-goverflow-scrollray-100"
                                 } `}
                                 >
                                   <img
@@ -538,7 +547,7 @@ const CollectionManage = () => {
                   {/* Update Button */}
                   <button
                     onClick={handleCollectionUpdate}
-                    className="px-0 py-[15px] bg-[linear-gradient(to_left,#8CC850,#1F9C64)] text-[18px] rounded-full text-white font-medium mt-5 w-full max-w-[300px] transition-transform hover:scale-105"
+                    className="px-0 py-[15px] mx-auto bg-[linear-gradient(to_left,#8CC850,#1F9C64)] text-[18px] rounded-full text-white font-medium mt-5 w-full max-w-[300px] transition-transform hover:scale-105"
                   >
                     Update Collection
                   </button>

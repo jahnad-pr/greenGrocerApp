@@ -86,15 +86,15 @@ export default function Products({ userData }) {
                 {catData?.data?.map((data, index) => (
                   data.isListed && (
                     <p key={index} 
-                       onClick={() => handleCategoryChange(index)}
-                       style={{ opacity: cPosition === index ? "100%" : "40%" }}
-                       className="w-40 transition-opacity capitalize duration-300 m-0 leading-none">
+                      onClick={() => handleCategoryChange(index)}
+                      style={{ opacity: cPosition === index ? "100%" : "40%" }}
+                      className="w-40 transition-opacity capitalize duration-300 m-0 leading-none cursor-pointer">
                       {data.name}
                     </p>
                   )
                 ))}
                 <div style={{ left: `${160 * cPosition}px` }} 
-                     className="w-16 h-1 duration-500 bg-[#44764850] absolute bottom-0" />
+                    className="w-16 h-1 duration-500 bg-[#44764850] absolute bottom-0" />
               </div>
 
               <div className={`transition-all duration-300 ${fadeOut ? "opacity-0 transform translate-y-4" : "opacity-100 transform translate-y-0"}`}>
