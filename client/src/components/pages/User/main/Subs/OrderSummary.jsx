@@ -229,7 +229,7 @@ export default function OrderSummary({userData}) {
       {/* <div className="absolute w-full h-full overflow-scroll"></div> */}
 
           {/* new one */}
-          <div className="min-w-[70%] sm:px-20 px-10 2xl:pb-80 pb-0 sm:pb-40">
+          <div className="min-w-[80%] sm:px-20 px-10 2xl:pb-80 pb-0 sm:pb-40">
 
 
           <h1 onClick={()=>console.log(applyCoupon)} className="text-[35px] font-bold my-8">Order Summary</h1>
