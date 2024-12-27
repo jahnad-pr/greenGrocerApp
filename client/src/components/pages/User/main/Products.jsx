@@ -102,7 +102,7 @@ export default function Products({ userData }) {
                   <>
                     <h1 className="text-[30px] font-semibold mt-20">Collections</h1>
                     <div className="w-full h-auto flex my-5 mt-12 gap-5 relative">
-                      {productsData?.data?.length > 14 && (
+                      {productsData?.data?.length > 12 && (
                         <div onClick={() => navigator(`/user/collection/${catData?.data[cPosition].name}/products`, {
                           state: {
                             products: CollData?.data,
@@ -110,7 +110,7 @@ export default function Products({ userData }) {
                             title: `Collections of ${catData?.data[cPosition].name}`
                           }
                         })}
-                        className="px-8 items-center justify-center group flex duration-500 absolute font-medium right-0 top-[-65px] py-2 bg-[linear-gradient(to_left,#52aa5799,#14532d)] hover:scale-125 text-white tex-[20px] gap-2 rounded-l-[10px] rounded-bl-[20px]">
+                        className="px-8 items-center justify-center group flex duration-500 absolute font-medium right-0 top-[-65px] py-2 bg-[linear-gradient(to_left,#7e9d8a,#14532d)] hover:scale-125 text-white tex-[20px] gap-2 rounded-[20px] rounded-bl-[40px]">
                           <p className="duration-500">VIEW ALL</p>
                           <i className="ri-arrow-right-line rounded-full overflow-hidden -translate-x-5 opacity-0 text-[25px] group-hover:translate-x-0 group-hover:opacity-100 duration-500"></i>
                         </div>
@@ -126,15 +126,15 @@ export default function Products({ userData }) {
                   <>
                     <h1 className="text-[30px] font-semibold mt-20">Products</h1>
                     <div className="w-full h-auto flex my-5 mt-8 gap-5 mb-80 relative flex-wrap">
-                      {productsData?.data?.length > 14 && (
+                      {productsData?.data?.length > 12 && (
                         <div onClick={() => navigator(`/user/collection/${catData?.data[cPosition].name}/products`, {
                           state: {
                             products: CollData?.data,
                             action: "collections",
-                            title: `Collections of ${catData?.data[cPosition].name}`
+                            title: `${catData?.data[cPosition].name}`
                           }
                         })}
-                        className="px-8 items-center justify-center group flex duration-500 absolute font-medium right-0 top-[-65px] py-2 bg-[linear-gradient(to_left,#52aa5799,#14532d)] hover:scale-125 text-white tex-[20px] gap-2 rounded-l-[10px] rounded-bl-[20px]">
+                        className="px-8 items-center justify-center group flex duration-500 absolute font-medium right-0 top-[-65px] py-2 bg-[linear-gradient(to_left,#7e9d8a,#14532d)] hover:scale-125 text-white tex-[20px] gap-2 rounded-[20px] rounded-bl-[40px]">
                           <p className="duration-500">VIEW ALL</p>
                           <i className="ri-arrow-right-line rounded-full overflow-hidden -translate-x-5 opacity-0 text-[25px] group-hover:translate-x-0 group-hover:opacity-100 duration-500"></i>
                         </div>
