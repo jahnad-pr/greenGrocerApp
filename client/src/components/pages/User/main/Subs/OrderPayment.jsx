@@ -29,7 +29,7 @@ const OrderPayment = ({userData}) => {
   }, [data])
 
   useEffect(() =>{
-    if(statusData){ navigator('/user/success') } 
+    if(statusData){ navigator('/user/success'),{ state: { data:{...data,...location.state.add} } } } 
   }, [statusData])
 
   useEffect(() => {
@@ -88,7 +88,7 @@ const OrderPayment = ({userData}) => {
   
             await placeOrder(orderData).unwrap();
             toast.success('Payment successful! Order placed.');
-            navigator('/user/success');
+            navigator('/user/success',{ state: { data:{...data,...location.state.add} } });
 
           }else{
             updateOrdersStatus({
