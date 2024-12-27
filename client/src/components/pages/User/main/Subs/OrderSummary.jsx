@@ -508,8 +508,18 @@ export default function OrderSummary({userData}) {
               <p className="text-[20px] font-bold mb-3">Shipping address</p>
 
               <p className="text-[18px] opacity-65">
+              <h3 className={`font-semibold text-[25px] opacity-55 ${
+              address.locationType === "Work"
+                ? "text-[#ff0000]"
+                : address.locationType === "Home"
+                ? "text-[#1c7721]"
+                : address.locationType === "Person"
+                ? "text-[#0d32e9]"
+                : "text-[#706e1b]"
+            }`}>{address.locationType||adressData[0]?.locationType}</h3>
+
               {selectedAddress
-                ? `${selectedAddress.exactAddress}, ${selectedAddress.streetAddress}, ${selectedAddress.state}, ${selectedAddress.pincode}`
+                ? `${selectedAddress.exactAddress},  ${selectedAddress.streetAddress}, ${selectedAddress.state}, ${selectedAddress.pincode}`
                 : adressData && adressData.length > 0
                 ? `${adressData[0]?.exactAddress || 'N/A'}, ${adressData[0]?.streetAddress || 'N/A'}, ${adressData[0]?.state || 'N/A'}, ${adressData[0]?.pincode || 'N/A'}`
                 : 'No address available'}

@@ -35,7 +35,7 @@ const AddressSelectionPopup = ({ onClose, onSelect, userData }) => {
           <ul className="mb-4 flex flex-col gap-4">
             {addresses?.map((address) => (
               <li key={address._id} className="cursor-pointer text-[16px] hover:bg-gray-100 bg-white/30 px-5 py-3 rounded-[15px]" onClick={() => onSelect(address)}>
-                <h3 className={`font-semibold ${
+                <h3 className={`font-semibold text-[25px] opacity-55 ${
               address.locationType === "Work"
                 ? "text-[#ff0000]"
                 : address.locationType === "Home"
