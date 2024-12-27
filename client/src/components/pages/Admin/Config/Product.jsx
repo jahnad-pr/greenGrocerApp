@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useGetProductsMutation, useUpdateProductMutation } from "../../../../services/Admin/adminApi";
-import { motion } from "framer-motion";
 import DeletePopup from "../../../parts/popups/DeletePopup";
 import Recents from "../../../parts/Main/Recents";
 import { ToastContainer, toast } from "react-toastify";
@@ -21,60 +20,14 @@ const Products = () => {
   const [deleteData, setDeleteData] = useState(null);
   const [togglor, setToggler] = useState({});
   const [productsData, setProductsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(8);
+  const [itemsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortField, setSortField] = useState("name");
   const [sortOrder, setSortOrder] = useState("ascending");
-
-  // Pagination calculations
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  
-  // Filter and sort products
-  const filteredProducts = productsData
-    .filter(product => 
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description?.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .sort((a, b) => {
-      const order = sortOrder === "ascending" ? 1 : -1;
-      switch (sortField) {
-        case "name":
-          return order * a.name.localeCompare(b.name);
-        case "amount":
-          return order * (a.regularPrice - b.regularPrice);
-        case "latest":
-          return order * (new Date(b.createdAt) - new Date(a.createdAt));
-        default:
-          return 0;
-      }
-    });
-
-  const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.3 }
-    }
-  };
 
   // Show toast notification
   const showToast = (message, type = "success") => {
@@ -89,19 +42,99 @@ const Products = () => {
     });
   };
 
-  // ... (keep existing useEffect hooks)
+  // Initialize toggle states for products
+  useEffect(() => {
+    if (data?.data) {
+      const toggleState = data.data.reduce((acc, cat) => ({
+        ...acc,
+        [cat._id]: cat.isListed
+      }), {});
+      setToggler(toggleState);
+      setProductsData(data?.data);
+      setIsLoading(false);
+    }
+  }, [data]);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  // Handle notifications
+  useEffect(() => {
+    if(accessData?.message) {
+      showToast(accessData?.message, 'success');
+    }
+    if(location?.state?.message) {
+      showToast(location?.state?.message, location?.state?.status);
+    }
+  }, [accessData, location.state]);
+
+  // Fetch products on component mount
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      await getProducts().unwrap();
+    };
+    fetchProducts();
+  }, []);
+
+  // Filter and sort products
+  const getFilteredProducts = () => {
+    let filtered = [...productsData];
+    
+    // Search filter
+    if (searchTerm) {
+      filtered = filtered.filter(product => 
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product?.category?.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    // Sort
+    filtered.sort((a, b) => {
+      let comparison = 0;
+      switch (sortField) {
+        case "name":
+          comparison = a.name.localeCompare(b.name);
+          break;
+        case "amount":
+          comparison = a.regularPrice - b.regularPrice;
+          break;
+        case "latest":
+          comparison = new Date(b.createdAt) - new Date(a.createdAt);
+          break;
+        default:
+          comparison = 0;
+      }
+      return sortOrder === "ascending" ? comparison : -comparison;
+    });
+    
+    return filtered;
   };
+  
+    // Handler functions
+    const handleUpdate = async (uniqeID, updateBool, action) => {
+      await updateProduct({ uniqeID, updateBool, action }).unwrap();
+    };
+  
+    const handleDelete = (uniqeID, updateBool, action) => {
+      setDeleteData({ uniqeID, updateBool, action });
+      showPopup(true);
+    };
+
+  // Get current page items
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = getFilteredProducts().slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(getFilteredProducts().length / itemsPerPage);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const LoadingAnimation = () => (
+    <div className="w-full h-[60vh] flex items-center justify-center">
+      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+  );
 
   const EmptyState = () => (
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
-      className="w-full h-[60vh] flex items-center justify-center flex-col text-center gap-5"
-    >
+    <div className="w-full h-[60vh] flex items-center justify-center flex-col text-center gap-5 animate-fadeIn">
       <img className="h-[70%]" src={emptyStateImage} alt="No categories" />
       <div className="flex flex-col gap-2">
         <h1 className="text-[30px] font-bold">No Products</h1>
@@ -113,7 +146,7 @@ const Products = () => {
           Let's go
         </p>
       </div>
-    </motion.div>
+    </div>
   );
 
   return (
@@ -127,19 +160,11 @@ const Products = () => {
         />
       )}
 
-      <motion.div 
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-        className="container w-[75%] h-full pt-[60px] my-6"
-      >
+      <div className="container w-[75%] h-full pt-[60px] my-6 animate-slideIn">
         <div className="w-full h-full bg-[radial-gradient(circle_at_10%_10%,_rgb(237,248,255)_0%,rgba(255,0,0,0)_100%);] rounded-tl-[65px] flex justify-center pb-60 overflow-hidden mb-20">
           <div className="w-full px-4 mt-5 pb-20">
             {/* Search and Filter Section */}
-            <motion.div 
-              variants={itemVariants}
-              className="w-full h-16 flex items-center gap-4 mb-4"
-            >
+            <div className="w-full h-16 flex items-center gap-4 mb-4 animate-fadeIn">
               <div className="bg-[#ffffff70] py-1 px-4 flex gap-4 rounded-full">
                 <input
                   className="bg-transparent outline-none w-40"
@@ -175,74 +200,137 @@ const Products = () => {
                   <option value="descending">Descending</option>
                 </select>
               </div>
-            </motion.div>
+            </div>
 
             {/* Products Table */}
-            <div className="overflow-scroll pb-96 px-20">
-              {productsData?.length > 0 ? (
-                <motion.table 
-                  variants={containerVariants}
-                  className="w-full border-collapse overflow-scroll"
-                >
-                  {/* ... (keep existing table header) */}
-                  
-                  <tbody className="overflow-scroll">
-                    {currentItems.map((product, index) => (
-                      <motion.tr 
-                        key={product._id}
-                        variants={itemVariants}
-                        className="hover:bg-gray-50 font-['lufga'] transition-colors"
+            <div className="overflow-auto pb-96 px-20">
+              {isLoading ? (
+                <LoadingAnimation />
+              ) : productsData?.length > 0 ? (
+                <div className="animate-fadeIn">
+                  <table className="w-full border-collapse">
+                    {/* Table Header */}
+                    <thead className="sticky top-0 z-10">
+                      <tr className="bg-[linear-gradient(to_right,#498CFF24,#CBD8EE23)] font-mono text-[18px]">
+                        <th className="px-3 pl-4 10 py-2 text-left font-medium text-gray-600 rounded-l-full">S.num</th>
+                        <th className="px-3 py-2 text-left font-medium text-gray-600">Product</th>
+                        <th className="px-3 py-2 text-left font-medium text-gray-600">Category</th>
+                        <th className="px-3 py-2 text-left font-medium text-gray-600">Price</th>
+                        <th className="px-3 py-2 text-left font-medium text-gray-600">From</th>
+                        <th className="px-3 py-2 text-left font-medium text-gray-600">Qty</th>
+                        <th className="px-3 py-2 text-left font-medium text-gray-600">Image</th>
+                        <th className="px-3 py-2 text-left font-medium text-gray-600">Status</th>
+                        <th className="px-3 py-2 text-left font-medium text-gray-600 rounded-r-full">Actions</th>
+                      </tr>
+                    </thead>
+                    <tr><th>&nbsp;</th></tr>
+
+                    {/* Table Body */}
+                    <tbody>
+                      {currentItems.map((product, index) => (
+                        <tr 
+                          key={product._id} 
+                          className="hover:bg-gray-50 font-['lufga'] transition-colors animate-fadeIn"
+                          style={{ animationDelay: `${index * 0.1}s` }}
+                        >
+                          <td className="px-3 py-2 font-bold text-gray-900 text-[20px]">{index + 1}</td>
+                      <td className="px-3 py-2">
+                        <div className=" text-gray-900 text-[20px] font-['lufga']">{product.name}</div>
+                        <div className="text-xs text-gray-400 font-normal">{product.description||'No description'}</div>
+                      </td>
+                      <td className="px-3 py-2">
+                        <div className="text-gray-900 text-[20px] ">{product?.category?.name}</div>
+                        <div className="text-xs text-gray-400 font-normal ">{product?.productCollection?.name||'No collection'}</div>
+                      </td>
+                      <td className="px-3 py-2">
+                        <div className="text-gray-500 text-[20px] font-medium font-mono">₹{product.regularPrice}</div>
+                        {/* <div className="font-bold text-gray-600">₹{product.salePrice}</div> */}
+                      </td>
+                      <td className="px-3 py-2 text-sm text-gray-500">{product.from}</td>
+                      <td className={`px-3 py-2 ${product.stock<=0?'text-red-600 text-[16px] font-medium':'text-gray-600 text-[20px]'}`}>{product.stock<=0?'Out of Stock':product.stock<=1000?(product.stock).toFixed(2):(product.stock/1000).toFixed(2)} 
+                      { product.stock> 0 &&<span className="">{product.stock>=1000? ' Kg':'Gram'}</span>}</td>
+                      <td className="px-3 py-2">
+                        <img src={product?.pics?.one} alt={product.name} className="w-8 h-8 rounded-full object-cover" />
+                      </td>
+                      <td className="px-3 py-2">
+                        {/* Toggle Switch */}
+                        <div
+                          onClick={() => handleUpdate(product._id, !togglor[product._id], "access")}
+                          className="relative w-16 h-8 bg-gray-800 rounded-full shadow-lg cursor-pointer"
+                        >
+                          <div
+                            className={`absolute top-1/2 w-4 h-4 ${
+                              togglor[product._id] ? "left-[calc(100%_-_22px)]" : "left-2"
+                            } bg-gray-700 rounded-full transform -translate-y-1/2 transition-all duration-300`}
+                          />
+                          <div
+                            className={`absolute top-1/2 w-6 ${
+                              togglor[product._id]
+                                ? "bg-teal-400 h-4 right-[calc(100%_-_28px)]"
+                                : "bg-red-700 h-2 right-2"
+                            } rounded-full transform -translate-y-1/2 duration-500`}
+                          />
+                        </div>
+                      </td>
+                      <td className="px-3 py-2 space-x-2">
+                        <button
+                          onClick={() => navigate("/admin/Products/manage", { state: { product } })}
+                          className="text-gray-500 hover:text-blue-600"
+                        >
+                          <i className="ri-pencil-line text-xl" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(product._id, !togglor[product._id], "delete")}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <i className="ri-delete-bin-line text-xl" />
+                        </button>
+                      </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                  {/* Enhanced Pagination */}
+                  <div className="absolute bottom-8 right-[12%] flex items-center gap-2">
+                    <button
+                      onClick={() => paginate(Math.max(1, currentPage - 1))}
+                      disabled={currentPage === 1}
+                      className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-3 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <i className="ri-skip-left-line text-lg" />
+                    </button>
+                    
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+                      <button
+                        key={number}
+                        onClick={() => paginate(number)}
+                        className={`${
+                          currentPage === number
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-gray-300 text-gray-800 hover:bg-gray-400'
+                        } font-bold py-2 px-4 rounded-full transition-colors`}
                       >
-                        {/* ... (keep existing table row content) */}
-                      </motion.tr>
+                        {String(number).padStart(2, '0')}
+                      </button>
                     ))}
-                  </tbody>
-                </motion.table>
+                    
+                    <button
+                      onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
+                      disabled={currentPage === totalPages}
+                      className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-3 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <i className="ri-skip-right-line text-lg" />
+                    </button>
+                  </div>
+                </div>
               ) : (
                 <EmptyState />
               )}
             </div>
-
-            {/* Pagination */}
-            {productsData.length > 0 && (
-              <motion.div 
-                variants={itemVariants}
-                className="absolute bottom-8 right-[12%] flex gap-2"
-              >
-                <button
-                  onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                  disabled={currentPage === 1}
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-3 rounded-full transition-colors disabled:opacity-50"
-                >
-                  <i className="ri-skip-left-line text-lg" />
-                </button>
-                
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => handlePageChange(page)}
-                    className={`${
-                      currentPage === page
-                        ? "bg-blue-500 text-white"
-                        : "bg-gray-300 text-gray-800 hover:bg-gray-400"
-                    } font-bold py-2 px-4 rounded-full transition-colors`}
-                  >
-                    {String(page).padStart(2, '0')}
-                  </button>
-                ))}
-                
-                <button
-                  onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                  disabled={currentPage === totalPages}
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-3 rounded-full transition-colors disabled:opacity-50"
-                >
-                  <i className="ri-skip-right-line text-lg" />
-                </button>
-              </motion.div>
-            )}
           </div>
         </div>
-      </motion.div>
+      </div>
       <Recents page="products" />
     </>
   );
