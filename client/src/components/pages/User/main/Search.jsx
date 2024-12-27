@@ -12,7 +12,9 @@ import {
   useCheckPorductInCartMutation, 
   useGetAllCollectionMutation, 
   useGetAllProductMutation, 
-  useRemoveBookmarkItmeMutation 
+  useRemoveBookmarkItmeMutation,
+  useGetFilteredProductsMutation
+
 } from '../../../../services/User/userApi';
 import CollectionCard from '../../../parts/Cards/Collection';
 import { ToastContainer, toast } from 'react-toastify';
@@ -57,6 +59,7 @@ const Search = ({userData}) => {
   const [getAllProduct, { isLoading, error, data }] = useGetAllProductMutation();
   const [getAllCollection, { data: collData }] = useGetAllCollectionMutation();
   const [addtoCart, { error: addError, data: addData }] = useAddtoCartMutation();
+  const [getFilteredProducts, { data: filterdData,isLoading:IsLOading }] = useGetFilteredProductsMutation();
 
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
@@ -75,7 +78,7 @@ const Search = ({userData}) => {
   const [popularityData, setPopularityData] = useState({});
   const [expanded, setExpanded] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   const LoadingAnimation = () => (
     <div className="w-full h-screen flex items-center justify-center">
@@ -121,40 +124,71 @@ const Search = ({userData}) => {
     }
   }, [data]);
 
-  const handleSort = (sortType) => {
+  useEffect(()=>{
+    if(filterdData){
+      console.log(filterdData)
+    }
+  },[filterdData])
+
+  const handleSort = async (sortType) => {
     let sorted = [...filteredProducts];
     switch (sortType) {
-      case 'name-asc':
-        sorted.sort((a, b) => a.name.localeCompare(b.name));
+      case 'name-asc': {
+        const data = await getFilteredProducts({ sortBy: 'name-asc' });
+        setFilteredProducts(data?.data?.productDetails);
+        setSortBy(sortType);
+        setCurrentPage(1);
         break;
-      case 'name-desc':
-        sorted.sort((a, b) => b.name.localeCompare(a.name));
+      }
+      case 'name-desc': {
+        const data = await getFilteredProducts({ sortBy: 'name-desc' });
+        setFilteredProducts(data?.data?.productDetails);
+        setSortBy(sortType);
+        setCurrentPage(1);
         break;
-      case 'price-asc':
-        sorted.sort((a, b) => a.salePrice - b.salePrice);
+      }
+      case 'price-asc': {
+        const data = await getFilteredProducts({ sortBy: 'price-asc' });
+        setFilteredProducts(data?.data?.productDetails);
+        setSortBy(sortType);
+        setCurrentPage(1);
         break;
-      case 'price-desc':
-        sorted.sort((a, b) => b.salePrice - a.salePrice);
+      }
+      case 'price-desc': {
+        const data = await getFilteredProducts({ sortBy: 'price-desc' });
+        setFilteredProducts(data?.data?.productDetails);
+        setSortBy(sortType);
+        setCurrentPage(1);
         break;
-      case 'date-asc':
-        sorted.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      }
+      case 'date-asc': {
+        const data = await getFilteredProducts({ sortBy: 'date-asc' });
+        setFilteredProducts(data?.data?.productDetails);
+        setSortBy(sortType);
+        setCurrentPage(1);
         break;
-      case 'date-desc':
-        sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      }
+      case 'date-desc': {
+        const data = await getFilteredProducts({ sortBy: 'date-desc' });
+        setFilteredProducts(data?.data?.productDetails);
+        setSortBy(sortType);
+        setCurrentPage(1);
         break;
-      case 'popularity':
-        sorted.sort((a, b) => {
-          const ordersA = popularityData[a._id] || 0;
-          const ordersB = popularityData[b._id] || 0;
-          return ordersB - ordersA;
-        });
+      }
+      case 'popularity': {
+        const data = await getFilteredProducts({ sortBy: 'popularity' });
+        setFilteredProducts(data?.data?.productDetails);
+        setSortBy(sortType);
+        setCurrentPage(1);
         break;
+      }
       default:
         break;
     }
-    setFilteredProducts(sorted);
-    setSortBy(sortType);
-    setCurrentPage(1);
+    
+    // setFilteredProducts(sorted);
+    // setSortBy(sortType);
+    // setCurrentPage(1);
   };
 
   useEffect(() => {
@@ -163,16 +197,19 @@ const Search = ({userData}) => {
     }
   }, [collData]);
 
-  const handleSearch = (query) => {
+  const handleSearch = async(query) => {
+    const datas = await getFilteredProducts({searchQuery:query})
+    console.log(datas?.data?.productDetails)
+    setSearchQuery
     setSearchQuery(query);
-    const filtered = productData?.filter(product =>
-      (product.name.toLowerCase().includes(query.toLowerCase()) ||
-      product.description.toLowerCase().includes(query.toLowerCase()) ||
-      product.category.name.toLowerCase().includes(query.toLowerCase())) &&
-      (!showInStock || product.stock > 0) &&
-      (!showFeatured || product.featured === true)
-    );
-    setFilteredProducts(filtered);
+    // const filtered = productData?.filter(product =>
+    //   (product.name.toLowerCase().includes(query.toLowerCase()) ||
+    //   product.description.toLowerCase().includes(query.toLowerCase()) ||
+    //   product.category.name.toLowerCase().includes(query.toLowerCase())) &&
+    //   (!showInStock || product.stock > 0) &&
+    //   (!showFeatured || product.featured === true)
+    // );
+    setFilteredProducts(datas?.data?.productDetails);
     setCurrentPage(1);
   };
 
@@ -245,7 +282,7 @@ const Search = ({userData}) => {
     }
   };
 
-  if (isLoading) return <LoadingAnimation />;
+  if (isLoading||IsLOading&&!setSearchQuery) return <LoadingAnimation />;
   
 
   return (
@@ -457,7 +494,7 @@ const Search = ({userData}) => {
                     <option value="price-desc">Price (High to Low)</option>
                     <option value="date-asc">Date (Oldest First)</option>
                     <option value="date-desc">Date (Newest First)</option>
-                    <option value="popularity">Popularity</option>
+                    {/* <option value="popularity">Popularity</option> */}
                   </select>
                 </div>
               </div>

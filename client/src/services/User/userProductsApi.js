@@ -48,6 +48,14 @@ export const userProductsApi = (builder) => ({
       }),
     }),
 
+    getFilteredProducts: builder.mutation({
+      query: (filterParams) => ({
+        url: 'user/getFilteredProducts',
+        method: 'POST',
+        body: filterParams
+      })
+    }),
+
     getAllCollection: builder.mutation({
       query: () => ({
         url: `user/getAllCollection`,

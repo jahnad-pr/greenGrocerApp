@@ -62,6 +62,8 @@ export const {
   useCancelOrderMutation,
   useReturnOrderMutation,
 
+  useGetFilteredProductsMutation,
+
   useAddtoCartMutation,
   useCheckPorductInCartMutation,
   useGetCartItemsMutation,

@@ -1,7 +1,7 @@
 const express = require('express');
 const {createAUser,loginUser,googleLog, getUserData, 
     getOTP, conformOTP, updateVerification, isUerExist, logoutUser, updateProfile, matchPassword,resetPassword,addLocation } = require('../controllers/userController');
-const { getProducts,getCAtegoryProducts,getProductDetails,getAllProduct } = require('../controllers/config/ProductController')
+const { getProducts,getCAtegoryProducts,getProductDetails,getAllProduct,getFilteredProducts } = require('../controllers/config/ProductController')
 const { upsertAddress,getAdresses,deleteAddress } = require('../controllers/config/AdressController')
 const { getCategories } = require('../controllers/config/categoryController');
 const { addToBookmark,checkItemIntheBookmark,removeBookmarkItme,getBookmarkItems } = require('../controllers/config/bookmarkController');
@@ -49,6 +49,8 @@ router.post('/updateCartITem/:id',authMiddleware,updateCartITem);
 router.get('/getAllProduct',getAllProduct);
 router.get('/getAllCollection',getAllCollection);
 router.get('/getAllCollection',getAllCollection);
+
+router.post('/getFilteredProducts',getFilteredProducts)
 
 router.post('/addToBookmark',addToBookmark);
 router.get('/checkItemIntheBookmark/:id',authMiddleware,checkItemIntheBookmark);

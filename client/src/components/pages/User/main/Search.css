@@ -130,7 +130,7 @@
   appearance: none;
   width: 20px;
   height: 20px;
-  border: 2px solid #8aa595;
+  border: 2px solid #6e645c;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
@@ -140,7 +140,7 @@
 }
 
 .category-radio:checked {
-  border-color: #52aa57;
+  border-color: #b4c7c4;
   background: rgba(255, 255, 255, 0.95);
 }
 
@@ -178,9 +178,11 @@
   gap: 12px;
   padding: 10px 16px;
   border-radius: 30px;
-  background: #8aa69520;
+  border-bottom-right-radius: 120px;
+  background: #73b49a1b;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(138, 165, 149, 0.2);
+  /* margin-left: 10px; */
+  /* border: 1px solid rgba(138, 165, 149, 0.2); */
   transition: all 0.3s ease;
   cursor: pointer;
   font-weight: 500;

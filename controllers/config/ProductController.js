@@ -4,57 +4,57 @@ const Category = require('../../models/other/categoryModels')
 
 
 
-module.exports.upsertProducts = async(req,res)=>{
+module.exports.upsertProducts = async (req, res) => {
 
-    
-    
-    const { formData , id , action, Urls } = req.body
-    
+
+
+    const { formData, id, action, Urls } = req.body
+
     try {
-        
-        if(action === 'add' ){
-            
+
+        if (action === 'add') {
+
             const isListed = true
             const updatedAt = Date.now()
             const createdAt = Date.now()
 
-            
-            
-            const insertData = { ...formData,isListed,updatedAt,createdAt,productCollection:formData?.productCollection?._id }
 
-            const newProduct = await Product.create( insertData )
-            
 
-            if(newProduct){
-                return res.status(200).json({mission:true,message:'successfully created'})
-            }else{
-                return res.status(500).json({mission:false,message:'nothing updated'})
+            const insertData = { ...formData, isListed, updatedAt, createdAt, productCollection: formData?.productCollection?._id }
+
+            const newProduct = await Product.create(insertData)
+
+
+            if (newProduct) {
+                return res.status(200).json({ mission: true, message: 'successfully created' })
+            } else {
+                return res.status(500).json({ mission: false, message: 'nothing updated' })
             }
 
 
-        }else if(action === 'update'){
+        } else if (action === 'update') {
 
-            
 
-        const updatedAt = Date.now()
 
-        const updateData = { ...formData,updatedAt }
+            const updatedAt = Date.now()
 
-        
-        const result = await Product.updateOne( { _id:formData._id }, { $set:updateData })
+            const updateData = { ...formData, updatedAt }
 
-    
 
-        if(result.modifiedCount>0){
+            const result = await Product.updateOne({ _id: formData._id }, { $set: updateData })
 
-            return res.status(200).json({mission:true,message:'successfully updated'})
+
+
+            if (result.modifiedCount > 0) {
+
+                return res.status(200).json({ mission: true, message: 'successfully updated' })
+            }
+            return res.status(500).json({ mission: false, message: 'nothing updated' })
+
         }
-        return res.status(500).json({mission:false,message:'nothing updated'}) 
 
-        }
-        
     } catch (error) {
-        return res.status(500).json({mission:false,message:error.message})
+        return res.status(500).json({ mission: false, message: error.message })
     }
 
 
@@ -64,63 +64,63 @@ module.exports.upsertProducts = async(req,res)=>{
 
 
 
-module.exports.getProducts = async(req,res)=>{
-    
+module.exports.getProducts = async (req, res) => {
+
 
     try {
 
-        const products = await Product.find({}).populate('category','name discount' ).populate('productCollection','name' )
+        const products = await Product.find({}).populate('category', 'name discount').populate('productCollection', 'name')
 
-        
-        
-        if(products.length<=0){
 
-            res.status(500).json({mission:false,message:'empty categories',data:[]})
 
-        }else{
+        if (products.length <= 0) {
 
-            if(products[0].isListed){
+            res.status(500).json({ mission: false, message: 'empty categories', data: [] })
 
-                res.status(200).json({mission:true,message:'successfull',data:products})
+        } else {
+
+            if (products[0].isListed) {
+
+                res.status(200).json({ mission: true, message: 'successfull', data: products })
 
             }
 
         }
-        
+
     } catch (error) {
-        return res.status(500).json({mission:false,message: error.messgae }) 
+        return res.status(500).json({ mission: false, message: error.messgae })
     }
 
 }
 
 
 
-module.exports.getCAtegoryProducts = async(req,res)=>{
+module.exports.getCAtegoryProducts = async (req, res) => {
 
-    
-    
+
+
     const id = req.params.id
-    
-    
+
+
     try {
-        
-        const products = await Product.find({  category:id,isListed:true }).populate('category','name discount' )
-        
-        if(products.length<=0){
 
-            res.status(500).json({mission:false,message:'empty categories',data:[]})
+        const products = await Product.find({ category: id, isListed: true }).populate('category', 'name discount')
 
-        }else{
+        if (products.length <= 0) {
 
-        
+            res.status(500).json({ mission: false, message: 'empty categories', data: [] })
 
-                res.status(200).json({mission:true,message:'successfull',data:products})
+        } else {
+
+
+
+            res.status(200).json({ mission: true, message: 'successfull', data: products })
 
 
         }
-        
+
     } catch (error) {
-        return res.status(500).json({mission:false,message: error.messgae }) 
+        return res.status(500).json({ mission: false, message: error.messgae })
     }
 
 }
@@ -130,38 +130,38 @@ module.exports.getCAtegoryProducts = async(req,res)=>{
 
 
 
-module.exports.updateProduct = async(req,res)=>{
+module.exports.updateProduct = async (req, res) => {
 
-    
+
     // console.log('adlfjkads');
-    
-    
-    const { uniqeID,updateBool,action } = req.body
-    
+
+
+    const { uniqeID, updateBool, action } = req.body
+
     try {
-        if(action==='access'){
-            
-            const updatedtatus = await Product.updateOne({ _id:uniqeID },{ isListed:updateBool })
+        if (action === 'access') {
+
+            const updatedtatus = await Product.updateOne({ _id: uniqeID }, { isListed: updateBool })
 
 
-            if(updatedtatus.modifiedCount>0){
+            if (updatedtatus.modifiedCount > 0) {
 
-                return res.status(200).json({mission:true,message:'successfully updated',uniqeID:uniqeID,action})
+                return res.status(200).json({ mission: true, message: 'successfully updated', uniqeID: uniqeID, action })
             }
 
-            
-            
-        }else if(action==='delete'){
-            
-                const result = await Product.findByIdAndDelete(uniqeID)
 
-                
-                return res.status(200).json({mission:true,message:'successfully deleted',uniqeID:uniqeID,action})
+
+        } else if (action === 'delete') {
+
+            const result = await Product.findByIdAndDelete(uniqeID)
+
+
+            return res.status(200).json({ mission: true, message: 'successfully deleted', uniqeID: uniqeID, action })
         }
 
     } catch (error) {
 
-        return res.status(500).json({mission:false,message: error.messgae }) 
+        return res.status(500).json({ mission: false, message: error.messgae })
     }
 
 }
@@ -170,29 +170,29 @@ module.exports.updateProduct = async(req,res)=>{
 
 
 
-module.exports.getProductDetails = async(req,res)=>{
+module.exports.getProductDetails = async (req, res) => {
     const _id = req.params.id
-    
+
     try {
-            const productDetails = await Product.findOne({_id}).populate('category','name discount')
+        const productDetails = await Product.findOne({ _id }).populate('category', 'name discount')
 
 
-            if(productDetails){
+        if (productDetails) {
 
-                return res.status(200).json(productDetails)
-            }
+            return res.status(200).json(productDetails)
+        }
 
-            return res.status(500).json('no product found') 
+        return res.status(500).json('no product found')
 
     } catch (error) {
 
-        return res.status(500).json(error.message) 
+        return res.status(500).json(error.message)
     }
 
 }
 
 
-module.exports.getAllProduct = async(req,res)=>{
+module.exports.getAllProduct = async (req, res) => {
 
     // MongoDB Aggregation Pipeline for Product Popularity
     const pipeline = await Order.aggregate([
@@ -288,100 +288,227 @@ module.exports.getAllProduct = async(req,res)=>{
         }
     ]);
 
-//   console.log(pipeline);
-  
+    //   console.log(pipeline);
+
     // const _id = req.params.id
-    
+
     try {
-            const productDetails = await Product.find({}).populate('category','name discount')
+        const productDetails = await Product.find({}).populate('category', 'name discount')
 
-            // console.log(productDetails);
-            
+        // console.log(productDetails);
 
 
-            if(productDetails){
 
-                return res.status(200).json({productDetails,pipeline})
-            }
+        if (productDetails) {
 
-            return res.status(500).json('no product found') 
+            return res.status(200).json({ productDetails, pipeline })
+        }
+
+        return res.status(500).json('no product found')
 
     } catch (error) {
 
-        return res.status(500).json(error.message) 
+        return res.status(500).json(error.message)
     }
 
 }
 
 
 
-module.exports.updateOffer = async(req,res)=>{
+module.exports.updateOffer = async (req, res) => {
 
 
-    const { discountType, discountValue, minQuantity, maxAmount,offerType, productId,offerFor  } = req.body
+    const { discountType, discountValue, minQuantity, maxAmount, offerType, productId, offerFor } = req.body
 
     const discountData = {
-        type:offerType,
-        isPercentage:discountType==="percentage"?true:false,
-        value:discountValue,
-        minQuantity, 
+        type: offerType,
+        isPercentage: discountType === "percentage" ? true : false,
+        value: discountValue,
+        minQuantity,
         maxAmount,
-        updatedAt:Date.now()
+        updatedAt: Date.now()
     }
-    
-    try {   
+
+    try {
         let productDetails = ''
 
         console.log(discountData);
-        
-
-        if(offerFor==="Product"){
-        
-            productDetails = await Product.updateOne({_id:productId},{$set:{discount:{...discountData}}})
-        
-        }else{
-
-            productDetails = await Category.updateOne({_id:req.body.category},{$set:{discount:{...discountData}}})
-
-            }
 
 
-            if(productDetails){
+        if (offerFor === "Product") {
 
-                console.log(productDetails);   
+            productDetails = await Product.updateOne({ _id: productId }, { $set: { discount: { ...discountData } } })
 
-                return res.status(200).json('Offer udated successfully')
-            }
+        } else {
 
-            return res.status(500).json('no product found') 
+            productDetails = await Category.updateOne({ _id: req.body.category }, { $set: { discount: { ...discountData } } })
+
+        }
+
+
+        if (productDetails) {
+
+            console.log(productDetails);
+
+            return res.status(200).json('Offer udated successfully')
+        }
+
+        return res.status(500).json('no product found')
 
     } catch (error) {
 
-        return res.status(500).json(error.message) 
+        return res.status(500).json(error.message)
     }
 
 }
 
-module.exports.getAllDiscounts = async(req,res)=>{
+module.exports.getAllDiscounts = async (req, res) => {
 
     // const id = req.user.id
-    
-    try {   
-    
-        
-    const descounts = await Product.find({},{discount:1,name:1,category:1,pics:1}).populate('category','name')
-    const descountCategory = await Category.find({},{discount:1,name:1})
-    descounts.push(...descountCategory)
-            if(descounts){;   
 
-                return res.status(200).json([...descounts])
-            }
+    try {
 
-            return res.status(500).json('no Discounts') 
+
+        const descounts = await Product.find({}, { discount: 1, name: 1, category: 1, pics: 1 }).populate('category', 'name')
+        const descountCategory = await Category.find({}, { discount: 1, name: 1 })
+        descounts.push(...descountCategory)
+        if (descounts) {
+            ;
+
+            return res.status(200).json([...descounts])
+        }
+
+        return res.status(500).json('no Discounts')
 
     } catch (error) {
 
-        return res.status(500).json(error.message) 
+        return res.status(500).json(error.message)
     }
 
 }
+
+
+
+
+// productController.js - Backend
+module.exports.getFilteredProducts = async (req, res) => {
+    try {
+        const {
+            category,
+            priceRange,
+            sortBy,
+            searchQuery,
+            showInStock,
+            showFeatured,
+            page = 1,
+            limit = 10
+        } = req.body;
+
+        // Build filter object
+        const filter = {};
+
+        // Category filter
+        if (category && category !== 'All Categories') {
+            const categoryDoc = await Category.findOne({ name: category });
+            if (categoryDoc) {
+                filter.category = categoryDoc._id;
+            }
+        }
+
+        // Price range filter
+        if (priceRange) {
+            filter.salePrice = {
+                $gte: priceRange[0],
+                $lte: priceRange[1]
+            };
+        }
+
+        // Stock filter
+        if (showInStock) {
+            filter.stock = { $gt: 0 };
+        }
+
+        // Featured filter
+        if (showFeatured) {
+            filter.featured = true;
+        }
+
+        // Search filter
+        if (searchQuery) {
+            filter.$or = [
+                { name: { $regex: searchQuery, $options: 'i' } },
+                { description: { $regex: searchQuery, $options: 'i' } }
+            ];
+        }
+
+        // Sort options
+        let sortOption = {};
+        switch (sortBy) {
+            case 'name-asc':
+                sortOption = { name: 1 };
+                break;
+            case 'name-desc':
+                sortOption = { name: -1 };
+                break;
+            case 'price-asc':
+                sortOption = { salePrice: 1 };
+                break;
+            case 'price-desc':
+                sortOption = { salePrice: -1 };
+                break;
+            case 'date-asc':
+                sortOption = { createdAt: 1 };
+                break;
+            case 'date-desc':
+                sortOption = { createdAt: -1 };
+                break;
+            case 'popularity':
+                // Implement popularity sorting using aggregation pipeline
+                const pipeline = await Order.aggregate([
+                    // Your existing popularity pipeline
+                ]);
+                break;
+        }
+
+        // Pagination
+        const skip = (page - 1) * limit;
+
+        // Get filtered products with pagination
+        const [productDetails, total] = await Promise.all([
+            Product.find(filter)
+                .populate('category', 'name discount')
+                .sort(sortOption)
+                .skip(skip)
+                .limit(parseInt(limit)),
+            Product.countDocuments(filter)
+        ]);
+
+        // Get popularity data if needed
+        // const pipeline = sortBy === 'popularity' ? await getPopularityPipeline() : [];
+
+        return res.status(200).json({
+            success: true,
+            productDetails,
+            // pipeline,
+            pagination: {
+                total,
+                pages: Math.ceil(total / limit),
+                currentPage: parseInt(page),
+                limit: parseInt(limit)
+            }
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+// // Helper function for popularity pipeline
+// const getPopularityPipeline = async () => {
+//     return Order.aggregate([
+//         // Your existing popularity pipeline logic
+//     ]);
+// };
