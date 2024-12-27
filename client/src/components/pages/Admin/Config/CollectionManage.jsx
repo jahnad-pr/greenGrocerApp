@@ -316,7 +316,7 @@ const CollectionManage = () => {
           
           collectionData = {
             ...formState,
-            pic: imageUrl,
+            pic: imageUrl||formState?.pic,
             products: [...new Set(selectedProductIds)],
             colorPrimary:colors.primary,
             colorSecondary:colors.secondary
