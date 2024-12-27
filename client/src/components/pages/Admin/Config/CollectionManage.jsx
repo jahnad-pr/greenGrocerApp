@@ -4,7 +4,7 @@ import axios from "axios";
 
 // Component imports
 import ImagePicker from "../../../parts/popups/ImgaePicker";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
 
 
 // API hooks
@@ -17,6 +17,7 @@ import {
 // Assets
 import ColorPick from "../../../parts/popups/ColorPickerPopup";
 import ImageUploadPopup from "../../../parts/popups/ImageUploadPopup";
+import { showToast } from "../../../parts/Toast/Tostify";
 
 // Constants
 const UPLOAD_ENDPOINT = import.meta.env.VITE_IMAGE_UPLOAD_URL;
@@ -143,30 +144,7 @@ const CollectionManage = () => {
     }
   };
 
-  // Show toast notification
-  const showToast = (message, type = "success") => {
-    if (type === "success") {
-      toast.success(message, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    } else {
-      toast.error(message, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }
-  };
+
 
   const isValidCategoryName = (name) => {
     // Ensure only letters and spaces, and a minimum of 4 characters
@@ -353,7 +331,6 @@ const CollectionManage = () => {
 
   return (
     <>
-      <ToastContainer position="bottom-left" />
       <ImageUploadPopup
         isOpen={isImagePopupOpen}
         onClose={() => setIsImagePopupOpen(false)}

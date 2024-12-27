@@ -173,11 +173,11 @@ const Products = () => {
             </div>
 
             {/* Products Table */}
-            <div className="overflow-auto pb-96 px-20">
+            <div className="overflow-scroll pb-96 px-20">
 
               { productsData?.length>0 ?
 
-              <table className="w-full border-collapse">
+              <table className="w-full border-collapse overflow-scroll">
                 {/* Table Header */}
                 <thead className="sticky top-0 z-10">
                   <tr className="bg-[linear-gradient(to_right,#498CFF24,#CBD8EE23)] font-mono text-[18px]">
@@ -196,7 +196,7 @@ const Products = () => {
 
                 {/* Table Body */}
                 
-                <tbody>
+                <tbody className="overflow-scroll">
                   {productsData?.map((product, index) => (
                     <tr key={product._id} className="hover:bg-gray-50 font-['lufga']">
                       <td className="px-3 py-2 font-bold text-gray-900 text-[20px]">{index + 1}</td>
