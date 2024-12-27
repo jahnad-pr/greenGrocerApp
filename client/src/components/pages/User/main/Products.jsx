@@ -127,7 +127,7 @@ export default function Products({ userData }) {
                   <>
                     <h1 className="text-[30px] font-semibold mt-20">Products</h1>
                     <div className="w-full h-auto flex my-5 mt-8 gap-5 mb-80 relative flex-wrap">
-                      {productsData?.data?.length > 2 && (
+                      {productsData?.data?.length > 12 && (
                         <div onClick={() => navigator(`/user/collection/${catData?.data[cPosition].name}/products`, {
                           state: {
                             products: productsData?.data,
