@@ -282,7 +282,7 @@ const Search = ({userData}) => {
     }
   };
 
-  if (isLoading||IsLOading&&!setSearchQuery) return <LoadingAnimation />;
+  if (isLoading||IsLOading&&setSearchQuery==='') return <LoadingAnimation />;
   
 
   return (
