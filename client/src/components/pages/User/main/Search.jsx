@@ -75,7 +75,7 @@ const Search = ({userData}) => {
   const [popularityData, setPopularityData] = useState({});
   const [expanded, setExpanded] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 10;
 
   const LoadingAnimation = () => (
     <div className="w-full h-screen flex items-center justify-center">
