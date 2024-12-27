@@ -26,25 +26,28 @@ const ProductsAll = () => {
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
-    // Smooth scroll to top when changing pages
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 bg-product">
+    <div className="w-full h-screen overflow-y-auto bg-gray-100">
+      {/* Fixed background blur */}
       <div className="fixed inset-0 bg-[#ffffffaf] mix-blend-screen backdrop-blur-3xl" />
       
-      <div className="relative min-h-screen px-4 md:px-40 pt-20 pb-10">
-        <span className="flex items-start mb-20">
+      {/* Scrollable content container */}
+      <div className="relative w-full min-h-full px-4 md:px-40 pb-20">
+        {/* Header */}
+        <div className="sticky top-0 pt-20 pb-10 bg-gray-100/50 backdrop-blur-sm z-10">
           <h1 
             style={{ whiteSpace: 'pre-line' }}
             className="text-4xl md:text-[120px] leading-none text-[#5a6a60d3] font-bold font-['lufga']"
           >
             {location?.state?.title?.replace(/ /g, '\n')}
           </h1>
-        </span>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        {/* Products grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {currentProducts?.map((data, index) => (
             <div
               key={data.id || index}
@@ -63,35 +66,37 @@ const ProductsAll = () => {
           ))}
         </div>
 
-        {/* Pagination */}
+        {/* Fixed pagination at bottom */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 mt-10">
+          <div className="sticky bottom-0 left-0 right-0 flex justify-center items-center gap-2 py-4 bg-white/80 backdrop-blur-sm mt-10 shadow-lg">
             <button
               onClick={() => paginate(currentPage - 1)}
               disabled={currentPage === 1}
-              className="px-4 py-2 rounded bg-[#5a6a60d3] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 rounded bg-[#5a6a60d3] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#4a5a50d3] transition-colors"
             >
               Previous
             </button>
             
-            {[...Array(totalPages)].map((_, index) => (
-              <button
-                key={index + 1}
-                onClick={() => paginate(index + 1)}
-                className={`px-4 py-2 rounded ${
-                  currentPage === index + 1
-                    ? 'bg-[#5a6a60d3] text-white'
-                    : 'bg-white text-[#5a6a60d3]'
-                }`}
-              >
-                {index + 1}
-              </button>
-            ))}
+            <div className="flex gap-2 overflow-x-auto px-2">
+              {[...Array(totalPages)].map((_, index) => (
+                <button
+                  key={index + 1}
+                  onClick={() => paginate(index + 1)}
+                  className={`px-4 py-2 rounded transition-colors ${
+                    currentPage === index + 1
+                      ? 'bg-[#5a6a60d3] text-white'
+                      : 'bg-white text-[#5a6a60d3] hover:bg-gray-100'
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
             
             <button
               onClick={() => paginate(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 rounded bg-[#5a6a60d3] absolute top-0 left-0 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 rounded bg-[#5a6a60d3] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#4a5a50d3] transition-colors"
             >
               Next
             </button>
