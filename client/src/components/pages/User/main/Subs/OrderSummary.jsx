@@ -152,7 +152,7 @@ export default function OrderSummary({userData}) {
   }, [location?.state?.items])
 
     useEffect(()=>{
-    setGrandTotel((summary.items - summary.discount/2 + (summary.taxes + summary.deliveryFee) - summary.coupon - counDiscount ).toFixed(2))
+    setGrandTotel((summary.items - summary.discount + (summary.taxes + summary.deliveryFee) - summary.coupon - counDiscount ).toFixed(2))
 
   },[summary,counDiscount])
 
@@ -353,11 +353,11 @@ export default function OrderSummary({userData}) {
           <span className="text-[18px] flex flex-col mt-4 gap-1">
           <div className="flex justify-between ">
             <span>Items</span>
-            <span className="font-bold font-mono w-28">₹ {summary.items/2}</span>
+            <span className="font-bold font-mono w-28">₹ {summary.items}</span>
           </div>
           <div className="flex justify-between">
             <span>Discount</span>
-            <span className="font-bold font-mono  w-28">-₹ {summary.discount/2}</span>
+            <span className="font-bold font-mono  w-28">-₹ {summary.discount}</span>
           </div>
           <div className="flex justify-between">
             <span>Taxes</span>
