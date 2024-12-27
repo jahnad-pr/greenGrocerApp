@@ -39,27 +39,56 @@ const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3,urls=false, m
 
   useEffect(()=>{
     if (urls) {
-      setImages([
-        {
-          "original": {},
-          "preview": urls[0],
-          "cropped": {},
-          "processed": true
-        },
-        {
-          "original": {},
-          "preview": urls[1],
-          "cropped": {},
-          "processed": true
-        },
-        {
-          "original": {},
-          "preview": urls[2],
-          "cropped": {},
-          "processed": true
-        }
-      ])
+
+      let newImages = [  {
+        "original": {},
+        "preview": urls[0],
+        "cropped": {},
+        "processed": true
+      }]
+
+      // setImages([
+      
+      //   {
+      //     "original": {},
+      //     "preview": urls[1],
+      //     "cropped": {},
+      //     "processed": true
+      //   },
+      //   {
+      //     "original": {},
+      //     "preview": urls[2],
+      //     "cropped": {},
+      //     "processed": true
+      //   }
+      // }
+
+      if(maxImages>1){
+        newImages.push(
+            {
+              "original": {},
+              "preview": urls[1],
+              "cropped": {},
+              "processed": true
+            })
+      }
+
+      if(maxImages>2){
+        newImages.push(
+            {
+              "original": {},
+              "preview": urls[2],
+              "cropped": {},
+              "processed": true
+            })
+      }
+      
+      setImages(newImages)
+
     }
+
+
+
   }, [urls])
 
   const handleDragOver = (e) => {
@@ -297,22 +326,28 @@ const ImageUploadPopup = ({ isOpen, onClose, onSave, maxImages = 3,urls=false, m
               <div className="flex flex-wrap grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
                 <span className='flex gap-3'>
                 
+
                 {images.map((img, index) => (
                   <div key={index} className="relative group">
-                    <img 
-                      src={img.preview} 
-                      alt={`Upload ${index + 1}`}
-                      className={` h-40 object-cover rounded-[20px] ${img.processed?'bg-white/10':'bg-white'} `}
-                    />
+                    { 
+                    <>
+                      <img 
+                        src={img.preview} 
+                        alt={`Upload ${index + 1}`}
+                        className={` h-40 object-cover rounded-[20px] ${img.processed?'bg-white/10':'bg-white'} `}
+                      />
+
                     <button
-                      onClick={() => removeImage(index)}
-                      className="absolute top-2 right-2 p-1 rounded-full bg-red-500/20 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={() => removeImage(index)}
+                    className="absolute top-2 right-2 p-1 rounded-full bg-red-500/20 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </button>
-                    {img.processed && (
+                    </>
+                    }
+                    {img.processed && maxImages > index  && (
                       <div className="absolute bottom-2 right-2 p-1 rounded-full bg-green-500/20 text-green-500">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />

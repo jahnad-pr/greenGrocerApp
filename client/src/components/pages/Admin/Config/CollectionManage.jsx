@@ -359,7 +359,7 @@ const CollectionManage = () => {
         onClose={() => setIsImagePopupOpen(false)}
         onSave={handleImageSave}
         showRemoveBg={true}
-        // urls={urls[0]?urls:false}
+        urls={formState?.pic?{[0]:formState?.pic}:false}
         maxImages={1}
       />
       {popup && (
