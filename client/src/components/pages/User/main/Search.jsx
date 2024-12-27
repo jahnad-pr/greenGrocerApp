@@ -5,18 +5,58 @@ import { useNavigate } from 'react-router-dom';
 import { RangeSlider } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 import './Search.css';
-import { useAddToBookmarkMutation, useAddtoCartMutation, useCheckItemIntheBookmarkMutation, useCheckPorductInCartMutation, useGetAllCollectionMutation, useGetAllProductMutation, useRemoveBookmarkItmeMutation } from '../../../../services/User/userApi';
+import { 
+  useAddToBookmarkMutation, 
+  useAddtoCartMutation, 
+  useCheckItemIntheBookmarkMutation, 
+  useCheckPorductInCartMutation, 
+  useGetAllCollectionMutation, 
+  useGetAllProductMutation, 
+  useRemoveBookmarkItmeMutation 
+} from '../../../../services/User/userApi';
 import CollectionCard from '../../../parts/Cards/Collection';
 import { ToastContainer, toast } from 'react-toastify';
 import { FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 
+// Pagination Component
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  
+  return (
+    <div className="flex justify-center items-center gap-2 my-8">
+      <button 
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className={`px-4 py-2 rounded-lg ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#809e8c] text-white hover:bg-[#52aa57]'}`}
+      >
+        Previous
+      </button>
+      
+      {pages.map(page => (
+        <button
+          key={page}
+          onClick={() => onPageChange(page)}
+          className={`px-4 py-2 rounded-lg ${currentPage === page ? 'bg-[#52aa57] text-white' : 'bg-[#809e8c] text-white hover:bg-[#52aa57]'}`}
+        >
+          {page}
+        </button>
+      ))}
+      
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className={`px-4 py-2 rounded-lg ${currentPage === totalPages ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#809e8c] text-white hover:bg-[#52aa57]'}`}
+      >
+        Next
+      </button>
+    </div>
+  );
+};
+
 const Search = ({userData}) => {
-
-
-  const [getAllProduct, { isLoading, error, data },] = useGetAllProductMutation();
-  const [getAllCollection, { data:collData },] = useGetAllCollectionMutation();
+  const [getAllProduct, { isLoading, error, data }] = useGetAllProductMutation();
+  const [getAllCollection, { data: collData }] = useGetAllCollectionMutation();
   const [addtoCart, { error: addError, data: addData }] = useAddtoCartMutation();
-
 
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
@@ -29,11 +69,13 @@ const Search = ({userData}) => {
   const [sortBy, setSortBy] = useState('name-asc');
   const [activeCategory, setActiveCategory] = useState(0);
   const [filteredProducts, setFilteredProducts] = useState(productData);
-  const [collections,setCollections] = useState([]);
+  const [collections, setCollections] = useState([]);
   const [showInStock, setShowInStock] = useState(false);
   const [showFeatured, setShowFeatured] = useState(false);
   const [popularityData, setPopularityData] = useState({});
   const [expanded, setExpanded] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
 
   const LoadingAnimation = () => (
     <div className="w-full h-screen flex items-center justify-center">
@@ -51,44 +93,33 @@ const Search = ({userData}) => {
             ></div>
           ))}
         </div>
-        <p className="text-lg font-medium text-gray-600">Loading your produts...</p>
+        <p className="text-lg font-medium text-gray-600">Loading your products...</p>
       </div>
     </div>
   );
 
-  // Categories limited to fruits and vegetables
   const categories = [
     'All Categories',
     'Vegetables',
     'Fruits'
   ];
 
-  // const collections = [
-  //   'All Collections',
-  //   'Summer Specials',
-  //   'Fresh Arrivals',
-  //   'Seasonal Picks',
-  //   'Local Farmers'
-  // ];
+  useEffect(() => { getAllProduct() }, []);
+  useEffect(() => { getAllCollection() }, []);
 
-
-  useEffect(() => { getAllProduct() }, [])
-  useEffect(() => { getAllCollection() }, [])
-
- useEffect(() => {
-  if (data?.productDetails) {
-    setProductData(data?.productDetails)
-    setFilteredProducts(data?.productDetails)
-  }
-  if (data?.pipeline) {
-    // Create a map of product IDs to order counts
-    const popularityMap = data.pipeline.reduce((acc, item) => {
-      acc[item._id] = item.totalOrders;
-      return acc;
-    }, {});
-    setPopularityData(popularityMap);
-  }
-}, [data])
+  useEffect(() => {
+    if (data?.productDetails) {
+      setProductData(data.productDetails);
+      setFilteredProducts(data.productDetails);
+    }
+    if (data?.pipeline) {
+      const popularityMap = data.pipeline.reduce((acc, item) => {
+        acc[item._id] = item.totalOrders;
+        return acc;
+      }, {});
+      setPopularityData(popularityMap);
+    }
+  }, [data]);
 
   const handleSort = (sortType) => {
     let sorted = [...filteredProducts];
@@ -115,7 +146,7 @@ const Search = ({userData}) => {
         sorted.sort((a, b) => {
           const ordersA = popularityData[a._id] || 0;
           const ordersB = popularityData[b._id] || 0;
-          return ordersB - ordersA; // Sort by number of orders in descending order
+          return ordersB - ordersA;
         });
         break;
       default:
@@ -123,16 +154,14 @@ const Search = ({userData}) => {
     }
     setFilteredProducts(sorted);
     setSortBy(sortType);
+    setCurrentPage(1);
   };
 
   useEffect(() => {
     if (collData) {
-      // console.log(collData);
-      
-      setCollections(collData)
+      setCollections(collData);
     }
-  }, [collData])
-
+  }, [collData]);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -144,6 +173,7 @@ const Search = ({userData}) => {
       (!showFeatured || product.featured === true)
     );
     setFilteredProducts(filtered);
+    setCurrentPage(1);
   };
 
   const handlePriceChange = (event, newValue) => {
@@ -151,39 +181,54 @@ const Search = ({userData}) => {
     const filtered = productData.filter(product =>
       product.salePrice >= newValue[0] && product.salePrice <= newValue[1]
     );
-    setFilteredProducts(filtered)
+    setFilteredProducts(filtered);
+    setCurrentPage(1);
   };
 
-      // Custom content component for the toast
-      const ToastContent = ({ title, message }) => (
-        <div>
-            <strong>{title}</strong>
-            <div>{message}</div>
-        </div>
-    );
-    
+  const getTotalPages = (items) => {
+    return Math.ceil(items.length / itemsPerPage);
+  };
 
-    // Show toast notification function
-const showToast = (message, type = "success") => {
-  if (type === "success" && message) {
+  const getCurrentItems = (items) => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    return items.slice(indexOfFirstItem, indexOfLastItem);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const ToastContent = ({ title, message }) => (
+    <div>
+      <strong>{title}</strong>
+      <div>{message}</div>
+    </div>
+  );
+
+  const showToast = (message, type = "success") => {
+    if (type === "success" && message) {
       toast.success(
-          type && <ToastContent title={"SUCCESS"} message={message} />,
-          {
-              icon: <FaCheckCircle className="text-[20px]" />,
-              position: "top-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              className: "custom-toast-success",
-              bodyClassName: "custom-toast-body-success",
-              progressClassName: "custom-progress-bar-success",
-          }
+        <ToastContent title="SUCCESS" message={message} />,
+        {
+          icon: <FaCheckCircle className="text-[20px]" />,
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: "custom-toast-success",
+          bodyClassName: "custom-toast-body-success",
+          progressClassName: "custom-progress-bar-success",
+        }
       );
-  } else if (message) {
-      toast.error(<ToastContent title={"ERROR"} message={message} />, {
+    } else if (message) {
+      toast.error(
+        <ToastContent title="ERROR" message={message} />,
+        {
           icon: <FaExclamationTriangle className="text-[20px]" />,
           position: "top-right",
           autoClose: 3000,
@@ -195,298 +240,336 @@ const showToast = (message, type = "success") => {
           className: "custom-toast",
           bodyClassName: "custom-toast-body",
           progressClassName: "custom-progress-bar",
-      });
-  }
-};
+        }
+      );
+    }
+  };
 
-if (isLoading) return <LoadingAnimation />;
-
+  if (isLoading) return <LoadingAnimation />;
   
 
   return (
     <>
-    <ToastContainer title="Error" position="bottom-left" />
-    <div className="w-full lg:w-[94%] h-full bg-[#f2f2f2]">
-      <div className="w-full h-full">
-        <div className="w-full h-full  overflow-y-scroll flex relative">
-          {/* Filter Sidebar */}
+      <ToastContainer title="Error" position="bottom-left" />
+      <div className="w-full lg:w-[94%] h-full bg-[#f2f2f2]">
+        <div className="w-full h-full">
+          <div className="w-full h-full overflow-y-scroll flex relative">
+            {/* Filter Toggle Button */}
+            <div 
+              style={{opacity: !expanded ? 1 : 0}} 
+              onClick={() => setExpanded(!expanded)} 
+              className={`w-14 h-14 block lg:hidden duration-500 absolute z-50 mt-5 bg-[#b3afaf2c] ml-10 p-2 rounded-[10px] rounded-br-[40px]`}
+            >
+              <img className={`w-full h-full p-1`} src='/setting-5.svg' alt="" />
+            </div>
 
-                <div style={{opacity: !expanded ? 1 : 0}} onClick={() => setExpanded(!expanded)} className={`w-14 h-14 block lg:hidden duration-500 absolute z-50  mt-5 bg-[#b3afaf2c] ml-10 p-2 rounded-[10px] rounded-br-[40px]`}>
-                  <img className={`w-full h-full p-1`} src='/setting-5.svg' alt="" />
-                </div>
+            {/* Filter Sidebar */}
+            <div className={`lg:w-[400px] md:w-[100%] w-full pb-20 z-10 md:px-20 lg:px-10 backdrop-blur-3xl ${!expanded ? '-left-full' : 'left-0'} absolute lg:static h-full mr-6 duration-500`}>
+              <div className="h-full w-full bg-[#ffffff20] backdrop-blur-md px-20 md:px-0 pb-40">
+                <img 
+                  onClick={() => setExpanded(!expanded)} 
+                  className='w-14 absolute block lg:hidden rotate-90 top-10 right-3' 
+                  src="/pin.svg" 
+                  alt="" 
+                />
+                <h2 onClick={() => getAllCollection()} className="text-[30px] mt-8 font-bold mb-6">Filters</h2>
 
-          <div className={`lg:w-[400px] md:w-[100%] w-full pb-20 z-10 md:px-20 lg:px-10 backdrop-blur-3xl ${!expanded?'-left-full':'left-0'} absolute lg:static h-full mr-6 duration-500`}>
-            <div className="h-full w-full bg-[#ffffff20] backdrop-blur-md px-20 md:px-0 pb-40">
-              <img onClick={() => setExpanded(!expanded)} className='w-14 absolute block lg:hidden rotate-90 top-10 right-3' src="/pin.svg" alt="" />
-              <h2 onClick={() => getAllCollection()} className="text-[30px] mt-8 font-bold mb-6">Filters</h2>
-
-
-              {/* View Options */}
-              <div className="mb-6">
-                <h3 className="text-[20px] opacity-45 font-medium mb-4">View Options</h3>
-                <div className="flex flex-col gap-3">
-                  <label className="category-label">
-                    <input
-                      type="radio"
-                      name="viewOption"
-                      checked={showProducts}
-                      onChange={() => {
-                        setShowProducts(true);
-                        setShowCollections(false);
-                      }}
-                      className="category-radio"
-                    />
-                    Show Products
-                  </label>
-                  <label className="category-label">
-                    <input
-                      type="radio"
-                      name="viewOption"
-                      checked={showCollections}
-                      onChange={() => {
-                        setShowProducts(false);
-                        setShowCollections(true);
-                      }}
-                      className="category-radio"
-                    />
-                    Show Collections
-                  </label>
-                </div>
-              </div>
-
-              {/* Categories */}
-              <div className="mb-6">
-                <h3 className="text-[20px] opacity-45 font-medium mb-4">Categories</h3>
-                <div className="flex flex-wrap gap-4">{categories.map((category, index) => (
-                    <label key={index} className="category-label">
+                {/* View Options */}
+                <div className="mb-6">
+                  <h3 className="text-[20px] opacity-45 font-medium mb-4">View Options</h3>
+                  <div className="flex flex-col gap-3">
+                    <label className="category-label">
                       <input
                         type="radio"
-                        name="category"
-                        value={category}
-                        checked={selectedCategory === category}
-                        onChange={(e) => setSelectedCategory(e.target.value)}
+                        name="viewOption"
+                        checked={showProducts}
+                        onChange={() => {
+                          setShowProducts(true);
+                          setShowCollections(false);
+                          setCurrentPage(1);
+                        }}
                         className="category-radio"
                       />
-                      {category}
+                      Show Products
                     </label>
-                  ))}
+                    <label className="category-label">
+                      <input
+                        type="radio"
+                        name="viewOption"
+                        checked={showCollections}
+                        onChange={() => {
+                          setShowProducts(false);
+                          setShowCollections(true);
+                          setCurrentPage(1);
+                        }}
+                        className="category-radio"
+                      />
+                      Show Collections
+                    </label>
+                  </div>
                 </div>
-              </div>
 
-              {/* Price Range */}
-              <div className={`mb-6 ${!showProducts ? 'opacity-35' : 'opacity-100'}`}>
-                <h3 className="text-[20px] opacity-45 font-medium mb-8 mt-8">Price Range</h3>
-                <div className="px-2">
-                  <RangeSlider
-                    value={priceRange}
-                    onChange={value => handlePriceChange(null, value)}
-                    min={10}
-                    max={2500}
-                    step={250}
-                    disabled={!showProducts}
-                    progress
-                    className="py-4"
-                    graduated
-                    renderMark={mark => {
-                      if ([10, 500, 1000, 1500, 2000, 2500].includes(mark)) {
-                        return `₹${mark}`;
-                      }
-                      return null;
-                    }}
-                    tooltip={false}
-                  />
-                  <div className="flex justify-between mt-6">
-                    <input 
-                      type="number" 
-                      value={priceRange[0]} 
-                      disabled={!showProducts}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value === '') {
-                          setPriceRange([0, priceRange[1]]);
-                          return;
-                        }
-                        const newValue = parseInt(value);
-                        if (newValue <= priceRange[1]) {
-                          setPriceRange([newValue, priceRange[1]]);
-                          handlePriceChange(null, [newValue, priceRange[1]]);
-                        }
-                      }}
-                      className="w-24 px-4 py-2 rounded-[10px] bg-[#3f6b5130] text-black outline-none text-center"
+                {/* Categories */}
+                <div className="mb-6">
+                  <h3 className="text-[20px] opacity-45 font-medium mb-4">Categories</h3>
+                  <div className="flex flex-wrap gap-4">
+                    {categories.map((category, index) => (
+                      <label key={index} className="category-label">
+                        <input
+                          type="radio"
+                          name="category"
+                          value={category}
+                          checked={selectedCategory === category}
+                          onChange={(e) => {
+                            setSelectedCategory(e.target.value);
+                            setCurrentPage(1);
+                          }}
+                          className="category-radio"
+                        />
+                        {category}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Price Range */}
+                <div className={`mb-6 ${!showProducts ? 'opacity-35' : 'opacity-100'}`}>
+                  <h3 className="text-[20px] opacity-45 font-medium mb-8 mt-8">Price Range</h3>
+                  <div className="px-2">
+                    <RangeSlider
+                      value={priceRange}
+                      onChange={value => handlePriceChange(null, value)}
                       min={10}
-                      max={priceRange[1]}
-                    />
-                    <input 
-                      type="number" 
-                      value={priceRange[1]} 
-                      disabled={!showProducts}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value === '') {
-                          setPriceRange([priceRange[0], 0]);
-                          return;
-                        }
-                        const newValue = parseInt(value);
-                        if (newValue >= priceRange[0] && newValue <= 2500) {
-                          setPriceRange([priceRange[0], newValue]);
-                          handlePriceChange(null, [priceRange[0], newValue]);
-                        }
-                      }}
-                      className="w-24 px-4 py-2 rounded-[10px] bg-[#3f6b5130] text-black outline-none text-center"
-                      min={priceRange[0]}
                       max={2500}
+                      step={250}
+                      disabled={!showProducts}
+                      progress
+                      className="py-4"
+                      graduated
+                      renderMark={mark => {
+                        if ([10, 500, 1000, 1500, 2000, 2500].includes(mark)) {
+                          return `₹${mark}`;
+                        }
+                        return null;
+                      }}
+                      tooltip={false}
                     />
+                    <div className="flex justify-between mt-6">
+                      <input 
+                        type="number" 
+                        value={priceRange[0]} 
+                        disabled={!showProducts}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '') {
+                            setPriceRange([0, priceRange[1]]);
+                            return;
+                          }
+                          const newValue = parseInt(value);
+                          if (newValue <= priceRange[1]) {
+                            setPriceRange([newValue, priceRange[1]]);
+                            handlePriceChange(null, [newValue, priceRange[1]]);
+                          }
+                        }}
+                        className="w-24 px-4 py-2 rounded-[10px] bg-[#3f6b5130] text-black outline-none text-center"
+                        min={10}
+                        max={priceRange[1]}
+                      />
+                      <input 
+                        type="number" 
+                        value={priceRange[1]} 
+                        disabled={!showProducts}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === '') {
+                            setPriceRange([priceRange[0], 0]);
+                            return;
+                          }
+                          const newValue = parseInt(value);
+                          if (newValue >= priceRange[0] && newValue <= 2500) {
+                            setPriceRange([priceRange[0], newValue]);
+                            handlePriceChange(null, [priceRange[0], newValue]);
+                          }
+                        }}
+                        className="w-24 px-4 py-2 rounded-[10px] bg-[#3f6b5130] text-black outline-none text-center"
+                        min={priceRange[0]}
+                        max={2500}
+                      />
+                    </div>
                   </div>
+                </div>
+
+                {/* Sort Options */}
+                <div className="mb-6">
+                  <h3 className="text-[20px] opacity-45 font-medium mb-8 mt-8">Sort by</h3>
+                  <span className={`${!showProducts ? 'opacity-35' : 'opacity-100'}`}>
+                    <label className="category-label flex items-center gap-3 mb-4">
+                      <input
+                        type="checkbox"
+                        checked={showInStock}
+                        disabled={!showProducts}
+                        onChange={(e) => {
+                          setShowInStock(e.target.checked);
+                          setCurrentPage(1);
+                          const filtered = productData?.filter(product =>
+                            (!e.target.checked || product.stock > 0) &&
+                            (product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            product.category.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                          );
+                          setFilteredProducts(filtered);
+                        }}
+                        className="category-checkbox"
+                      />
+                      Show In-Stock Only
+                    </label>
+
+                    <label className="category-label flex items-center gap-3 mb-4">
+                      <input
+                        type="checkbox"
+                        checked={showFeatured}
+                        disabled={!showProducts}
+                        onChange={(e) => {
+                          setShowFeatured(e.target.checked);
+                          setCurrentPage(1);
+                          const filtered = productData?.filter(product =>
+                            (!showInStock || product.stock > 0) &&
+                            (!e.target.checked || product.featured === true) &&
+                            (product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            product.category.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                          );
+                          setFilteredProducts(filtered);
+                        }}
+                        className="category-checkbox"
+                      />
+                      Show Featured Only
+                    </label>
+                  </span>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => handleSort(e.target.value)}
+                    className="w-full px-4 py-2 bg-[#809e8c] custom-selectero text-white rounded-[10px] focus:outline-none"
+                  >
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                    <option value="price-asc">Price (Low to High)</option>
+                    <option value="price-desc">Price (High to Low)</option>
+                    <option value="date-asc">Date (Oldest First)</option>
+                    <option value="date-desc">Date (Newest First)</option>
+                    <option value="popularity">Popularity</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Main Content */}
+            <div className="flex-1 pt-16 overflow-scroll">
+              {/* Search input */}
+              <div className="relative mt-6 w-3/4 mb-10 mx-auto">
+                <div className="search-container relative mb-5">
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => handleSearch(e.target.value)}
+                    className="search-input bg-white/10 border border-[#8aa595] rounded-lg py-3 px-5 w-full text-[#14532d] text-base transition-all duration-300 ease-in-out hover:bg-white/15 focus:bg-white/20 focus:border-[#52aa57] focus:shadow-lg outline-none placeholder:text-[#14532d]/60"
+                  />
+                  <FiSearch className="search-icon absolute right-5 top-1/2 transform -translate-y-1/2 text-[#8aa595] transition-all duration-300 ease-in-out hover:text-[#52aa57]" />
                 </div>
               </div>
 
-              {/* Sort Options */}
-              <div className="mb-6">
-                <h3 className="text-[20px] opacity-45 font-medium mb-8 mt-8">Sort by</h3>
-                {  
-                <span className={`${!showProducts ? 'opacity-35' : 'opacity-100'}`}>
-
-                <label className="category-label flex items-center gap-3 mb-4">
-                  <input
-                    type="checkbox"
-                    checked={showInStock}
-                    disabled={!showProducts}
-                    onChange={(e) => {
-                      setShowInStock(e.target.checked);
-                      const filtered = productData?.filter(product =>
-                        (!e.target.checked || product.stock > 0) &&
-                        (product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        product.category.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                      );
-                      setFilteredProducts(filtered);
-                    }}
-                    className="category-checkbox"
-                  />
-                  Show In-Stock Only
-                </label>
-
-                <label className="category-label flex items-center gap-3 mb-4">
-                  <input
-                    type="checkbox"
-                    checked={showFeatured}
-                    disabled={!showProducts}
-                    onChange={(e) => {
-                      setShowFeatured(e.target.checked);
-                      const filtered = productData?.filter(product =>
-                        (!showInStock || product.stock > 0) &&
-                        (!e.target.checked || product.featured === true) &&
-                        (product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        product.category.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                      );
-                      setFilteredProducts(filtered);
-                    }}
-                    className="category-checkbox"
-                  />
-                  Show Featured Only
-                </label>
-                </span>
-                }
-                <select
-                  value={sortBy}
-                  onChange={(e) => handleSort(e.target.value)}
-                  className="w-full px-4 py-2 bg-[#809e8c] custom-selectero text-white rounded-[10px] focus:outline-none"
-                >
-                  <option value="name-asc">Name (A-Z)</option>
-                  <option value="name-desc">Name (Z-A)</option>
-                  <option value="price-asc">Price (Low to High)</option>
-                  <option value="price-desc">Price (High to Low)</option>
-                  <option value="date-asc">Date (Oldest First)</option>
-                  <option value="date-desc">Date (Newest First)</option>
-                  <option value="popularity">Popularity</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-
-
-          {/* Main Content */}
-          <div className="flex-1 pt-16 overflow-scroll">
-            {/* Search input */}
-            <div className="relative mt-6 w-3/4 mb-10 mx-auto">
-              <div className="search-container relative mb-5">
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  value={searchQuery}
-                  onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    const filtered = productData.filter(product =>
-                      product.name.toLowerCase().includes(e.target.value.toLowerCase())
-                    );
-                    setFilteredProducts(filtered);
-                  }}
-                  className="search-input bg-white/10 border border-[#8aa595]rounded-lg py-3 px-5 w-full text-[#14532d] text-base transition-all duration-300 ease-in-out hover:bg-white/15 focus:bg-white/20 focus:border-[#52aa57] focus:shadow-lg outline-none placeholder:text-[#14532d]/60"
-                />
-                <FiSearch className="search-icon absolute right-5 top-1/2 transform -translate-y-1/2 text-[#8aa595] transition-all duration-300 ease-in-out hover:text-[#52aa57]"></FiSearch>
-              </div>
-            </div>
-
-            {/* Products Grid */}
-            {showProducts && (
-              <div className="w-full h-auto flex my-5 gap-5 relative flex-wrap product-grid items-center justify-center">
-                {filteredProducts.map((product) => ((product?.category?.name.toLowerCase() === selectedCategory.toLowerCase() || selectedCategory === 'All Categories' || selectedCategory === 'all') &&
-                  <div key={product._id} className="animate-card">
-                    <ProductCard key={product._id} showToast={showToast} product={product} navigate={navigate} userData={userData} />
+              {/* Products Grid */}
+              {showProducts && (
+                <>
+                  <div className="w-full h-auto flex my-5 gap-5 relative flex-wrap product-grid items-center justify-center">
+                    {getCurrentItems(filteredProducts).map((product) => (
+                      (product?.category?.name.toLowerCase() === selectedCategory.toLowerCase() || 
+                       selectedCategory === 'All Categories' || 
+                       selectedCategory === 'all') &&
+                      <div key={product._id} className="animate-card">
+                        <ProductCard 
+                          key={product._id} 
+                          showToast={showToast} 
+                          product={product} 
+                          navigate={navigate} 
+                          userData={userData} 
+                        />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            )}
+                  
+                  {filteredProducts.length > itemsPerPage && (
+                    <Pagination 
+                      currentPage={currentPage}
+                      totalPages={getTotalPages(filteredProducts)}
+                      onPageChange={handlePageChange}
+                    />
+                  )}
+                </>
+              )}
 
-            {/* Collections Grid */}
-            {showCollections && (
-              <div className="w-full h-auto flex my-5 gap-8 relative flex-wrap product-grid justify-center">
-                {collections.map((collection, index) => ( (collection?.category?.name.toLowerCase() === selectedCategory.toLowerCase() || selectedCategory === 'All Categories' || selectedCategory === 'all') &&
-                  <div key={index} className="animate-card">
-                    <CollectionCard type={'collection'} data={collection} pos={index} />
+              {/* Collections Grid */}
+              {showCollections && (
+                <>
+                  <div className="w-full h-auto flex my-5 gap-8 relative flex-wrap product-grid justify-center">
+                    {getCurrentItems(collections).map((collection, index) => (
+                      (collection?.category?.name.toLowerCase() === selectedCategory.toLowerCase() || 
+                       selectedCategory === 'All Categories' || 
+                       selectedCategory === 'all') &&
+                      <div key={index} className="animate-card">
+                        <CollectionCard type={'collection'} data={collection} pos={index} />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            )}
+                  
+                  {collections.length > itemsPerPage && (
+                    <Pagination 
+                      currentPage={currentPage}
+                      totalPages={getTotalPages(collections)}
+                      onPageChange={handlePageChange}
+                    />
+                  )}
+                </>
+              )}
 
-              {!showProducts && filteredProducts.length !== 0 &&
-              <div className="mb-8 flex gap-4 ml-4 text-[18px] absolute bottom-0 right-20">
-                <span className='flex gap-3 items-center'>
-                  <div className="h-4 w-4 bg-[#89a494] rounded-full"></div>
-                  <p>In stocking</p>
-                </span>
-                <span className='flex gap-3 items-center'>
-                  <div className="h-4 w-4 bg-[#d27876] rounded-full"></div>
-                  <p>Out of stock</p>
-                </span>
-                <span className='flex gap-3 items-center'>
-                  <div className="h-4 w-4 bg-[#cda686] rounded-full"></div>
-                  <p>Featured</p>
-                </span>
-            
-              </div>}
+              {/* Legend */}
+              {!showProducts && filteredProducts.length !== 0 && (
+                <div className="mb-8 flex gap-4 ml-4 text-[18px] absolute bottom-0 right-20">
+                  <span className='flex gap-3 items-center'>
+                    <div className="h-4 w-4 bg-[#89a494] rounded-full"></div>
+                    <p>In stocking</p>
+                  </span>
+                  <span className='flex gap-3 items-center'>
+                    <div className="h-4 w-4 bg-[#d27876] rounded-full"></div>
+                    <p>Out of stock</p>
+                  </span>
+                  <span className='flex gap-3 items-center'>
+                    <div className="h-4 w-4 bg-[#cda686] rounded-full"></div>
+                    <p>Featured</p>
+                  </span>
+                </div>
+              )}
 
-            {/* No Results Message */}
+              {/* No Results Message */}
               {showProducts && filteredProducts.length === 0 && (
                 <div className="text-center py-12">
                   <div className="flex flex-col gap-2">
-                  <img className="w-[30%] mx-auto filter-[brightness(0)]" src='/bag-cross-1.svg' alt="No categories" />
+                    <img className="w-[30%] mx-auto filter-[brightness(0)]" src='/bag-cross-1.svg' alt="No categories" />
                     <h1 className="text-[30px] font-bold">Sorry no products!</h1>
                     <p className="opacity-45 text-[18px]">
-                      We cant find the product,check internet or <br />
+                      We cant find the product, check internet or <br />
                       make sure you typed the product name correctly
-                      <br/>and try again, if you think this is a mistake
+                      <br/>
+                      and try again, if you think this is a mistake
                     </p>
-
                   </div>
-              </div>
-            )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

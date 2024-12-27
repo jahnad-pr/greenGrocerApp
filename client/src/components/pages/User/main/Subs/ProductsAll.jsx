@@ -37,7 +37,7 @@ const ProductsAll = () => {
       {/* Scrollable content container */}
       <div className="relative w-full min-h-full px-4 md:px-40 pb-20">
         {/* Header */}
-        <div className="sticky top-0 pt-20 pb-10 bg-gray-100/50 backdrop-blur-sm z-10">
+        <div className="sticky top-0 pt-20 pb-10 bg-gray-100/50 backdrop-blur-xl z-10">
           <h1 
             style={{ whiteSpace: 'pre-line' }}
             className="text-4xl md:text-[120px] leading-none text-[#5a6a60d3] font-bold font-['lufga']"
