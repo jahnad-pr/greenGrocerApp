@@ -131,7 +131,7 @@ export default function Products({ userData }) {
                         <div onClick={() => navigator(`/user/collection/${catData?.data[cPosition].name}/products`, {
                           state: {
                             products: productsData?.data,
-                            action: "collections",
+                            action: "products",
                             title: `${catData?.data[cPosition].name}`
                           }
                         })}
